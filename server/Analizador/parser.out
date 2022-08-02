@@ -1,0 +1,301 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> expression
+Rule 1     expression -> term MAS term
+Rule 2     expression -> term MENOS term
+Rule 3     expression -> term
+Rule 4     term -> factor MULTI factor
+Rule 5     term -> factor DIV factor
+Rule 6     term -> factor
+Rule 7     factor -> NUMERO
+Rule 8     factor -> MAS factor
+Rule 9     factor -> MENOS factor
+Rule 10    factor -> PARA expression PARC
+
+Terminals, with rules where they appear
+
+DIV                  : 5
+MAS                  : 1 8
+MENOS                : 2 9
+MULTI                : 4
+NUMERO               : 7
+PARA                 : 10
+PARC                 : 10
+error                : 
+
+Nonterminals, with rules where they appear
+
+expression           : 10 0
+factor               : 4 4 5 5 6 8 9
+term                 : 1 1 2 2 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . expression
+    (1) expression -> . term MAS term
+    (2) expression -> . term MENOS term
+    (3) expression -> . term
+    (4) term -> . factor MULTI factor
+    (5) term -> . factor DIV factor
+    (6) term -> . factor
+    (7) factor -> . NUMERO
+    (8) factor -> . MAS factor
+    (9) factor -> . MENOS factor
+    (10) factor -> . PARA expression PARC
+
+    NUMERO          shift and go to state 6
+    MAS             shift and go to state 3
+    MENOS           shift and go to state 4
+    PARA            shift and go to state 7
+
+    expression                     shift and go to state 1
+    term                           shift and go to state 2
+    factor                         shift and go to state 5
+
+state 1
+
+    (0) S' -> expression .
+
+
+
+state 2
+
+    (1) expression -> term . MAS term
+    (2) expression -> term . MENOS term
+    (3) expression -> term .
+
+    MAS             shift and go to state 8
+    MENOS           shift and go to state 9
+    $end            reduce using rule 3 (expression -> term .)
+    PARC            reduce using rule 3 (expression -> term .)
+
+
+state 3
+
+    (8) factor -> MAS . factor
+    (7) factor -> . NUMERO
+    (8) factor -> . MAS factor
+    (9) factor -> . MENOS factor
+    (10) factor -> . PARA expression PARC
+
+    NUMERO          shift and go to state 6
+    MAS             shift and go to state 3
+    MENOS           shift and go to state 4
+    PARA            shift and go to state 7
+
+    factor                         shift and go to state 10
+
+state 4
+
+    (9) factor -> MENOS . factor
+    (7) factor -> . NUMERO
+    (8) factor -> . MAS factor
+    (9) factor -> . MENOS factor
+    (10) factor -> . PARA expression PARC
+
+    NUMERO          shift and go to state 6
+    MAS             shift and go to state 3
+    MENOS           shift and go to state 4
+    PARA            shift and go to state 7
+
+    factor                         shift and go to state 11
+
+state 5
+
+    (4) term -> factor . MULTI factor
+    (5) term -> factor . DIV factor
+    (6) term -> factor .
+
+    MULTI           shift and go to state 12
+    DIV             shift and go to state 13
+    MAS             reduce using rule 6 (term -> factor .)
+    MENOS           reduce using rule 6 (term -> factor .)
+    $end            reduce using rule 6 (term -> factor .)
+    PARC            reduce using rule 6 (term -> factor .)
+
+
+state 6
+
+    (7) factor -> NUMERO .
+
+    MULTI           reduce using rule 7 (factor -> NUMERO .)
+    DIV             reduce using rule 7 (factor -> NUMERO .)
+    MAS             reduce using rule 7 (factor -> NUMERO .)
+    MENOS           reduce using rule 7 (factor -> NUMERO .)
+    $end            reduce using rule 7 (factor -> NUMERO .)
+    PARC            reduce using rule 7 (factor -> NUMERO .)
+
+
+state 7
+
+    (10) factor -> PARA . expression PARC
+    (1) expression -> . term MAS term
+    (2) expression -> . term MENOS term
+    (3) expression -> . term
+    (4) term -> . factor MULTI factor
+    (5) term -> . factor DIV factor
+    (6) term -> . factor
+    (7) factor -> . NUMERO
+    (8) factor -> . MAS factor
+    (9) factor -> . MENOS factor
+    (10) factor -> . PARA expression PARC
+
+    NUMERO          shift and go to state 6
+    MAS             shift and go to state 3
+    MENOS           shift and go to state 4
+    PARA            shift and go to state 7
+
+    expression                     shift and go to state 14
+    term                           shift and go to state 2
+    factor                         shift and go to state 5
+
+state 8
+
+    (1) expression -> term MAS . term
+    (4) term -> . factor MULTI factor
+    (5) term -> . factor DIV factor
+    (6) term -> . factor
+    (7) factor -> . NUMERO
+    (8) factor -> . MAS factor
+    (9) factor -> . MENOS factor
+    (10) factor -> . PARA expression PARC
+
+    NUMERO          shift and go to state 6
+    MAS             shift and go to state 3
+    MENOS           shift and go to state 4
+    PARA            shift and go to state 7
+
+    term                           shift and go to state 15
+    factor                         shift and go to state 5
+
+state 9
+
+    (2) expression -> term MENOS . term
+    (4) term -> . factor MULTI factor
+    (5) term -> . factor DIV factor
+    (6) term -> . factor
+    (7) factor -> . NUMERO
+    (8) factor -> . MAS factor
+    (9) factor -> . MENOS factor
+    (10) factor -> . PARA expression PARC
+
+    NUMERO          shift and go to state 6
+    MAS             shift and go to state 3
+    MENOS           shift and go to state 4
+    PARA            shift and go to state 7
+
+    term                           shift and go to state 16
+    factor                         shift and go to state 5
+
+state 10
+
+    (8) factor -> MAS factor .
+
+    MULTI           reduce using rule 8 (factor -> MAS factor .)
+    DIV             reduce using rule 8 (factor -> MAS factor .)
+    MAS             reduce using rule 8 (factor -> MAS factor .)
+    MENOS           reduce using rule 8 (factor -> MAS factor .)
+    $end            reduce using rule 8 (factor -> MAS factor .)
+    PARC            reduce using rule 8 (factor -> MAS factor .)
+
+
+state 11
+
+    (9) factor -> MENOS factor .
+
+    MULTI           reduce using rule 9 (factor -> MENOS factor .)
+    DIV             reduce using rule 9 (factor -> MENOS factor .)
+    MAS             reduce using rule 9 (factor -> MENOS factor .)
+    MENOS           reduce using rule 9 (factor -> MENOS factor .)
+    $end            reduce using rule 9 (factor -> MENOS factor .)
+    PARC            reduce using rule 9 (factor -> MENOS factor .)
+
+
+state 12
+
+    (4) term -> factor MULTI . factor
+    (7) factor -> . NUMERO
+    (8) factor -> . MAS factor
+    (9) factor -> . MENOS factor
+    (10) factor -> . PARA expression PARC
+
+    NUMERO          shift and go to state 6
+    MAS             shift and go to state 3
+    MENOS           shift and go to state 4
+    PARA            shift and go to state 7
+
+    factor                         shift and go to state 17
+
+state 13
+
+    (5) term -> factor DIV . factor
+    (7) factor -> . NUMERO
+    (8) factor -> . MAS factor
+    (9) factor -> . MENOS factor
+    (10) factor -> . PARA expression PARC
+
+    NUMERO          shift and go to state 6
+    MAS             shift and go to state 3
+    MENOS           shift and go to state 4
+    PARA            shift and go to state 7
+
+    factor                         shift and go to state 18
+
+state 14
+
+    (10) factor -> PARA expression . PARC
+
+    PARC            shift and go to state 19
+
+
+state 15
+
+    (1) expression -> term MAS term .
+
+    $end            reduce using rule 1 (expression -> term MAS term .)
+    PARC            reduce using rule 1 (expression -> term MAS term .)
+
+
+state 16
+
+    (2) expression -> term MENOS term .
+
+    $end            reduce using rule 2 (expression -> term MENOS term .)
+    PARC            reduce using rule 2 (expression -> term MENOS term .)
+
+
+state 17
+
+    (4) term -> factor MULTI factor .
+
+    MAS             reduce using rule 4 (term -> factor MULTI factor .)
+    MENOS           reduce using rule 4 (term -> factor MULTI factor .)
+    $end            reduce using rule 4 (term -> factor MULTI factor .)
+    PARC            reduce using rule 4 (term -> factor MULTI factor .)
+
+
+state 18
+
+    (5) term -> factor DIV factor .
+
+    MAS             reduce using rule 5 (term -> factor DIV factor .)
+    MENOS           reduce using rule 5 (term -> factor DIV factor .)
+    $end            reduce using rule 5 (term -> factor DIV factor .)
+    PARC            reduce using rule 5 (term -> factor DIV factor .)
+
+
+state 19
+
+    (10) factor -> PARA expression PARC .
+
+    MULTI           reduce using rule 10 (factor -> PARA expression PARC .)
+    DIV             reduce using rule 10 (factor -> PARA expression PARC .)
+    MAS             reduce using rule 10 (factor -> PARA expression PARC .)
+    MENOS           reduce using rule 10 (factor -> PARA expression PARC .)
+    $end            reduce using rule 10 (factor -> PARA expression PARC .)
+    PARC            reduce using rule 10 (factor -> PARA expression PARC .)
+
