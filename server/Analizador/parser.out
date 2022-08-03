@@ -1,301 +1,508 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
+Unused terminals:
+
+    PT_COMA
+
 Grammar
 
-Rule 0     S' -> expression
-Rule 1     expression -> term MAS term
-Rule 2     expression -> term MENOS term
-Rule 3     expression -> term
-Rule 4     term -> factor MULTI factor
-Rule 5     term -> factor DIV factor
-Rule 6     term -> factor
-Rule 7     factor -> NUMERO
-Rule 8     factor -> MAS factor
-Rule 9     factor -> MENOS factor
-Rule 10    factor -> PARA expression PARC
+Rule 0     S' -> inicio
+Rule 1     inicio -> expresion
+Rule 2     expresion -> expresion MAS expresion
+Rule 3     expresion -> expresion MENOS expresion
+Rule 4     expresion -> expresion MULTI expresion
+Rule 5     expresion -> expresion DIV expresion
+Rule 6     expresion -> expresion MODULO expresion
+Rule 7     expresion -> expresion POTENCIA expresion
+Rule 8     expresion -> PARA expresion PARC
+Rule 9     expresion -> MENOS expresion
+Rule 10    expresion -> ENTERO
+Rule 11    expresion -> DECIMAL
 
 Terminals, with rules where they appear
 
+DECIMAL              : 11
 DIV                  : 5
-MAS                  : 1 8
-MENOS                : 2 9
+ENTERO               : 10
+MAS                  : 2
+MENOS                : 3 9
+MODULO               : 6
 MULTI                : 4
-NUMERO               : 7
-PARA                 : 10
-PARC                 : 10
+PARA                 : 8
+PARC                 : 8
+POTENCIA             : 7
+PT_COMA              : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 10 0
-factor               : 4 4 5 5 6 8 9
-term                 : 1 1 2 2 3
+expresion            : 1 2 2 3 3 4 4 5 5 6 6 7 7 8 9
+inicio               : 0
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . expression
-    (1) expression -> . term MAS term
-    (2) expression -> . term MENOS term
-    (3) expression -> . term
-    (4) term -> . factor MULTI factor
-    (5) term -> . factor DIV factor
-    (6) term -> . factor
-    (7) factor -> . NUMERO
-    (8) factor -> . MAS factor
-    (9) factor -> . MENOS factor
-    (10) factor -> . PARA expression PARC
+    (0) S' -> . inicio
+    (1) inicio -> . expresion
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    NUMERO          shift and go to state 6
-    MAS             shift and go to state 3
-    MENOS           shift and go to state 4
-    PARA            shift and go to state 7
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
-    expression                     shift and go to state 1
-    term                           shift and go to state 2
-    factor                         shift and go to state 5
+    inicio                         shift and go to state 1
+    expresion                      shift and go to state 2
 
 state 1
 
-    (0) S' -> expression .
+    (0) S' -> inicio .
 
 
 
 state 2
 
-    (1) expression -> term . MAS term
-    (2) expression -> term . MENOS term
-    (3) expression -> term .
+    (1) inicio -> expresion .
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
 
-    MAS             shift and go to state 8
-    MENOS           shift and go to state 9
-    $end            reduce using rule 3 (expression -> term .)
-    PARC            reduce using rule 3 (expression -> term .)
+    $end            reduce using rule 1 (inicio -> expresion .)
+    MAS             shift and go to state 7
+    MENOS           shift and go to state 8
+    MULTI           shift and go to state 9
+    DIV             shift and go to state 10
+    MODULO          shift and go to state 11
+    POTENCIA        shift and go to state 12
 
 
 state 3
 
-    (8) factor -> MAS . factor
-    (7) factor -> . NUMERO
-    (8) factor -> . MAS factor
-    (9) factor -> . MENOS factor
-    (10) factor -> . PARA expression PARC
+    (9) expresion -> MENOS . expresion
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    NUMERO          shift and go to state 6
-    MAS             shift and go to state 3
-    MENOS           shift and go to state 4
-    PARA            shift and go to state 7
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
-    factor                         shift and go to state 10
+    expresion                      shift and go to state 13
 
 state 4
 
-    (9) factor -> MENOS . factor
-    (7) factor -> . NUMERO
-    (8) factor -> . MAS factor
-    (9) factor -> . MENOS factor
-    (10) factor -> . PARA expression PARC
+    (8) expresion -> PARA . expresion PARC
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    NUMERO          shift and go to state 6
-    MAS             shift and go to state 3
-    MENOS           shift and go to state 4
-    PARA            shift and go to state 7
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
-    factor                         shift and go to state 11
+    expresion                      shift and go to state 14
 
 state 5
 
-    (4) term -> factor . MULTI factor
-    (5) term -> factor . DIV factor
-    (6) term -> factor .
+    (10) expresion -> ENTERO .
 
-    MULTI           shift and go to state 12
-    DIV             shift and go to state 13
-    MAS             reduce using rule 6 (term -> factor .)
-    MENOS           reduce using rule 6 (term -> factor .)
-    $end            reduce using rule 6 (term -> factor .)
-    PARC            reduce using rule 6 (term -> factor .)
+    MAS             reduce using rule 10 (expresion -> ENTERO .)
+    MENOS           reduce using rule 10 (expresion -> ENTERO .)
+    MULTI           reduce using rule 10 (expresion -> ENTERO .)
+    DIV             reduce using rule 10 (expresion -> ENTERO .)
+    MODULO          reduce using rule 10 (expresion -> ENTERO .)
+    POTENCIA        reduce using rule 10 (expresion -> ENTERO .)
+    $end            reduce using rule 10 (expresion -> ENTERO .)
+    PARC            reduce using rule 10 (expresion -> ENTERO .)
 
 
 state 6
 
-    (7) factor -> NUMERO .
+    (11) expresion -> DECIMAL .
 
-    MULTI           reduce using rule 7 (factor -> NUMERO .)
-    DIV             reduce using rule 7 (factor -> NUMERO .)
-    MAS             reduce using rule 7 (factor -> NUMERO .)
-    MENOS           reduce using rule 7 (factor -> NUMERO .)
-    $end            reduce using rule 7 (factor -> NUMERO .)
-    PARC            reduce using rule 7 (factor -> NUMERO .)
+    MAS             reduce using rule 11 (expresion -> DECIMAL .)
+    MENOS           reduce using rule 11 (expresion -> DECIMAL .)
+    MULTI           reduce using rule 11 (expresion -> DECIMAL .)
+    DIV             reduce using rule 11 (expresion -> DECIMAL .)
+    MODULO          reduce using rule 11 (expresion -> DECIMAL .)
+    POTENCIA        reduce using rule 11 (expresion -> DECIMAL .)
+    $end            reduce using rule 11 (expresion -> DECIMAL .)
+    PARC            reduce using rule 11 (expresion -> DECIMAL .)
 
 
 state 7
 
-    (10) factor -> PARA . expression PARC
-    (1) expression -> . term MAS term
-    (2) expression -> . term MENOS term
-    (3) expression -> . term
-    (4) term -> . factor MULTI factor
-    (5) term -> . factor DIV factor
-    (6) term -> . factor
-    (7) factor -> . NUMERO
-    (8) factor -> . MAS factor
-    (9) factor -> . MENOS factor
-    (10) factor -> . PARA expression PARC
+    (2) expresion -> expresion MAS . expresion
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    NUMERO          shift and go to state 6
-    MAS             shift and go to state 3
-    MENOS           shift and go to state 4
-    PARA            shift and go to state 7
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
-    expression                     shift and go to state 14
-    term                           shift and go to state 2
-    factor                         shift and go to state 5
+    expresion                      shift and go to state 15
 
 state 8
 
-    (1) expression -> term MAS . term
-    (4) term -> . factor MULTI factor
-    (5) term -> . factor DIV factor
-    (6) term -> . factor
-    (7) factor -> . NUMERO
-    (8) factor -> . MAS factor
-    (9) factor -> . MENOS factor
-    (10) factor -> . PARA expression PARC
+    (3) expresion -> expresion MENOS . expresion
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    NUMERO          shift and go to state 6
-    MAS             shift and go to state 3
-    MENOS           shift and go to state 4
-    PARA            shift and go to state 7
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
-    term                           shift and go to state 15
-    factor                         shift and go to state 5
+    expresion                      shift and go to state 16
 
 state 9
 
-    (2) expression -> term MENOS . term
-    (4) term -> . factor MULTI factor
-    (5) term -> . factor DIV factor
-    (6) term -> . factor
-    (7) factor -> . NUMERO
-    (8) factor -> . MAS factor
-    (9) factor -> . MENOS factor
-    (10) factor -> . PARA expression PARC
+    (4) expresion -> expresion MULTI . expresion
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    NUMERO          shift and go to state 6
-    MAS             shift and go to state 3
-    MENOS           shift and go to state 4
-    PARA            shift and go to state 7
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
-    term                           shift and go to state 16
-    factor                         shift and go to state 5
+    expresion                      shift and go to state 17
 
 state 10
 
-    (8) factor -> MAS factor .
+    (5) expresion -> expresion DIV . expresion
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    MULTI           reduce using rule 8 (factor -> MAS factor .)
-    DIV             reduce using rule 8 (factor -> MAS factor .)
-    MAS             reduce using rule 8 (factor -> MAS factor .)
-    MENOS           reduce using rule 8 (factor -> MAS factor .)
-    $end            reduce using rule 8 (factor -> MAS factor .)
-    PARC            reduce using rule 8 (factor -> MAS factor .)
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
+    expresion                      shift and go to state 18
 
 state 11
 
-    (9) factor -> MENOS factor .
+    (6) expresion -> expresion MODULO . expresion
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    MULTI           reduce using rule 9 (factor -> MENOS factor .)
-    DIV             reduce using rule 9 (factor -> MENOS factor .)
-    MAS             reduce using rule 9 (factor -> MENOS factor .)
-    MENOS           reduce using rule 9 (factor -> MENOS factor .)
-    $end            reduce using rule 9 (factor -> MENOS factor .)
-    PARC            reduce using rule 9 (factor -> MENOS factor .)
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
+    expresion                      shift and go to state 19
 
 state 12
 
-    (4) term -> factor MULTI . factor
-    (7) factor -> . NUMERO
-    (8) factor -> . MAS factor
-    (9) factor -> . MENOS factor
-    (10) factor -> . PARA expression PARC
+    (7) expresion -> expresion POTENCIA . expresion
+    (2) expresion -> . expresion MAS expresion
+    (3) expresion -> . expresion MENOS expresion
+    (4) expresion -> . expresion MULTI expresion
+    (5) expresion -> . expresion DIV expresion
+    (6) expresion -> . expresion MODULO expresion
+    (7) expresion -> . expresion POTENCIA expresion
+    (8) expresion -> . PARA expresion PARC
+    (9) expresion -> . MENOS expresion
+    (10) expresion -> . ENTERO
+    (11) expresion -> . DECIMAL
 
-    NUMERO          shift and go to state 6
-    MAS             shift and go to state 3
-    MENOS           shift and go to state 4
-    PARA            shift and go to state 7
+    PARA            shift and go to state 4
+    MENOS           shift and go to state 3
+    ENTERO          shift and go to state 5
+    DECIMAL         shift and go to state 6
 
-    factor                         shift and go to state 17
+    expresion                      shift and go to state 20
 
 state 13
 
-    (5) term -> factor DIV . factor
-    (7) factor -> . NUMERO
-    (8) factor -> . MAS factor
-    (9) factor -> . MENOS factor
-    (10) factor -> . PARA expression PARC
+    (9) expresion -> MENOS expresion .
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
 
-    NUMERO          shift and go to state 6
-    MAS             shift and go to state 3
-    MENOS           shift and go to state 4
-    PARA            shift and go to state 7
+    MAS             reduce using rule 9 (expresion -> MENOS expresion .)
+    MENOS           reduce using rule 9 (expresion -> MENOS expresion .)
+    MULTI           reduce using rule 9 (expresion -> MENOS expresion .)
+    DIV             reduce using rule 9 (expresion -> MENOS expresion .)
+    MODULO          reduce using rule 9 (expresion -> MENOS expresion .)
+    POTENCIA        reduce using rule 9 (expresion -> MENOS expresion .)
+    $end            reduce using rule 9 (expresion -> MENOS expresion .)
+    PARC            reduce using rule 9 (expresion -> MENOS expresion .)
 
-    factor                         shift and go to state 18
+  ! MAS             [ shift and go to state 7 ]
+  ! MENOS           [ shift and go to state 8 ]
+  ! MULTI           [ shift and go to state 9 ]
+  ! DIV             [ shift and go to state 10 ]
+  ! MODULO          [ shift and go to state 11 ]
+  ! POTENCIA        [ shift and go to state 12 ]
+
 
 state 14
 
-    (10) factor -> PARA expression . PARC
+    (8) expresion -> PARA expresion . PARC
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
 
-    PARC            shift and go to state 19
+    PARC            shift and go to state 21
+    MAS             shift and go to state 7
+    MENOS           shift and go to state 8
+    MULTI           shift and go to state 9
+    DIV             shift and go to state 10
+    MODULO          shift and go to state 11
+    POTENCIA        shift and go to state 12
 
 
 state 15
 
-    (1) expression -> term MAS term .
+    (2) expresion -> expresion MAS expresion .
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
 
-    $end            reduce using rule 1 (expression -> term MAS term .)
-    PARC            reduce using rule 1 (expression -> term MAS term .)
+    MAS             reduce using rule 2 (expresion -> expresion MAS expresion .)
+    MENOS           reduce using rule 2 (expresion -> expresion MAS expresion .)
+    $end            reduce using rule 2 (expresion -> expresion MAS expresion .)
+    PARC            reduce using rule 2 (expresion -> expresion MAS expresion .)
+    MULTI           shift and go to state 9
+    DIV             shift and go to state 10
+    MODULO          shift and go to state 11
+    POTENCIA        shift and go to state 12
+
+  ! MULTI           [ reduce using rule 2 (expresion -> expresion MAS expresion .) ]
+  ! DIV             [ reduce using rule 2 (expresion -> expresion MAS expresion .) ]
+  ! MODULO          [ reduce using rule 2 (expresion -> expresion MAS expresion .) ]
+  ! POTENCIA        [ reduce using rule 2 (expresion -> expresion MAS expresion .) ]
+  ! MAS             [ shift and go to state 7 ]
+  ! MENOS           [ shift and go to state 8 ]
 
 
 state 16
 
-    (2) expression -> term MENOS term .
+    (3) expresion -> expresion MENOS expresion .
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
 
-    $end            reduce using rule 2 (expression -> term MENOS term .)
-    PARC            reduce using rule 2 (expression -> term MENOS term .)
+    MAS             reduce using rule 3 (expresion -> expresion MENOS expresion .)
+    MENOS           reduce using rule 3 (expresion -> expresion MENOS expresion .)
+    $end            reduce using rule 3 (expresion -> expresion MENOS expresion .)
+    PARC            reduce using rule 3 (expresion -> expresion MENOS expresion .)
+    MULTI           shift and go to state 9
+    DIV             shift and go to state 10
+    MODULO          shift and go to state 11
+    POTENCIA        shift and go to state 12
+
+  ! MULTI           [ reduce using rule 3 (expresion -> expresion MENOS expresion .) ]
+  ! DIV             [ reduce using rule 3 (expresion -> expresion MENOS expresion .) ]
+  ! MODULO          [ reduce using rule 3 (expresion -> expresion MENOS expresion .) ]
+  ! POTENCIA        [ reduce using rule 3 (expresion -> expresion MENOS expresion .) ]
+  ! MAS             [ shift and go to state 7 ]
+  ! MENOS           [ shift and go to state 8 ]
 
 
 state 17
 
-    (4) term -> factor MULTI factor .
+    (4) expresion -> expresion MULTI expresion .
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
 
-    MAS             reduce using rule 4 (term -> factor MULTI factor .)
-    MENOS           reduce using rule 4 (term -> factor MULTI factor .)
-    $end            reduce using rule 4 (term -> factor MULTI factor .)
-    PARC            reduce using rule 4 (term -> factor MULTI factor .)
+    MAS             reduce using rule 4 (expresion -> expresion MULTI expresion .)
+    MENOS           reduce using rule 4 (expresion -> expresion MULTI expresion .)
+    MULTI           reduce using rule 4 (expresion -> expresion MULTI expresion .)
+    DIV             reduce using rule 4 (expresion -> expresion MULTI expresion .)
+    MODULO          reduce using rule 4 (expresion -> expresion MULTI expresion .)
+    $end            reduce using rule 4 (expresion -> expresion MULTI expresion .)
+    PARC            reduce using rule 4 (expresion -> expresion MULTI expresion .)
+    POTENCIA        shift and go to state 12
+
+  ! POTENCIA        [ reduce using rule 4 (expresion -> expresion MULTI expresion .) ]
+  ! MAS             [ shift and go to state 7 ]
+  ! MENOS           [ shift and go to state 8 ]
+  ! MULTI           [ shift and go to state 9 ]
+  ! DIV             [ shift and go to state 10 ]
+  ! MODULO          [ shift and go to state 11 ]
 
 
 state 18
 
-    (5) term -> factor DIV factor .
+    (5) expresion -> expresion DIV expresion .
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
 
-    MAS             reduce using rule 5 (term -> factor DIV factor .)
-    MENOS           reduce using rule 5 (term -> factor DIV factor .)
-    $end            reduce using rule 5 (term -> factor DIV factor .)
-    PARC            reduce using rule 5 (term -> factor DIV factor .)
+    MAS             reduce using rule 5 (expresion -> expresion DIV expresion .)
+    MENOS           reduce using rule 5 (expresion -> expresion DIV expresion .)
+    MULTI           reduce using rule 5 (expresion -> expresion DIV expresion .)
+    DIV             reduce using rule 5 (expresion -> expresion DIV expresion .)
+    MODULO          reduce using rule 5 (expresion -> expresion DIV expresion .)
+    $end            reduce using rule 5 (expresion -> expresion DIV expresion .)
+    PARC            reduce using rule 5 (expresion -> expresion DIV expresion .)
+    POTENCIA        shift and go to state 12
+
+  ! POTENCIA        [ reduce using rule 5 (expresion -> expresion DIV expresion .) ]
+  ! MAS             [ shift and go to state 7 ]
+  ! MENOS           [ shift and go to state 8 ]
+  ! MULTI           [ shift and go to state 9 ]
+  ! DIV             [ shift and go to state 10 ]
+  ! MODULO          [ shift and go to state 11 ]
 
 
 state 19
 
-    (10) factor -> PARA expression PARC .
+    (6) expresion -> expresion MODULO expresion .
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
 
-    MULTI           reduce using rule 10 (factor -> PARA expression PARC .)
-    DIV             reduce using rule 10 (factor -> PARA expression PARC .)
-    MAS             reduce using rule 10 (factor -> PARA expression PARC .)
-    MENOS           reduce using rule 10 (factor -> PARA expression PARC .)
-    $end            reduce using rule 10 (factor -> PARA expression PARC .)
-    PARC            reduce using rule 10 (factor -> PARA expression PARC .)
+    MAS             reduce using rule 6 (expresion -> expresion MODULO expresion .)
+    MENOS           reduce using rule 6 (expresion -> expresion MODULO expresion .)
+    MULTI           reduce using rule 6 (expresion -> expresion MODULO expresion .)
+    DIV             reduce using rule 6 (expresion -> expresion MODULO expresion .)
+    MODULO          reduce using rule 6 (expresion -> expresion MODULO expresion .)
+    $end            reduce using rule 6 (expresion -> expresion MODULO expresion .)
+    PARC            reduce using rule 6 (expresion -> expresion MODULO expresion .)
+    POTENCIA        shift and go to state 12
+
+  ! POTENCIA        [ reduce using rule 6 (expresion -> expresion MODULO expresion .) ]
+  ! MAS             [ shift and go to state 7 ]
+  ! MENOS           [ shift and go to state 8 ]
+  ! MULTI           [ shift and go to state 9 ]
+  ! DIV             [ shift and go to state 10 ]
+  ! MODULO          [ shift and go to state 11 ]
+
+
+state 20
+
+    (7) expresion -> expresion POTENCIA expresion .
+    (2) expresion -> expresion . MAS expresion
+    (3) expresion -> expresion . MENOS expresion
+    (4) expresion -> expresion . MULTI expresion
+    (5) expresion -> expresion . DIV expresion
+    (6) expresion -> expresion . MODULO expresion
+    (7) expresion -> expresion . POTENCIA expresion
+
+    MAS             reduce using rule 7 (expresion -> expresion POTENCIA expresion .)
+    MENOS           reduce using rule 7 (expresion -> expresion POTENCIA expresion .)
+    MULTI           reduce using rule 7 (expresion -> expresion POTENCIA expresion .)
+    DIV             reduce using rule 7 (expresion -> expresion POTENCIA expresion .)
+    MODULO          reduce using rule 7 (expresion -> expresion POTENCIA expresion .)
+    $end            reduce using rule 7 (expresion -> expresion POTENCIA expresion .)
+    PARC            reduce using rule 7 (expresion -> expresion POTENCIA expresion .)
+    POTENCIA        shift and go to state 12
+
+  ! POTENCIA        [ reduce using rule 7 (expresion -> expresion POTENCIA expresion .) ]
+  ! MAS             [ shift and go to state 7 ]
+  ! MENOS           [ shift and go to state 8 ]
+  ! MULTI           [ shift and go to state 9 ]
+  ! DIV             [ shift and go to state 10 ]
+  ! MODULO          [ shift and go to state 11 ]
+
+
+state 21
+
+    (8) expresion -> PARA expresion PARC .
+
+    MAS             reduce using rule 8 (expresion -> PARA expresion PARC .)
+    MENOS           reduce using rule 8 (expresion -> PARA expresion PARC .)
+    MULTI           reduce using rule 8 (expresion -> PARA expresion PARC .)
+    DIV             reduce using rule 8 (expresion -> PARA expresion PARC .)
+    MODULO          reduce using rule 8 (expresion -> PARA expresion PARC .)
+    POTENCIA        reduce using rule 8 (expresion -> PARA expresion PARC .)
+    $end            reduce using rule 8 (expresion -> PARA expresion PARC .)
+    PARC            reduce using rule 8 (expresion -> PARA expresion PARC .)
 

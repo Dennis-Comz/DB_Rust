@@ -1,86 +1,70 @@
 from plyFiles.ply.yacc import yacc
 from Analizador import lexer
 
+from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
+from Interpreter.Expresiones.Primitivo import Primitivo
+from Interpreter.AST.ast import Ast
+
 tokens = lexer.tokens
 
-# expression : term MAS term
-#            | term MENOS term
-#            | term
-# term : factor
-
-
-# precedencia
-
+# PRECEDENCIA
 precedence = (
-    ('left', 'MENOS', 'MAS'),
-    ('left', 'MULTI', 'DIV'),
-    ('right', 'UNARIO'),
+    ('left', 'MAS', 'MENOS'),
+    ('left', 'DIV', 'MULTI', 'MODULO'),
+    ('right', 'POTENCIA'),
+    ('right', 'UNARIO')
 )
 
-def p_expression(p):
-    """
-    expression : term MAS term
-               | term MENOS term
-    """
-    # p contiene los elementos de la gramatica
-    #
-    # expression : term MAS term
-    #   p[0]     : p[1] p[2] p[3]
-    #
-    if p[2] == '+':
-        p[0] = p[1] + p[3]
-    elif p[2] == '-':
-        p[0] = p[1] - p[3]
+# DEFINICION INICIO GRAMATICA
+# inicio : expresion
+# expresion : expresion MAS expresion
+#           | expresion MENOS expresion
+#           | expresion MULTI expresion
+#           | expresion DIV expresion
+#           | expresion MODULO expresion
+#           | expresion POTENCIA expresion
+#           | PARA expresion PARC
+#           | MENOS expresion
+#           | ENTERO
+#           | DECIMAL
 
-
-def p_expression_term(p):
+def p_inicio(p):
     """
-    expression : term
+    inicio : expresion
     """
-    p[0] = p[1]
+    p[0] = Ast(p[1])
 
-
-def p_term(p):
+def p_exp_aritmeticas(p):
     """
-    term : factor MULTI factor
-         | factor DIV factor
+    expresion : expresion MAS expresion
+           | expresion MENOS expresion
+           | expresion MULTI expresion
+           | expresion DIV expresion
+           | expresion MODULO expresion
+           | expresion POTENCIA expresion
     """
-    if p[2] == '*':
-        p[0] = p[1] * p[3]
-    elif p[2] == '/':
-        p[0] = p[1] / p[3]
+    p[0] = Aritmeticas(exp1 = p[1], operador = p[2], exp2 = p[1], expU = False, linea = p.lineno(1), columna = 0)
 
-
-def p_term_factor(p):
+def p_exp_parentesis(p):
     """
-    term : factor
-    """
-    p[0] = p[1]
-
-
-def p_factor_number(p):
-    """
-    factor : NUMERO
-    """
-    p[0] = p[1]
-
-
-def p_factor_unario(p):
-    """
-    factor : MAS factor
-           | MENOS factor %prec UNARIO
-    """
-    if p[1] == '-':
-        p[0] = -p[2]
-    else:
-        p[0] = p[2]
-
-
-def p_factor_grouped(p):
-    """
-    factor : PARA expression PARC
+    expresion : PARA expresion PARC
     """
     p[0] = p[2]
+
+
+def p_exp_unario(p):
+    """
+    expresion : MENOS expresion %prec UNARIO
+    """
+    p[0] = Aritmeticas(exp1=p[2], operador=p[1], exp2=None, expU=True, linea=p.lineno(1), columna=0)
+
+
+def p_exp_numero(p):
+    """
+    expresion :  ENTERO
+              | DECIMAL
+    """
+    p[0] = Primitivo(p[1], p.lineno(1), 0)
 
 
 # Error sintactico
