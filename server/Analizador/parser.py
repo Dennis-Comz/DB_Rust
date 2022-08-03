@@ -77,7 +77,7 @@ def p_exp_unario(p):
     """
     expresion : MENOS expresion %prec UNARIO
     """
-    p[0] = Aritmeticas(exp1=p[2], operador=p[1], exp2=None, expU=True, linea=p.lineno(1), columna=0)
+    p[0] = Aritmeticas(exp1=p[2], operador='UNARIO', exp2=None, expU=True, linea=p.lineno(1), columna=0)
 
 
 def p_exp_numero(p):
