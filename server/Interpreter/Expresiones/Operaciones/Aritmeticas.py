@@ -8,12 +8,12 @@ class Aritmeticas(Operacion):
         return definirTipo(value)
 
     # get valor con condicionales
-    def getValor2(self, driver, ts):
+    def getValor(self, driver, ts):
         tipo_exp1 = self.exp1.getTipo(driver, ts)
         tipo_exp2 = self.exp2.getTipo(driver, ts) if not self.expU else None
 
         if self.expU is not None:
-            if self.operador == Operador.UNARIO:
+            if self.operador == Operador.RESTA:
                 return - self.exp1.getValor(driver, ts)
             else:
                 # Error: la expresion unaria solo acepta el operador -

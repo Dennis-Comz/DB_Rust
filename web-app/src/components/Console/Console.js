@@ -25,7 +25,7 @@ const readOnlyOptions = {
 
 export const Console = ({ children, readOnly, code = '', setCode }) => {
     let options = readOnly ? readOnlyOptions : defaultOptions;
-    console.log(options)
+//    console.log(options)
     return (
         <div className='col d-flex flex-column justify-content-evenly'>
             <Editor

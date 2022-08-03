@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftMASMENOSleftDIVMULTIMODULOrightPOTENCIArightUNARIODECIMAL DIV ENTERO MAS MENOS MODULO MULTI PARA PARC POTENCIA PT_COMA\n    inicio : expresion\n    \n    expresion : expresion MAS expresion\n           | expresion MENOS expresion\n           | expresion MULTI expresion\n           | expresion DIV expresion\n           | expresion MODULO expresion\n           | expresion POTENCIA expresion\n    \n    expresion : PARA expresion PARC\n    \n    expresion : MENOS expresion %prec UNARIO\n    \n    expresion :  ENTERO\n              | DECIMAL\n    '
+_lr_signature = 'leftMASMENOSleftMULTIDIVMODULOrightPOTENCIArightUNARIODECIMAL DIV ENTERO MAS MENOS MODULO MULTI PARA PARC POTENCIA PRINT PT_COMA\n    inicio : instrucciones\n    \n    instrucciones : instrucciones instruccion PT_COMA\n    \n    instrucciones : instruccion PT_COMA\n    \n    instruccion : PRINT PARA expresion PARC\n    \n    expresion : expresion MAS expresion\n           | expresion MENOS expresion\n           | expresion MULTI expresion\n           | expresion DIV expresion\n           | expresion MODULO expresion\n           | expresion POTENCIA expresion\n    \n    expresion : PARA expresion PARC\n    \n    expresion : MENOS expresion %prec UNARIO\n    \n    expresion :  ENTERO\n              | DECIMAL\n    '
     
-_lr_action_items = {'PARA':([0,3,4,7,8,9,10,11,12,],[4,4,4,4,4,4,4,4,4,]),'MENOS':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,],[3,8,3,3,-10,-11,3,3,3,3,3,3,-9,8,-2,-3,-4,-5,-6,-7,-8,]),'ENTERO':([0,3,4,7,8,9,10,11,12,],[5,5,5,5,5,5,5,5,5,]),'DECIMAL':([0,3,4,7,8,9,10,11,12,],[6,6,6,6,6,6,6,6,6,]),'$end':([1,2,5,6,13,15,16,17,18,19,20,21,],[0,-1,-10,-11,-9,-2,-3,-4,-5,-6,-7,-8,]),'MAS':([2,5,6,13,14,15,16,17,18,19,20,21,],[7,-10,-11,-9,7,-2,-3,-4,-5,-6,-7,-8,]),'MULTI':([2,5,6,13,14,15,16,17,18,19,20,21,],[9,-10,-11,-9,9,9,9,-4,-5,-6,-7,-8,]),'DIV':([2,5,6,13,14,15,16,17,18,19,20,21,],[10,-10,-11,-9,10,10,10,-4,-5,-6,-7,-8,]),'MODULO':([2,5,6,13,14,15,16,17,18,19,20,21,],[11,-10,-11,-9,11,11,11,-4,-5,-6,-7,-8,]),'POTENCIA':([2,5,6,13,14,15,16,17,18,19,20,21,],[12,-10,-11,-9,12,12,12,12,12,12,12,-8,]),'PARC':([5,6,13,14,15,16,17,18,19,20,21,],[-10,-11,-9,21,-2,-3,-4,-5,-6,-7,-8,]),}
+_lr_action_items = {'PRINT':([0,2,6,8,],[4,4,-3,-2,]),'$end':([1,2,6,8,],[0,-1,-3,-2,]),'PT_COMA':([3,5,15,],[6,8,-4,]),'PARA':([4,7,9,11,16,17,18,19,20,21,],[7,9,9,9,9,9,9,9,9,9,]),'MENOS':([7,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,],[11,11,17,11,-13,-14,17,11,11,11,11,11,11,-12,-11,-5,-6,-7,-8,-9,-10,]),'ENTERO':([7,9,11,16,17,18,19,20,21,],[12,12,12,12,12,12,12,12,12,]),'DECIMAL':([7,9,11,16,17,18,19,20,21,],[13,13,13,13,13,13,13,13,13,]),'PARC':([10,12,13,14,22,23,24,25,26,27,28,29,],[15,-13,-14,23,-12,-11,-5,-6,-7,-8,-9,-10,]),'MAS':([10,12,13,14,22,23,24,25,26,27,28,29,],[16,-13,-14,16,-12,-11,-5,-6,-7,-8,-9,-10,]),'MULTI':([10,12,13,14,22,23,24,25,26,27,28,29,],[18,-13,-14,18,-12,-11,18,18,-7,-8,-9,-10,]),'DIV':([10,12,13,14,22,23,24,25,26,27,28,29,],[19,-13,-14,19,-12,-11,19,19,-7,-8,-9,-10,]),'MODULO':([10,12,13,14,22,23,24,25,26,27,28,29,],[20,-13,-14,20,-12,-11,20,20,-7,-8,-9,-10,]),'POTENCIA':([10,12,13,14,22,23,24,25,26,27,28,29,],[21,-13,-14,21,-12,-11,21,21,21,21,21,21,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'inicio':([0,],[1,]),'expresion':([0,3,4,7,8,9,10,11,12,],[2,13,14,15,16,17,18,19,20,]),}
+_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,],[2,]),'instruccion':([0,2,],[3,5,]),'expresion':([7,9,11,16,17,18,19,20,21,],[10,14,22,24,25,26,27,28,29,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,15 +27,18 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> inicio","S'",1,None,None,None),
-  ('inicio -> expresion','inicio',1,'p_inicio','parser.py',29),
-  ('expresion -> expresion MAS expresion','expresion',3,'p_exp_aritmeticas','parser.py',35),
-  ('expresion -> expresion MENOS expresion','expresion',3,'p_exp_aritmeticas','parser.py',36),
-  ('expresion -> expresion MULTI expresion','expresion',3,'p_exp_aritmeticas','parser.py',37),
-  ('expresion -> expresion DIV expresion','expresion',3,'p_exp_aritmeticas','parser.py',38),
-  ('expresion -> expresion MODULO expresion','expresion',3,'p_exp_aritmeticas','parser.py',39),
-  ('expresion -> expresion POTENCIA expresion','expresion',3,'p_exp_aritmeticas','parser.py',40),
-  ('expresion -> PARA expresion PARC','expresion',3,'p_exp_parentesis','parser.py',46),
-  ('expresion -> MENOS expresion','expresion',2,'p_exp_unario','parser.py',53),
-  ('expresion -> ENTERO','expresion',1,'p_exp_numero','parser.py',60),
-  ('expresion -> DECIMAL','expresion',1,'p_exp_numero','parser.py',61),
+  ('inicio -> instrucciones','inicio',1,'p_inicio','parser.py',36),
+  ('instrucciones -> instrucciones instruccion PT_COMA','instrucciones',3,'p_lista_instrucciones','parser.py',42),
+  ('instrucciones -> instruccion PT_COMA','instrucciones',2,'p_instrucciones_instruccion','parser.py',48),
+  ('instruccion -> PRINT PARA expresion PARC','instruccion',4,'p_instruccion_print','parser.py',54),
+  ('expresion -> expresion MAS expresion','expresion',3,'p_exp_aritmeticas','parser.py',60),
+  ('expresion -> expresion MENOS expresion','expresion',3,'p_exp_aritmeticas','parser.py',61),
+  ('expresion -> expresion MULTI expresion','expresion',3,'p_exp_aritmeticas','parser.py',62),
+  ('expresion -> expresion DIV expresion','expresion',3,'p_exp_aritmeticas','parser.py',63),
+  ('expresion -> expresion MODULO expresion','expresion',3,'p_exp_aritmeticas','parser.py',64),
+  ('expresion -> expresion POTENCIA expresion','expresion',3,'p_exp_aritmeticas','parser.py',65),
+  ('expresion -> PARA expresion PARC','expresion',3,'p_exp_parentesis','parser.py',71),
+  ('expresion -> MENOS expresion','expresion',2,'p_exp_unario','parser.py',78),
+  ('expresion -> ENTERO','expresion',1,'p_exp_numero','parser.py',85),
+  ('expresion -> DECIMAL','expresion',1,'p_exp_numero','parser.py',86),
 ]

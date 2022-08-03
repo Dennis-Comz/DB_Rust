@@ -1,8 +1,9 @@
 # Declaracion de tokens
-from ast import Try
 from plyFiles.ply import lex
 
-reservadas = {}
+reservadas = {
+    'Print': 'PRINT'
+}
 
 tokens = [
 #TIPOS DE DATO
@@ -34,6 +35,11 @@ t_MODULO = r'%'
 t_PARA = r'\('
 t_PARC = r'\)'
 t_PT_COMA = r'\;'
+
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reservadas.get(t.value, 'ID')  # Check for reserved words
+    return t
 
 #==== TIPOS DE DATO =====
 def t_ENTERO(t):

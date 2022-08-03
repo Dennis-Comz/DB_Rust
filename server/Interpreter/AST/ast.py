@@ -1,4 +1,4 @@
-from Interpreter.Instrucciones import Instruccion
+#from Interpreter.Instrucciones import Instruccion
 
 class Ast:
 

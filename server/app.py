@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from flask_cors import CORS
 from Analizador.parser import parser
 from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
-from Interpreter.Driver import Driver
+from Interpreter.Driver.Driver import Driver
 from Interpreter.AST.ast import Ast
 
 app = Flask(__name__)
@@ -22,7 +22,7 @@ def interpretar():
         ast: Ast = parser.parse(data.get('instrucciones'))
 
         ts = TablaSimbolos(None, 'Global')
-        driver = Driver.Driver()
+        driver = Driver()
 
         ast.ejecutar(driver, ts)
 
