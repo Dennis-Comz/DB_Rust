@@ -12,7 +12,7 @@ Rule 6     expresion -> expresion MENOS expresion
 Rule 7     expresion -> expresion MULTI expresion
 Rule 8     expresion -> expresion DIV expresion
 Rule 9     expresion -> expresion MODULO expresion
-Rule 10    expresion -> expresion POTENCIA expresion
+Rule 10    expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
 Rule 11    expresion -> PARA expresion PARC
 Rule 12    expresion -> MENOS expresion
 Rule 13    expresion -> ENTERO
@@ -20,16 +20,19 @@ Rule 14    expresion -> DECIMAL
 
 Terminals, with rules where they appear
 
+COMA                 : 10
 DECIMAL              : 14
 DIV                  : 8
+DOS_PT               : 10 10
 ENTERO               : 13
+I64                  : 10
 MAS                  : 5
 MENOS                : 6 12
 MODULO               : 9
 MULTI                : 7
-PARA                 : 4 11
-PARC                 : 4 11
-POTENCIA             : 10
+PARA                 : 4 10 11
+PARC                 : 4 10 11
+POW                  : 10
 PRINT                : 4
 PT_COMA              : 2 3
 error                : 
@@ -111,16 +114,17 @@ state 7
     (7) expresion -> . expresion MULTI expresion
     (8) expresion -> . expresion DIV expresion
     (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     (11) expresion -> . PARA expresion PARC
     (12) expresion -> . MENOS expresion
     (13) expresion -> . ENTERO
     (14) expresion -> . DECIMAL
 
+    I64             shift and go to state 12
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
 
     expresion                      shift and go to state 10
 
@@ -140,18 +144,19 @@ state 9
     (7) expresion -> . expresion MULTI expresion
     (8) expresion -> . expresion DIV expresion
     (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     (11) expresion -> . PARA expresion PARC
     (12) expresion -> . MENOS expresion
     (13) expresion -> . ENTERO
     (14) expresion -> . DECIMAL
 
+    I64             shift and go to state 12
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
 
-    expresion                      shift and go to state 14
+    expresion                      shift and go to state 15
 
 state 10
 
@@ -161,15 +166,13 @@ state 10
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
-    PARC            shift and go to state 15
-    MAS             shift and go to state 16
-    MENOS           shift and go to state 17
-    MULTI           shift and go to state 18
-    DIV             shift and go to state 19
-    MODULO          shift and go to state 20
-    POTENCIA        shift and go to state 21
+    PARC            shift and go to state 16
+    MAS             shift and go to state 17
+    MENOS           shift and go to state 18
+    MULTI           shift and go to state 19
+    DIV             shift and go to state 20
+    MODULO          shift and go to state 21
 
 
 state 11
@@ -180,20 +183,28 @@ state 11
     (7) expresion -> . expresion MULTI expresion
     (8) expresion -> . expresion DIV expresion
     (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     (11) expresion -> . PARA expresion PARC
     (12) expresion -> . MENOS expresion
     (13) expresion -> . ENTERO
     (14) expresion -> . DECIMAL
 
+    I64             shift and go to state 12
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
 
     expresion                      shift and go to state 22
 
 state 12
+
+    (10) expresion -> I64 . DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+
+    DOS_PT          shift and go to state 23
+
+
+state 13
 
     (13) expresion -> ENTERO .
 
@@ -203,10 +214,10 @@ state 12
     MULTI           reduce using rule 13 (expresion -> ENTERO .)
     DIV             reduce using rule 13 (expresion -> ENTERO .)
     MODULO          reduce using rule 13 (expresion -> ENTERO .)
-    POTENCIA        reduce using rule 13 (expresion -> ENTERO .)
+    COMA            reduce using rule 13 (expresion -> ENTERO .)
 
 
-state 13
+state 14
 
     (14) expresion -> DECIMAL .
 
@@ -216,10 +227,10 @@ state 13
     MULTI           reduce using rule 14 (expresion -> DECIMAL .)
     DIV             reduce using rule 14 (expresion -> DECIMAL .)
     MODULO          reduce using rule 14 (expresion -> DECIMAL .)
-    POTENCIA        reduce using rule 14 (expresion -> DECIMAL .)
+    COMA            reduce using rule 14 (expresion -> DECIMAL .)
 
 
-state 14
+state 15
 
     (11) expresion -> PARA expresion . PARC
     (5) expresion -> expresion . MAS expresion
@@ -227,25 +238,23 @@ state 14
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
-    PARC            shift and go to state 23
-    MAS             shift and go to state 16
-    MENOS           shift and go to state 17
-    MULTI           shift and go to state 18
-    DIV             shift and go to state 19
-    MODULO          shift and go to state 20
-    POTENCIA        shift and go to state 21
+    PARC            shift and go to state 24
+    MAS             shift and go to state 17
+    MENOS           shift and go to state 18
+    MULTI           shift and go to state 19
+    DIV             shift and go to state 20
+    MODULO          shift and go to state 21
 
 
-state 15
+state 16
 
     (4) instruccion -> PRINT PARA expresion PARC .
 
     PT_COMA         reduce using rule 4 (instruccion -> PRINT PARA expresion PARC .)
 
 
-state 16
+state 17
 
     (5) expresion -> expresion MAS . expresion
     (5) expresion -> . expresion MAS expresion
@@ -253,20 +262,21 @@ state 16
     (7) expresion -> . expresion MULTI expresion
     (8) expresion -> . expresion DIV expresion
     (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     (11) expresion -> . PARA expresion PARC
     (12) expresion -> . MENOS expresion
     (13) expresion -> . ENTERO
     (14) expresion -> . DECIMAL
 
+    I64             shift and go to state 12
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
 
-    expresion                      shift and go to state 24
+    expresion                      shift and go to state 25
 
-state 17
+state 18
 
     (6) expresion -> expresion MENOS . expresion
     (5) expresion -> . expresion MAS expresion
@@ -274,20 +284,21 @@ state 17
     (7) expresion -> . expresion MULTI expresion
     (8) expresion -> . expresion DIV expresion
     (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     (11) expresion -> . PARA expresion PARC
     (12) expresion -> . MENOS expresion
     (13) expresion -> . ENTERO
     (14) expresion -> . DECIMAL
 
+    I64             shift and go to state 12
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
 
-    expresion                      shift and go to state 25
+    expresion                      shift and go to state 26
 
-state 18
+state 19
 
     (7) expresion -> expresion MULTI . expresion
     (5) expresion -> . expresion MAS expresion
@@ -295,20 +306,21 @@ state 18
     (7) expresion -> . expresion MULTI expresion
     (8) expresion -> . expresion DIV expresion
     (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     (11) expresion -> . PARA expresion PARC
     (12) expresion -> . MENOS expresion
     (13) expresion -> . ENTERO
     (14) expresion -> . DECIMAL
 
+    I64             shift and go to state 12
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
 
-    expresion                      shift and go to state 26
+    expresion                      shift and go to state 27
 
-state 19
+state 20
 
     (8) expresion -> expresion DIV . expresion
     (5) expresion -> . expresion MAS expresion
@@ -316,20 +328,21 @@ state 19
     (7) expresion -> . expresion MULTI expresion
     (8) expresion -> . expresion DIV expresion
     (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     (11) expresion -> . PARA expresion PARC
     (12) expresion -> . MENOS expresion
     (13) expresion -> . ENTERO
     (14) expresion -> . DECIMAL
 
+    I64             shift and go to state 12
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
 
-    expresion                      shift and go to state 27
+    expresion                      shift and go to state 28
 
-state 20
+state 21
 
     (9) expresion -> expresion MODULO . expresion
     (5) expresion -> . expresion MAS expresion
@@ -337,37 +350,17 @@ state 20
     (7) expresion -> . expresion MULTI expresion
     (8) expresion -> . expresion DIV expresion
     (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     (11) expresion -> . PARA expresion PARC
     (12) expresion -> . MENOS expresion
     (13) expresion -> . ENTERO
     (14) expresion -> . DECIMAL
 
+    I64             shift and go to state 12
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-
-    expresion                      shift and go to state 28
-
-state 21
-
-    (10) expresion -> expresion POTENCIA . expresion
-    (5) expresion -> . expresion MAS expresion
-    (6) expresion -> . expresion MENOS expresion
-    (7) expresion -> . expresion MULTI expresion
-    (8) expresion -> . expresion DIV expresion
-    (9) expresion -> . expresion MODULO expresion
-    (10) expresion -> . expresion POTENCIA expresion
-    (11) expresion -> . PARA expresion PARC
-    (12) expresion -> . MENOS expresion
-    (13) expresion -> . ENTERO
-    (14) expresion -> . DECIMAL
-
-    PARA            shift and go to state 9
-    MENOS           shift and go to state 11
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
 
     expresion                      shift and go to state 29
 
@@ -379,7 +372,6 @@ state 22
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
     PARC            reduce using rule 12 (expresion -> MENOS expresion .)
     MAS             reduce using rule 12 (expresion -> MENOS expresion .)
@@ -387,17 +379,23 @@ state 22
     MULTI           reduce using rule 12 (expresion -> MENOS expresion .)
     DIV             reduce using rule 12 (expresion -> MENOS expresion .)
     MODULO          reduce using rule 12 (expresion -> MENOS expresion .)
-    POTENCIA        reduce using rule 12 (expresion -> MENOS expresion .)
+    COMA            reduce using rule 12 (expresion -> MENOS expresion .)
 
-  ! MAS             [ shift and go to state 16 ]
-  ! MENOS           [ shift and go to state 17 ]
-  ! MULTI           [ shift and go to state 18 ]
-  ! DIV             [ shift and go to state 19 ]
-  ! MODULO          [ shift and go to state 20 ]
-  ! POTENCIA        [ shift and go to state 21 ]
+  ! MAS             [ shift and go to state 17 ]
+  ! MENOS           [ shift and go to state 18 ]
+  ! MULTI           [ shift and go to state 19 ]
+  ! DIV             [ shift and go to state 20 ]
+  ! MODULO          [ shift and go to state 21 ]
 
 
 state 23
+
+    (10) expresion -> I64 DOS_PT . DOS_PT POW PARA expresion COMA expresion PARC
+
+    DOS_PT          shift and go to state 30
+
+
+state 24
 
     (11) expresion -> PARA expresion PARC .
 
@@ -407,10 +405,10 @@ state 23
     MULTI           reduce using rule 11 (expresion -> PARA expresion PARC .)
     DIV             reduce using rule 11 (expresion -> PARA expresion PARC .)
     MODULO          reduce using rule 11 (expresion -> PARA expresion PARC .)
-    POTENCIA        reduce using rule 11 (expresion -> PARA expresion PARC .)
+    COMA            reduce using rule 11 (expresion -> PARA expresion PARC .)
 
 
-state 24
+state 25
 
     (5) expresion -> expresion MAS expresion .
     (5) expresion -> expresion . MAS expresion
@@ -418,25 +416,23 @@ state 24
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
     PARC            reduce using rule 5 (expresion -> expresion MAS expresion .)
     MAS             reduce using rule 5 (expresion -> expresion MAS expresion .)
     MENOS           reduce using rule 5 (expresion -> expresion MAS expresion .)
-    MULTI           shift and go to state 18
-    DIV             shift and go to state 19
-    MODULO          shift and go to state 20
-    POTENCIA        shift and go to state 21
+    COMA            reduce using rule 5 (expresion -> expresion MAS expresion .)
+    MULTI           shift and go to state 19
+    DIV             shift and go to state 20
+    MODULO          shift and go to state 21
 
   ! MULTI           [ reduce using rule 5 (expresion -> expresion MAS expresion .) ]
   ! DIV             [ reduce using rule 5 (expresion -> expresion MAS expresion .) ]
   ! MODULO          [ reduce using rule 5 (expresion -> expresion MAS expresion .) ]
-  ! POTENCIA        [ reduce using rule 5 (expresion -> expresion MAS expresion .) ]
-  ! MAS             [ shift and go to state 16 ]
-  ! MENOS           [ shift and go to state 17 ]
+  ! MAS             [ shift and go to state 17 ]
+  ! MENOS           [ shift and go to state 18 ]
 
 
-state 25
+state 26
 
     (6) expresion -> expresion MENOS expresion .
     (5) expresion -> expresion . MAS expresion
@@ -444,25 +440,23 @@ state 25
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
     PARC            reduce using rule 6 (expresion -> expresion MENOS expresion .)
     MAS             reduce using rule 6 (expresion -> expresion MENOS expresion .)
     MENOS           reduce using rule 6 (expresion -> expresion MENOS expresion .)
-    MULTI           shift and go to state 18
-    DIV             shift and go to state 19
-    MODULO          shift and go to state 20
-    POTENCIA        shift and go to state 21
+    COMA            reduce using rule 6 (expresion -> expresion MENOS expresion .)
+    MULTI           shift and go to state 19
+    DIV             shift and go to state 20
+    MODULO          shift and go to state 21
 
   ! MULTI           [ reduce using rule 6 (expresion -> expresion MENOS expresion .) ]
   ! DIV             [ reduce using rule 6 (expresion -> expresion MENOS expresion .) ]
   ! MODULO          [ reduce using rule 6 (expresion -> expresion MENOS expresion .) ]
-  ! POTENCIA        [ reduce using rule 6 (expresion -> expresion MENOS expresion .) ]
-  ! MAS             [ shift and go to state 16 ]
-  ! MENOS           [ shift and go to state 17 ]
+  ! MAS             [ shift and go to state 17 ]
+  ! MENOS           [ shift and go to state 18 ]
 
 
-state 26
+state 27
 
     (7) expresion -> expresion MULTI expresion .
     (5) expresion -> expresion . MAS expresion
@@ -470,7 +464,6 @@ state 26
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
     PARC            reduce using rule 7 (expresion -> expresion MULTI expresion .)
     MAS             reduce using rule 7 (expresion -> expresion MULTI expresion .)
@@ -478,17 +471,16 @@ state 26
     MULTI           reduce using rule 7 (expresion -> expresion MULTI expresion .)
     DIV             reduce using rule 7 (expresion -> expresion MULTI expresion .)
     MODULO          reduce using rule 7 (expresion -> expresion MULTI expresion .)
-    POTENCIA        shift and go to state 21
+    COMA            reduce using rule 7 (expresion -> expresion MULTI expresion .)
 
-  ! POTENCIA        [ reduce using rule 7 (expresion -> expresion MULTI expresion .) ]
-  ! MAS             [ shift and go to state 16 ]
-  ! MENOS           [ shift and go to state 17 ]
-  ! MULTI           [ shift and go to state 18 ]
-  ! DIV             [ shift and go to state 19 ]
-  ! MODULO          [ shift and go to state 20 ]
+  ! MAS             [ shift and go to state 17 ]
+  ! MENOS           [ shift and go to state 18 ]
+  ! MULTI           [ shift and go to state 19 ]
+  ! DIV             [ shift and go to state 20 ]
+  ! MODULO          [ shift and go to state 21 ]
 
 
-state 27
+state 28
 
     (8) expresion -> expresion DIV expresion .
     (5) expresion -> expresion . MAS expresion
@@ -496,7 +488,6 @@ state 27
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
     PARC            reduce using rule 8 (expresion -> expresion DIV expresion .)
     MAS             reduce using rule 8 (expresion -> expresion DIV expresion .)
@@ -504,17 +495,16 @@ state 27
     MULTI           reduce using rule 8 (expresion -> expresion DIV expresion .)
     DIV             reduce using rule 8 (expresion -> expresion DIV expresion .)
     MODULO          reduce using rule 8 (expresion -> expresion DIV expresion .)
-    POTENCIA        shift and go to state 21
+    COMA            reduce using rule 8 (expresion -> expresion DIV expresion .)
 
-  ! POTENCIA        [ reduce using rule 8 (expresion -> expresion DIV expresion .) ]
-  ! MAS             [ shift and go to state 16 ]
-  ! MENOS           [ shift and go to state 17 ]
-  ! MULTI           [ shift and go to state 18 ]
-  ! DIV             [ shift and go to state 19 ]
-  ! MODULO          [ shift and go to state 20 ]
+  ! MAS             [ shift and go to state 17 ]
+  ! MENOS           [ shift and go to state 18 ]
+  ! MULTI           [ shift and go to state 19 ]
+  ! DIV             [ shift and go to state 20 ]
+  ! MODULO          [ shift and go to state 21 ]
 
 
-state 28
+state 29
 
     (9) expresion -> expresion MODULO expresion .
     (5) expresion -> expresion . MAS expresion
@@ -522,7 +512,6 @@ state 28
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
     PARC            reduce using rule 9 (expresion -> expresion MODULO expresion .)
     MAS             reduce using rule 9 (expresion -> expresion MODULO expresion .)
@@ -530,38 +519,116 @@ state 28
     MULTI           reduce using rule 9 (expresion -> expresion MODULO expresion .)
     DIV             reduce using rule 9 (expresion -> expresion MODULO expresion .)
     MODULO          reduce using rule 9 (expresion -> expresion MODULO expresion .)
-    POTENCIA        shift and go to state 21
+    COMA            reduce using rule 9 (expresion -> expresion MODULO expresion .)
 
-  ! POTENCIA        [ reduce using rule 9 (expresion -> expresion MODULO expresion .) ]
-  ! MAS             [ shift and go to state 16 ]
-  ! MENOS           [ shift and go to state 17 ]
-  ! MULTI           [ shift and go to state 18 ]
-  ! DIV             [ shift and go to state 19 ]
-  ! MODULO          [ shift and go to state 20 ]
+  ! MAS             [ shift and go to state 17 ]
+  ! MENOS           [ shift and go to state 18 ]
+  ! MULTI           [ shift and go to state 19 ]
+  ! DIV             [ shift and go to state 20 ]
+  ! MODULO          [ shift and go to state 21 ]
 
 
-state 29
+state 30
 
-    (10) expresion -> expresion POTENCIA expresion .
+    (10) expresion -> I64 DOS_PT DOS_PT . POW PARA expresion COMA expresion PARC
+
+    POW             shift and go to state 31
+
+
+state 31
+
+    (10) expresion -> I64 DOS_PT DOS_PT POW . PARA expresion COMA expresion PARC
+
+    PARA            shift and go to state 32
+
+
+state 32
+
+    (10) expresion -> I64 DOS_PT DOS_PT POW PARA . expresion COMA expresion PARC
+    (5) expresion -> . expresion MAS expresion
+    (6) expresion -> . expresion MENOS expresion
+    (7) expresion -> . expresion MULTI expresion
+    (8) expresion -> . expresion DIV expresion
+    (9) expresion -> . expresion MODULO expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+    (11) expresion -> . PARA expresion PARC
+    (12) expresion -> . MENOS expresion
+    (13) expresion -> . ENTERO
+    (14) expresion -> . DECIMAL
+
+    I64             shift and go to state 12
+    PARA            shift and go to state 9
+    MENOS           shift and go to state 11
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
+
+    expresion                      shift and go to state 33
+
+state 33
+
+    (10) expresion -> I64 DOS_PT DOS_PT POW PARA expresion . COMA expresion PARC
     (5) expresion -> expresion . MAS expresion
     (6) expresion -> expresion . MENOS expresion
     (7) expresion -> expresion . MULTI expresion
     (8) expresion -> expresion . DIV expresion
     (9) expresion -> expresion . MODULO expresion
-    (10) expresion -> expresion . POTENCIA expresion
 
-    PARC            reduce using rule 10 (expresion -> expresion POTENCIA expresion .)
-    MAS             reduce using rule 10 (expresion -> expresion POTENCIA expresion .)
-    MENOS           reduce using rule 10 (expresion -> expresion POTENCIA expresion .)
-    MULTI           reduce using rule 10 (expresion -> expresion POTENCIA expresion .)
-    DIV             reduce using rule 10 (expresion -> expresion POTENCIA expresion .)
-    MODULO          reduce using rule 10 (expresion -> expresion POTENCIA expresion .)
-    POTENCIA        shift and go to state 21
+    COMA            shift and go to state 34
+    MAS             shift and go to state 17
+    MENOS           shift and go to state 18
+    MULTI           shift and go to state 19
+    DIV             shift and go to state 20
+    MODULO          shift and go to state 21
 
-  ! POTENCIA        [ reduce using rule 10 (expresion -> expresion POTENCIA expresion .) ]
-  ! MAS             [ shift and go to state 16 ]
-  ! MENOS           [ shift and go to state 17 ]
-  ! MULTI           [ shift and go to state 18 ]
-  ! DIV             [ shift and go to state 19 ]
-  ! MODULO          [ shift and go to state 20 ]
+
+state 34
+
+    (10) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA . expresion PARC
+    (5) expresion -> . expresion MAS expresion
+    (6) expresion -> . expresion MENOS expresion
+    (7) expresion -> . expresion MULTI expresion
+    (8) expresion -> . expresion DIV expresion
+    (9) expresion -> . expresion MODULO expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+    (11) expresion -> . PARA expresion PARC
+    (12) expresion -> . MENOS expresion
+    (13) expresion -> . ENTERO
+    (14) expresion -> . DECIMAL
+
+    I64             shift and go to state 12
+    PARA            shift and go to state 9
+    MENOS           shift and go to state 11
+    ENTERO          shift and go to state 13
+    DECIMAL         shift and go to state 14
+
+    expresion                      shift and go to state 35
+
+state 35
+
+    (10) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion . PARC
+    (5) expresion -> expresion . MAS expresion
+    (6) expresion -> expresion . MENOS expresion
+    (7) expresion -> expresion . MULTI expresion
+    (8) expresion -> expresion . DIV expresion
+    (9) expresion -> expresion . MODULO expresion
+
+    PARC            shift and go to state 36
+    MAS             shift and go to state 17
+    MENOS           shift and go to state 18
+    MULTI           shift and go to state 19
+    DIV             shift and go to state 20
+    MODULO          shift and go to state 21
+
+
+state 36
+
+    (10) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .
+
+    PARC            reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    MAS             reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    MENOS           reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    MULTI           reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    DIV             reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    MODULO          reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    COMA            reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
 

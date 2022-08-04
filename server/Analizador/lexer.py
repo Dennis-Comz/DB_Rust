@@ -2,24 +2,24 @@
 from plyFiles.ply import lex
 
 reservadas = {
-    'Print': 'PRINT'
+    'Print': 'PRINT',
+    'i64': 'I64',
+    'pow': 'POW'
 }
 
 tokens = [
-#TIPOS DE DATO
             'DECIMAL',
             'ENTERO',
-#OPERACIONES ARITMETICAS
             'MAS',
             'MENOS',
             'MULTI',
             'DIV',
-            'POTENCIA',
             'MODULO',
-#TOKENS ESPECIALES
             'PT_COMA',
             'PARA',
-            'PARC'
+            'PARC',
+            'COMA',
+            'DOS_PT'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
@@ -30,11 +30,12 @@ t_MAS = r'\+'
 t_MENOS = r'-'
 t_MULTI = r'\*'
 t_DIV = r'/'
-t_POTENCIA = r'\^'
 t_MODULO = r'\%'
 t_PARA = r'\('
 t_PARC = r'\)'
 t_PT_COMA = r'\;'
+t_COMA = r'\,'
+t_DOS_PT = r'\:'
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -42,29 +43,34 @@ def t_ID(t):
     return t
 
 #==== TIPOS DE DATO =====
-def t_ENTERO(t):
-    r"""\d+"""
-    t.value = int(t.value)
-    return t
-
 def t_DECIMAL(t):
     r"""\d+\.\d+"""
     try:
         t.value = float(t.value)
     except ValueError:
-        print("El valor del float es muy largo %d", t.value)
+        print("Float value too large %d", t.value)
         t.value = 0
-    return 0
+    return t
+
+def t_ENTERO(t):
+    r"""\d+"""
+    t.value = int(t.value)
+    return t
 #==== FIN TIPOS DE DATO =====
 
+# === Fin token potencia ===
 # Ignora y hace una accion
 def t_ignorar_salto(t):
     r'\n+'
     t.lexer.lineno += t.value.count('\n')
 
+def find_column(input, token):
+     line_start = input.rfind('\n', 0, token.lexpos) + 1
+     return (token.lexpos - line_start) + 1
+
 # Manejo de errores lexicos
 def t_error(t):
-    print(f'Caracter no reconocido {t.value[0]!r} en la linea {t.lexer.lineno}')
+    print(f'Error lexico {t.value[0]!r} en la linea {t.lexer.lineno} columna {find_column(t.value, t)}')
     t.lexer.skip(1)
 
 

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftMASMENOSleftMULTIDIVMODULOrightPOTENCIArightUNARIODECIMAL DIV ENTERO MAS MENOS MODULO MULTI PARA PARC POTENCIA PRINT PT_COMA\n    inicio : instrucciones\n    \n    instrucciones : instrucciones instruccion PT_COMA\n    \n    instrucciones : instruccion PT_COMA\n    \n    instruccion : PRINT PARA expresion PARC\n    \n    expresion : expresion MAS expresion\n           | expresion MENOS expresion\n           | expresion MULTI expresion\n           | expresion DIV expresion\n           | expresion MODULO expresion\n           | expresion POTENCIA expresion\n    \n    expresion : PARA expresion PARC\n    \n    expresion : MENOS expresion %prec UNARIO\n    \n    expresion :  ENTERO\n              | DECIMAL\n    '
+_lr_signature = 'leftMASMENOSleftMULTIDIVMODULOrightPOWrightUNARIOCOMA DECIMAL DIV DOS_PT ENTERO I64 MAS MENOS MODULO MULTI PARA PARC POW PRINT PT_COMA\n    inicio : instrucciones\n    \n    instrucciones : instrucciones instruccion PT_COMA\n    \n    instrucciones : instruccion PT_COMA\n    \n    instruccion : PRINT PARA expresion PARC\n    \n    expresion : expresion MAS expresion\n           | expresion MENOS expresion\n           | expresion MULTI expresion\n           | expresion DIV expresion\n           | expresion MODULO expresion\n    \n    expresion : I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC\n    \n    expresion : PARA expresion PARC\n    \n    expresion : MENOS expresion %prec UNARIO\n    \n    expresion :  ENTERO\n              | DECIMAL\n    '
     
-_lr_action_items = {'PRINT':([0,2,6,8,],[4,4,-3,-2,]),'$end':([1,2,6,8,],[0,-1,-3,-2,]),'PT_COMA':([3,5,15,],[6,8,-4,]),'PARA':([4,7,9,11,16,17,18,19,20,21,],[7,9,9,9,9,9,9,9,9,9,]),'MENOS':([7,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,],[11,11,17,11,-13,-14,17,11,11,11,11,11,11,-12,-11,-5,-6,-7,-8,-9,-10,]),'ENTERO':([7,9,11,16,17,18,19,20,21,],[12,12,12,12,12,12,12,12,12,]),'DECIMAL':([7,9,11,16,17,18,19,20,21,],[13,13,13,13,13,13,13,13,13,]),'PARC':([10,12,13,14,22,23,24,25,26,27,28,29,],[15,-13,-14,23,-12,-11,-5,-6,-7,-8,-9,-10,]),'MAS':([10,12,13,14,22,23,24,25,26,27,28,29,],[16,-13,-14,16,-12,-11,-5,-6,-7,-8,-9,-10,]),'MULTI':([10,12,13,14,22,23,24,25,26,27,28,29,],[18,-13,-14,18,-12,-11,18,18,-7,-8,-9,-10,]),'DIV':([10,12,13,14,22,23,24,25,26,27,28,29,],[19,-13,-14,19,-12,-11,19,19,-7,-8,-9,-10,]),'MODULO':([10,12,13,14,22,23,24,25,26,27,28,29,],[20,-13,-14,20,-12,-11,20,20,-7,-8,-9,-10,]),'POTENCIA':([10,12,13,14,22,23,24,25,26,27,28,29,],[21,-13,-14,21,-12,-11,21,21,21,21,21,21,]),}
+_lr_action_items = {'PRINT':([0,2,6,8,],[4,4,-3,-2,]),'$end':([1,2,6,8,],[0,-1,-3,-2,]),'PT_COMA':([3,5,16,],[6,8,-4,]),'PARA':([4,7,9,11,17,18,19,20,21,31,32,34,],[7,9,9,9,9,9,9,9,9,32,9,9,]),'I64':([7,9,11,17,18,19,20,21,32,34,],[12,12,12,12,12,12,12,12,12,12,]),'MENOS':([7,9,10,11,13,14,15,17,18,19,20,21,22,24,25,26,27,28,29,32,33,34,35,36,],[11,11,18,11,-13,-14,18,11,11,11,11,11,-12,-11,-5,-6,-7,-8,-9,11,18,11,18,-10,]),'ENTERO':([7,9,11,17,18,19,20,21,32,34,],[13,13,13,13,13,13,13,13,13,13,]),'DECIMAL':([7,9,11,17,18,19,20,21,32,34,],[14,14,14,14,14,14,14,14,14,14,]),'PARC':([10,13,14,15,22,24,25,26,27,28,29,35,36,],[16,-13,-14,24,-12,-11,-5,-6,-7,-8,-9,36,-10,]),'MAS':([10,13,14,15,22,24,25,26,27,28,29,33,35,36,],[17,-13,-14,17,-12,-11,-5,-6,-7,-8,-9,17,17,-10,]),'MULTI':([10,13,14,15,22,24,25,26,27,28,29,33,35,36,],[19,-13,-14,19,-12,-11,19,19,-7,-8,-9,19,19,-10,]),'DIV':([10,13,14,15,22,24,25,26,27,28,29,33,35,36,],[20,-13,-14,20,-12,-11,20,20,-7,-8,-9,20,20,-10,]),'MODULO':([10,13,14,15,22,24,25,26,27,28,29,33,35,36,],[21,-13,-14,21,-12,-11,21,21,-7,-8,-9,21,21,-10,]),'DOS_PT':([12,23,],[23,30,]),'COMA':([13,14,22,24,25,26,27,28,29,33,36,],[-13,-14,-12,-11,-5,-6,-7,-8,-9,34,-10,]),'POW':([30,],[31,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,],[2,]),'instruccion':([0,2,],[3,5,]),'expresion':([7,9,11,16,17,18,19,20,21,],[10,14,22,24,25,26,27,28,29,]),}
+_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,],[2,]),'instruccion':([0,2,],[3,5,]),'expresion':([7,9,11,17,18,19,20,21,32,34,],[10,15,22,25,26,27,28,29,33,35,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -36,9 +36,9 @@ _lr_productions = [
   ('expresion -> expresion MULTI expresion','expresion',3,'p_exp_aritmeticas','parser.py',62),
   ('expresion -> expresion DIV expresion','expresion',3,'p_exp_aritmeticas','parser.py',63),
   ('expresion -> expresion MODULO expresion','expresion',3,'p_exp_aritmeticas','parser.py',64),
-  ('expresion -> expresion POTENCIA expresion','expresion',3,'p_exp_aritmeticas','parser.py',65),
-  ('expresion -> PARA expresion PARC','expresion',3,'p_exp_parentesis','parser.py',71),
-  ('expresion -> MENOS expresion','expresion',2,'p_exp_unario','parser.py',78),
-  ('expresion -> ENTERO','expresion',1,'p_exp_numero','parser.py',85),
-  ('expresion -> DECIMAL','expresion',1,'p_exp_numero','parser.py',86),
+  ('expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC','expresion',9,'p_exp_protencia','parser.py',70),
+  ('expresion -> PARA expresion PARC','expresion',3,'p_exp_parentesis','parser.py',77),
+  ('expresion -> MENOS expresion','expresion',2,'p_exp_unario','parser.py',84),
+  ('expresion -> ENTERO','expresion',1,'p_exp_numero','parser.py',91),
+  ('expresion -> DECIMAL','expresion',1,'p_exp_numero','parser.py',92),
 ]

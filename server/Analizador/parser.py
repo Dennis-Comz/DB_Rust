@@ -11,7 +11,6 @@ tokens = lexer.tokens
 precedence = (
     ('left', 'MAS', 'MENOS'),
     ('left', 'MULTI', 'DIV', 'MODULO'),
-    ('right', 'POTENCIA'),
     ('right', 'UNARIO')
 )
 
@@ -25,7 +24,7 @@ precedence = (
 #           | expresion MULTI expresion
 #           | expresion DIV expresion
 #           | expresion MODULO expresion
-#           | expresion POTENCIA expresion
+#           | I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
 #           | PARA expresion PARC
 #           | MENOS expresion
 #           | ENTERO
@@ -62,9 +61,15 @@ def p_exp_aritmeticas(p):
            | expresion MULTI expresion
            | expresion DIV expresion
            | expresion MODULO expresion
-           | expresion POTENCIA expresion
     """
     p[0] = Aritmeticas(exp1 = p[1], operador = p[2], exp2 = p[3], expU = False, linea = p.lineno(1), columna = 0)
+
+def p_exp_protencia(p):
+    """
+    expresion : I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+    """
+    p[0] = Aritmeticas(exp1 = p[6], operador = '^', exp2 = p[8], expU = False, linea = p.lineno(1), columna = 0)
+
 
 def p_exp_parentesis(p):
     """
@@ -87,10 +92,9 @@ def p_exp_numero(p):
     """
     p[0] = Primitivo(p[1], p.lineno(1), 0)
 
-
 # Error sintactico
 def p_error(p):
-    print(f'Error de sintaxis {p.value!r}')
+    print(f'Error de sintaxis {p.value!r} en la linea {p.lineno} columna {p.lexpos}')
 
 
 # Build the parser

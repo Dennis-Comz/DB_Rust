@@ -26,6 +26,9 @@ def interpretar():
 
         ast.ejecutar(driver, ts)
 
+        if driver.console == 'None':
+            driver.console = "La entrada tiene errores."
+
         return {
             'resultado': driver.console
         }
