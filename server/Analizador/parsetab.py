@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftMASMENOSleftMULTIDIVMODULOrightPOWrightUNARIOCOMA DECIMAL DIV DOS_PT ENTERO I64 MAS MENOS MODULO MULTI PARA PARC POW PRINT PT_COMA\n    inicio : instrucciones\n    \n    instrucciones : instrucciones instruccion PT_COMA\n    \n    instrucciones : instruccion PT_COMA\n    \n    instruccion : PRINT PARA expresion PARC\n    \n    expresion : expresion MAS expresion\n           | expresion MENOS expresion\n           | expresion MULTI expresion\n           | expresion DIV expresion\n           | expresion MODULO expresion\n    \n    expresion : I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC\n    \n    expresion : PARA expresion PARC\n    \n    expresion : MENOS expresion %prec UNARIO\n    \n    expresion :  ENTERO\n              | DECIMAL\n    '
+_lr_signature = 'leftMASMENOSleftMULTIDIVMODULOrightUNARIOCOMA DECIMAL DIV DOS_PT ENTERO FALSE I64 IGUAL_IGUAL MAS MAYOR MAYOR_IGUAL MENOR MENOR_IGUAL MENOS MODULO MULTI NO_IGUAL PARA PARC POW PRINT PT_COMA TRUE\n    inicio : instrucciones\n    \n    instrucciones : instrucciones instruccion PT_COMA\n    \n    instrucciones : instruccion PT_COMA\n    \n    instruccion : PRINT PARA expresion PARC\n    \n    expresion : expresion MAS expresion\n           | expresion MENOS expresion\n           | expresion MULTI expresion\n           | expresion DIV expresion\n           | expresion MODULO expresion\n    \n    expresion : I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC\n    \n    expresion : expresion IGUAL_IGUAL expresion\n            | expresion NO_IGUAL expresion\n            | expresion MAYOR expresion\n            | expresion MENOR expresion\n            | expresion MAYOR_IGUAL expresion\n            | expresion MENOR_IGUAL expresion\n    \n    expresion : PARA expresion PARC\n    \n    expresion : MENOS expresion %prec UNARIO\n    \n    expresion :  ENTERO\n            | DECIMAL\n    \n    expresion : TRUE\n            | FALSE\n    '
     
-_lr_action_items = {'PRINT':([0,2,6,8,],[4,4,-3,-2,]),'$end':([1,2,6,8,],[0,-1,-3,-2,]),'PT_COMA':([3,5,16,],[6,8,-4,]),'PARA':([4,7,9,11,17,18,19,20,21,31,32,34,],[7,9,9,9,9,9,9,9,9,32,9,9,]),'I64':([7,9,11,17,18,19,20,21,32,34,],[12,12,12,12,12,12,12,12,12,12,]),'MENOS':([7,9,10,11,13,14,15,17,18,19,20,21,22,24,25,26,27,28,29,32,33,34,35,36,],[11,11,18,11,-13,-14,18,11,11,11,11,11,-12,-11,-5,-6,-7,-8,-9,11,18,11,18,-10,]),'ENTERO':([7,9,11,17,18,19,20,21,32,34,],[13,13,13,13,13,13,13,13,13,13,]),'DECIMAL':([7,9,11,17,18,19,20,21,32,34,],[14,14,14,14,14,14,14,14,14,14,]),'PARC':([10,13,14,15,22,24,25,26,27,28,29,35,36,],[16,-13,-14,24,-12,-11,-5,-6,-7,-8,-9,36,-10,]),'MAS':([10,13,14,15,22,24,25,26,27,28,29,33,35,36,],[17,-13,-14,17,-12,-11,-5,-6,-7,-8,-9,17,17,-10,]),'MULTI':([10,13,14,15,22,24,25,26,27,28,29,33,35,36,],[19,-13,-14,19,-12,-11,19,19,-7,-8,-9,19,19,-10,]),'DIV':([10,13,14,15,22,24,25,26,27,28,29,33,35,36,],[20,-13,-14,20,-12,-11,20,20,-7,-8,-9,20,20,-10,]),'MODULO':([10,13,14,15,22,24,25,26,27,28,29,33,35,36,],[21,-13,-14,21,-12,-11,21,21,-7,-8,-9,21,21,-10,]),'DOS_PT':([12,23,],[23,30,]),'COMA':([13,14,22,24,25,26,27,28,29,33,36,],[-13,-14,-12,-11,-5,-6,-7,-8,-9,34,-10,]),'POW':([30,],[31,]),}
+_lr_action_items = {'PRINT':([0,2,6,8,],[4,4,-3,-2,]),'$end':([1,2,6,8,],[0,-1,-3,-2,]),'PT_COMA':([3,5,18,],[6,8,-4,]),'PARA':([4,7,9,11,19,20,21,22,23,24,25,26,27,28,29,45,46,48,],[7,9,9,9,9,9,9,9,9,9,9,9,9,9,9,46,9,9,]),'I64':([7,9,11,19,20,21,22,23,24,25,26,27,28,29,46,48,],[12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,]),'MENOS':([7,9,10,11,13,14,15,16,17,19,20,21,22,23,24,25,26,27,28,29,30,32,33,34,35,36,37,38,39,40,41,42,43,46,47,48,49,50,],[11,11,20,11,-19,-20,-21,-22,20,11,11,11,11,11,11,11,11,11,11,11,-18,-17,-5,-6,-7,-8,-9,20,20,20,20,20,20,11,20,11,20,-10,]),'ENTERO':([7,9,11,19,20,21,22,23,24,25,26,27,28,29,46,48,],[13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,]),'DECIMAL':([7,9,11,19,20,21,22,23,24,25,26,27,28,29,46,48,],[14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,]),'TRUE':([7,9,11,19,20,21,22,23,24,25,26,27,28,29,46,48,],[15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,]),'FALSE':([7,9,11,19,20,21,22,23,24,25,26,27,28,29,46,48,],[16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,]),'PARC':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,49,50,],[18,-19,-20,-21,-22,32,-18,-17,-5,-6,-7,-8,-9,-11,-12,-13,-14,-15,-16,50,-10,]),'MAS':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[19,-19,-20,-21,-22,19,-18,-17,-5,-6,-7,-8,-9,19,19,19,19,19,19,19,19,-10,]),'MULTI':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[21,-19,-20,-21,-22,21,-18,-17,21,21,-7,-8,-9,21,21,21,21,21,21,21,21,-10,]),'DIV':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[22,-19,-20,-21,-22,22,-18,-17,22,22,-7,-8,-9,22,22,22,22,22,22,22,22,-10,]),'MODULO':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[23,-19,-20,-21,-22,23,-18,-17,23,23,-7,-8,-9,23,23,23,23,23,23,23,23,-10,]),'IGUAL_IGUAL':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[24,-19,-20,-21,-22,24,-18,-17,-5,-6,-7,-8,-9,24,24,24,24,24,24,24,24,-10,]),'NO_IGUAL':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[25,-19,-20,-21,-22,25,-18,-17,-5,-6,-7,-8,-9,25,25,25,25,25,25,25,25,-10,]),'MAYOR':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[26,-19,-20,-21,-22,26,-18,-17,-5,-6,-7,-8,-9,26,26,26,26,26,26,26,26,-10,]),'MENOR':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[27,-19,-20,-21,-22,27,-18,-17,-5,-6,-7,-8,-9,27,27,27,27,27,27,27,27,-10,]),'MAYOR_IGUAL':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[28,-19,-20,-21,-22,28,-18,-17,-5,-6,-7,-8,-9,28,28,28,28,28,28,28,28,-10,]),'MENOR_IGUAL':([10,13,14,15,16,17,30,32,33,34,35,36,37,38,39,40,41,42,43,47,49,50,],[29,-19,-20,-21,-22,29,-18,-17,-5,-6,-7,-8,-9,29,29,29,29,29,29,29,29,-10,]),'DOS_PT':([12,31,],[31,44,]),'COMA':([13,14,15,16,30,32,33,34,35,36,37,38,39,40,41,42,43,47,50,],[-19,-20,-21,-22,-18,-17,-5,-6,-7,-8,-9,-11,-12,-13,-14,-15,-16,48,-10,]),'POW':([44,],[45,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,],[2,]),'instruccion':([0,2,],[3,5,]),'expresion':([7,9,11,17,18,19,20,21,32,34,],[10,15,22,25,26,27,28,29,33,35,]),}
+_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,],[2,]),'instruccion':([0,2,],[3,5,]),'expresion':([7,9,11,19,20,21,22,23,24,25,26,27,28,29,46,48,],[10,17,30,33,34,35,36,37,38,39,40,41,42,43,47,49,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -31,14 +31,22 @@ _lr_productions = [
   ('instrucciones -> instrucciones instruccion PT_COMA','instrucciones',3,'p_lista_instrucciones','parser.py',42),
   ('instrucciones -> instruccion PT_COMA','instrucciones',2,'p_instrucciones_instruccion','parser.py',48),
   ('instruccion -> PRINT PARA expresion PARC','instruccion',4,'p_instruccion_print','parser.py',54),
-  ('expresion -> expresion MAS expresion','expresion',3,'p_exp_aritmeticas','parser.py',60),
-  ('expresion -> expresion MENOS expresion','expresion',3,'p_exp_aritmeticas','parser.py',61),
-  ('expresion -> expresion MULTI expresion','expresion',3,'p_exp_aritmeticas','parser.py',62),
-  ('expresion -> expresion DIV expresion','expresion',3,'p_exp_aritmeticas','parser.py',63),
-  ('expresion -> expresion MODULO expresion','expresion',3,'p_exp_aritmeticas','parser.py',64),
-  ('expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC','expresion',9,'p_exp_protencia','parser.py',70),
-  ('expresion -> PARA expresion PARC','expresion',3,'p_exp_parentesis','parser.py',77),
-  ('expresion -> MENOS expresion','expresion',2,'p_exp_unario','parser.py',84),
-  ('expresion -> ENTERO','expresion',1,'p_exp_numero','parser.py',91),
-  ('expresion -> DECIMAL','expresion',1,'p_exp_numero','parser.py',92),
+  ('expresion -> expresion MAS expresion','expresion',3,'p_exp_aritmeticas','parser.py',61),
+  ('expresion -> expresion MENOS expresion','expresion',3,'p_exp_aritmeticas','parser.py',62),
+  ('expresion -> expresion MULTI expresion','expresion',3,'p_exp_aritmeticas','parser.py',63),
+  ('expresion -> expresion DIV expresion','expresion',3,'p_exp_aritmeticas','parser.py',64),
+  ('expresion -> expresion MODULO expresion','expresion',3,'p_exp_aritmeticas','parser.py',65),
+  ('expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC','expresion',9,'p_exp_protencia','parser.py',71),
+  ('expresion -> expresion IGUAL_IGUAL expresion','expresion',3,'p_exp_relacionales','parser.py',79),
+  ('expresion -> expresion NO_IGUAL expresion','expresion',3,'p_exp_relacionales','parser.py',80),
+  ('expresion -> expresion MAYOR expresion','expresion',3,'p_exp_relacionales','parser.py',81),
+  ('expresion -> expresion MENOR expresion','expresion',3,'p_exp_relacionales','parser.py',82),
+  ('expresion -> expresion MAYOR_IGUAL expresion','expresion',3,'p_exp_relacionales','parser.py',83),
+  ('expresion -> expresion MENOR_IGUAL expresion','expresion',3,'p_exp_relacionales','parser.py',84),
+  ('expresion -> PARA expresion PARC','expresion',3,'p_exp_parentesis','parser.py',91),
+  ('expresion -> MENOS expresion','expresion',2,'p_exp_unario','parser.py',98),
+  ('expresion -> ENTERO','expresion',1,'p_exp_numero','parser.py',105),
+  ('expresion -> DECIMAL','expresion',1,'p_exp_numero','parser.py',106),
+  ('expresion -> TRUE','expresion',1,'p_exp_booleano','parser.py',112),
+  ('expresion -> FALSE','expresion',1,'p_exp_booleano','parser.py',113),
 ]

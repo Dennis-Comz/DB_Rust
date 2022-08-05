@@ -2,9 +2,11 @@
 from plyFiles.ply import lex
 
 reservadas = {
-    'Print': 'PRINT',
+    'print': 'PRINT',
     'i64': 'I64',
-    'pow': 'POW'
+    'pow': 'POW',
+    'true': 'TRUE',
+    'false': 'FALSE'
 }
 
 tokens = [
@@ -19,7 +21,13 @@ tokens = [
             'PARA',
             'PARC',
             'COMA',
-            'DOS_PT'
+            'DOS_PT',
+            'IGUAL_IGUAL',
+            'NO_IGUAL',
+            'MAYOR',
+            'MENOR',
+            'MAYOR_IGUAL',
+            'MENOR_IGUAL'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
@@ -36,6 +44,12 @@ t_PARC = r'\)'
 t_PT_COMA = r'\;'
 t_COMA = r'\,'
 t_DOS_PT = r'\:'
+t_IGUAL_IGUAL = r'=='
+t_NO_IGUAL = r'!='
+t_MAYOR = r'>'
+t_MENOR = r'<'
+t_MAYOR_IGUAL = r'>='
+t_MENOR_IGUAL = r'<='
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
