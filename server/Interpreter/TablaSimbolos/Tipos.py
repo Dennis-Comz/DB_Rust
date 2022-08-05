@@ -1,4 +1,5 @@
 from enum import Enum
+from xmlrpc.client import boolean
 
 
 class Tipos(Enum):
@@ -20,9 +21,7 @@ def definirTipo(value):
         return Tipos.FLOAT64
     elif type(value) == int:
         return Tipos.INT64
-    elif value == 'true':
-        return Tipos.BOOLEAN
-    elif value == 'false':
+    elif type(value) == bool:
         return Tipos.BOOLEAN
     else:
         return None

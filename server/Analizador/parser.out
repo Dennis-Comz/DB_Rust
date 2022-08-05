@@ -19,21 +19,25 @@ Rule 13    expresion -> expresion MAYOR expresion
 Rule 14    expresion -> expresion MENOR expresion
 Rule 15    expresion -> expresion MAYOR_IGUAL expresion
 Rule 16    expresion -> expresion MENOR_IGUAL expresion
-Rule 17    expresion -> PARA expresion PARC
-Rule 18    expresion -> MENOS expresion
-Rule 19    expresion -> ENTERO
-Rule 20    expresion -> DECIMAL
-Rule 21    expresion -> TRUE
-Rule 22    expresion -> FALSE
+Rule 17    expresion -> expresion AND expresion
+Rule 18    expresion -> expresion OR expresion
+Rule 19    expresion -> NOT expresion
+Rule 20    expresion -> PARA expresion PARC
+Rule 21    expresion -> MENOS expresion
+Rule 22    expresion -> ENTERO
+Rule 23    expresion -> DECIMAL
+Rule 24    expresion -> TRUE
+Rule 25    expresion -> FALSE
 
 Terminals, with rules where they appear
 
+AND                  : 17
 COMA                 : 10
-DECIMAL              : 20
+DECIMAL              : 23
 DIV                  : 8
 DOS_PT               : 10 10
-ENTERO               : 19
-FALSE                : 22
+ENTERO               : 22
+FALSE                : 25
 I64                  : 10
 IGUAL_IGUAL          : 11
 MAS                  : 5
@@ -41,21 +45,23 @@ MAYOR                : 13
 MAYOR_IGUAL          : 15
 MENOR                : 14
 MENOR_IGUAL          : 16
-MENOS                : 6 18
+MENOS                : 6 21
 MODULO               : 9
 MULTI                : 7
+NOT                  : 19
 NO_IGUAL             : 12
-PARA                 : 4 10 17
-PARC                 : 4 10 17
+OR                   : 18
+PARA                 : 4 10 20
+PARC                 : 4 10 20
 POW                  : 10
 PRINT                : 4
 PT_COMA              : 2 3
-TRUE                 : 21
+TRUE                 : 24
 error                : 
 
 Nonterminals, with rules where they appear
 
-expresion            : 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 18
+expresion            : 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 20 21
 inicio               : 0
 instruccion          : 2 3
 instrucciones        : 1 2
@@ -137,20 +143,24 @@ state 7
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
     expresion                      shift and go to state 10
 
@@ -164,7 +174,7 @@ state 8
 
 state 9
 
-    (17) expresion -> PARA . expresion PARC
+    (20) expresion -> PARA . expresion PARC
     (5) expresion -> . expresion MAS expresion
     (6) expresion -> . expresion MENOS expresion
     (7) expresion -> . expresion MULTI expresion
@@ -177,22 +187,26 @@ state 9
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 17
+    expresion                      shift and go to state 18
 
 state 10
 
@@ -208,24 +222,28 @@ state 10
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-    PARC            shift and go to state 18
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    PARC            shift and go to state 19
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
+    IGUAL_IGUAL     shift and go to state 25
+    NO_IGUAL        shift and go to state 26
+    MAYOR           shift and go to state 27
+    MENOR           shift and go to state 28
+    MAYOR_IGUAL     shift and go to state 29
+    MENOR_IGUAL     shift and go to state 30
+    AND             shift and go to state 31
+    OR              shift and go to state 32
 
 
 state 11
 
-    (18) expresion -> MENOS . expresion
+    (21) expresion -> MENOS . expresion
     (5) expresion -> . expresion MAS expresion
     (6) expresion -> . expresion MENOS expresion
     (7) expresion -> . expresion MULTI expresion
@@ -238,109 +256,157 @@ state 11
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 30
+    expresion                      shift and go to state 33
 
 state 12
 
     (10) expresion -> I64 . DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
 
-    DOS_PT          shift and go to state 31
+    DOS_PT          shift and go to state 34
 
 
 state 13
 
-    (19) expresion -> ENTERO .
+    (19) expresion -> NOT . expresion
+    (5) expresion -> . expresion MAS expresion
+    (6) expresion -> . expresion MENOS expresion
+    (7) expresion -> . expresion MULTI expresion
+    (8) expresion -> . expresion DIV expresion
+    (9) expresion -> . expresion MODULO expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+    (11) expresion -> . expresion IGUAL_IGUAL expresion
+    (12) expresion -> . expresion NO_IGUAL expresion
+    (13) expresion -> . expresion MAYOR expresion
+    (14) expresion -> . expresion MENOR expresion
+    (15) expresion -> . expresion MAYOR_IGUAL expresion
+    (16) expresion -> . expresion MENOR_IGUAL expresion
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
-    PARC            reduce using rule 19 (expresion -> ENTERO .)
-    MAS             reduce using rule 19 (expresion -> ENTERO .)
-    MENOS           reduce using rule 19 (expresion -> ENTERO .)
-    MULTI           reduce using rule 19 (expresion -> ENTERO .)
-    DIV             reduce using rule 19 (expresion -> ENTERO .)
-    MODULO          reduce using rule 19 (expresion -> ENTERO .)
-    IGUAL_IGUAL     reduce using rule 19 (expresion -> ENTERO .)
-    NO_IGUAL        reduce using rule 19 (expresion -> ENTERO .)
-    MAYOR           reduce using rule 19 (expresion -> ENTERO .)
-    MENOR           reduce using rule 19 (expresion -> ENTERO .)
-    MAYOR_IGUAL     reduce using rule 19 (expresion -> ENTERO .)
-    MENOR_IGUAL     reduce using rule 19 (expresion -> ENTERO .)
-    COMA            reduce using rule 19 (expresion -> ENTERO .)
+    I64             shift and go to state 12
+    NOT             shift and go to state 13
+    PARA            shift and go to state 9
+    MENOS           shift and go to state 11
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
+    expresion                      shift and go to state 35
 
 state 14
 
-    (20) expresion -> DECIMAL .
+    (22) expresion -> ENTERO .
 
-    PARC            reduce using rule 20 (expresion -> DECIMAL .)
-    MAS             reduce using rule 20 (expresion -> DECIMAL .)
-    MENOS           reduce using rule 20 (expresion -> DECIMAL .)
-    MULTI           reduce using rule 20 (expresion -> DECIMAL .)
-    DIV             reduce using rule 20 (expresion -> DECIMAL .)
-    MODULO          reduce using rule 20 (expresion -> DECIMAL .)
-    IGUAL_IGUAL     reduce using rule 20 (expresion -> DECIMAL .)
-    NO_IGUAL        reduce using rule 20 (expresion -> DECIMAL .)
-    MAYOR           reduce using rule 20 (expresion -> DECIMAL .)
-    MENOR           reduce using rule 20 (expresion -> DECIMAL .)
-    MAYOR_IGUAL     reduce using rule 20 (expresion -> DECIMAL .)
-    MENOR_IGUAL     reduce using rule 20 (expresion -> DECIMAL .)
-    COMA            reduce using rule 20 (expresion -> DECIMAL .)
+    PARC            reduce using rule 22 (expresion -> ENTERO .)
+    MAS             reduce using rule 22 (expresion -> ENTERO .)
+    MENOS           reduce using rule 22 (expresion -> ENTERO .)
+    MULTI           reduce using rule 22 (expresion -> ENTERO .)
+    DIV             reduce using rule 22 (expresion -> ENTERO .)
+    MODULO          reduce using rule 22 (expresion -> ENTERO .)
+    IGUAL_IGUAL     reduce using rule 22 (expresion -> ENTERO .)
+    NO_IGUAL        reduce using rule 22 (expresion -> ENTERO .)
+    MAYOR           reduce using rule 22 (expresion -> ENTERO .)
+    MENOR           reduce using rule 22 (expresion -> ENTERO .)
+    MAYOR_IGUAL     reduce using rule 22 (expresion -> ENTERO .)
+    MENOR_IGUAL     reduce using rule 22 (expresion -> ENTERO .)
+    AND             reduce using rule 22 (expresion -> ENTERO .)
+    OR              reduce using rule 22 (expresion -> ENTERO .)
+    COMA            reduce using rule 22 (expresion -> ENTERO .)
 
 
 state 15
 
-    (21) expresion -> TRUE .
+    (23) expresion -> DECIMAL .
 
-    PARC            reduce using rule 21 (expresion -> TRUE .)
-    MAS             reduce using rule 21 (expresion -> TRUE .)
-    MENOS           reduce using rule 21 (expresion -> TRUE .)
-    MULTI           reduce using rule 21 (expresion -> TRUE .)
-    DIV             reduce using rule 21 (expresion -> TRUE .)
-    MODULO          reduce using rule 21 (expresion -> TRUE .)
-    IGUAL_IGUAL     reduce using rule 21 (expresion -> TRUE .)
-    NO_IGUAL        reduce using rule 21 (expresion -> TRUE .)
-    MAYOR           reduce using rule 21 (expresion -> TRUE .)
-    MENOR           reduce using rule 21 (expresion -> TRUE .)
-    MAYOR_IGUAL     reduce using rule 21 (expresion -> TRUE .)
-    MENOR_IGUAL     reduce using rule 21 (expresion -> TRUE .)
-    COMA            reduce using rule 21 (expresion -> TRUE .)
+    PARC            reduce using rule 23 (expresion -> DECIMAL .)
+    MAS             reduce using rule 23 (expresion -> DECIMAL .)
+    MENOS           reduce using rule 23 (expresion -> DECIMAL .)
+    MULTI           reduce using rule 23 (expresion -> DECIMAL .)
+    DIV             reduce using rule 23 (expresion -> DECIMAL .)
+    MODULO          reduce using rule 23 (expresion -> DECIMAL .)
+    IGUAL_IGUAL     reduce using rule 23 (expresion -> DECIMAL .)
+    NO_IGUAL        reduce using rule 23 (expresion -> DECIMAL .)
+    MAYOR           reduce using rule 23 (expresion -> DECIMAL .)
+    MENOR           reduce using rule 23 (expresion -> DECIMAL .)
+    MAYOR_IGUAL     reduce using rule 23 (expresion -> DECIMAL .)
+    MENOR_IGUAL     reduce using rule 23 (expresion -> DECIMAL .)
+    AND             reduce using rule 23 (expresion -> DECIMAL .)
+    OR              reduce using rule 23 (expresion -> DECIMAL .)
+    COMA            reduce using rule 23 (expresion -> DECIMAL .)
 
 
 state 16
 
-    (22) expresion -> FALSE .
+    (24) expresion -> TRUE .
 
-    PARC            reduce using rule 22 (expresion -> FALSE .)
-    MAS             reduce using rule 22 (expresion -> FALSE .)
-    MENOS           reduce using rule 22 (expresion -> FALSE .)
-    MULTI           reduce using rule 22 (expresion -> FALSE .)
-    DIV             reduce using rule 22 (expresion -> FALSE .)
-    MODULO          reduce using rule 22 (expresion -> FALSE .)
-    IGUAL_IGUAL     reduce using rule 22 (expresion -> FALSE .)
-    NO_IGUAL        reduce using rule 22 (expresion -> FALSE .)
-    MAYOR           reduce using rule 22 (expresion -> FALSE .)
-    MENOR           reduce using rule 22 (expresion -> FALSE .)
-    MAYOR_IGUAL     reduce using rule 22 (expresion -> FALSE .)
-    MENOR_IGUAL     reduce using rule 22 (expresion -> FALSE .)
-    COMA            reduce using rule 22 (expresion -> FALSE .)
+    PARC            reduce using rule 24 (expresion -> TRUE .)
+    MAS             reduce using rule 24 (expresion -> TRUE .)
+    MENOS           reduce using rule 24 (expresion -> TRUE .)
+    MULTI           reduce using rule 24 (expresion -> TRUE .)
+    DIV             reduce using rule 24 (expresion -> TRUE .)
+    MODULO          reduce using rule 24 (expresion -> TRUE .)
+    IGUAL_IGUAL     reduce using rule 24 (expresion -> TRUE .)
+    NO_IGUAL        reduce using rule 24 (expresion -> TRUE .)
+    MAYOR           reduce using rule 24 (expresion -> TRUE .)
+    MENOR           reduce using rule 24 (expresion -> TRUE .)
+    MAYOR_IGUAL     reduce using rule 24 (expresion -> TRUE .)
+    MENOR_IGUAL     reduce using rule 24 (expresion -> TRUE .)
+    AND             reduce using rule 24 (expresion -> TRUE .)
+    OR              reduce using rule 24 (expresion -> TRUE .)
+    COMA            reduce using rule 24 (expresion -> TRUE .)
 
 
 state 17
 
-    (17) expresion -> PARA expresion . PARC
+    (25) expresion -> FALSE .
+
+    PARC            reduce using rule 25 (expresion -> FALSE .)
+    MAS             reduce using rule 25 (expresion -> FALSE .)
+    MENOS           reduce using rule 25 (expresion -> FALSE .)
+    MULTI           reduce using rule 25 (expresion -> FALSE .)
+    DIV             reduce using rule 25 (expresion -> FALSE .)
+    MODULO          reduce using rule 25 (expresion -> FALSE .)
+    IGUAL_IGUAL     reduce using rule 25 (expresion -> FALSE .)
+    NO_IGUAL        reduce using rule 25 (expresion -> FALSE .)
+    MAYOR           reduce using rule 25 (expresion -> FALSE .)
+    MENOR           reduce using rule 25 (expresion -> FALSE .)
+    MAYOR_IGUAL     reduce using rule 25 (expresion -> FALSE .)
+    MENOR_IGUAL     reduce using rule 25 (expresion -> FALSE .)
+    AND             reduce using rule 25 (expresion -> FALSE .)
+    OR              reduce using rule 25 (expresion -> FALSE .)
+    COMA            reduce using rule 25 (expresion -> FALSE .)
+
+
+state 18
+
+    (20) expresion -> PARA expresion . PARC
     (5) expresion -> expresion . MAS expresion
     (6) expresion -> expresion . MENOS expresion
     (7) expresion -> expresion . MULTI expresion
@@ -352,29 +418,33 @@ state 17
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-    PARC            shift and go to state 32
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    PARC            shift and go to state 36
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
+    IGUAL_IGUAL     shift and go to state 25
+    NO_IGUAL        shift and go to state 26
+    MAYOR           shift and go to state 27
+    MENOR           shift and go to state 28
+    MAYOR_IGUAL     shift and go to state 29
+    MENOR_IGUAL     shift and go to state 30
+    AND             shift and go to state 31
+    OR              shift and go to state 32
 
 
-state 18
+state 19
 
     (4) instruccion -> PRINT PARA expresion PARC .
 
     PT_COMA         reduce using rule 4 (instruccion -> PRINT PARA expresion PARC .)
 
 
-state 19
+state 20
 
     (5) expresion -> expresion MAS . expresion
     (5) expresion -> . expresion MAS expresion
@@ -389,24 +459,28 @@ state 19
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 33
+    expresion                      shift and go to state 37
 
-state 20
+state 21
 
     (6) expresion -> expresion MENOS . expresion
     (5) expresion -> . expresion MAS expresion
@@ -421,24 +495,28 @@ state 20
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 34
+    expresion                      shift and go to state 38
 
-state 21
+state 22
 
     (7) expresion -> expresion MULTI . expresion
     (5) expresion -> . expresion MAS expresion
@@ -453,24 +531,28 @@ state 21
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 35
+    expresion                      shift and go to state 39
 
-state 22
+state 23
 
     (8) expresion -> expresion DIV . expresion
     (5) expresion -> . expresion MAS expresion
@@ -485,24 +567,28 @@ state 22
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 36
+    expresion                      shift and go to state 40
 
-state 23
+state 24
 
     (9) expresion -> expresion MODULO . expresion
     (5) expresion -> . expresion MAS expresion
@@ -517,24 +603,28 @@ state 23
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 37
+    expresion                      shift and go to state 41
 
-state 24
+state 25
 
     (11) expresion -> expresion IGUAL_IGUAL . expresion
     (5) expresion -> . expresion MAS expresion
@@ -549,24 +639,28 @@ state 24
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 38
+    expresion                      shift and go to state 42
 
-state 25
+state 26
 
     (12) expresion -> expresion NO_IGUAL . expresion
     (5) expresion -> . expresion MAS expresion
@@ -581,24 +675,28 @@ state 25
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 39
+    expresion                      shift and go to state 43
 
-state 26
+state 27
 
     (13) expresion -> expresion MAYOR . expresion
     (5) expresion -> . expresion MAS expresion
@@ -613,24 +711,28 @@ state 26
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 40
+    expresion                      shift and go to state 44
 
-state 27
+state 28
 
     (14) expresion -> expresion MENOR . expresion
     (5) expresion -> . expresion MAS expresion
@@ -645,24 +747,28 @@ state 27
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 41
+    expresion                      shift and go to state 45
 
-state 28
+state 29
 
     (15) expresion -> expresion MAYOR_IGUAL . expresion
     (5) expresion -> . expresion MAS expresion
@@ -677,24 +783,28 @@ state 28
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 42
+    expresion                      shift and go to state 46
 
-state 29
+state 30
 
     (16) expresion -> expresion MENOR_IGUAL . expresion
     (5) expresion -> . expresion MAS expresion
@@ -709,26 +819,102 @@ state 29
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 43
+    expresion                      shift and go to state 47
 
-state 30
+state 31
 
-    (18) expresion -> MENOS expresion .
+    (17) expresion -> expresion AND . expresion
+    (5) expresion -> . expresion MAS expresion
+    (6) expresion -> . expresion MENOS expresion
+    (7) expresion -> . expresion MULTI expresion
+    (8) expresion -> . expresion DIV expresion
+    (9) expresion -> . expresion MODULO expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+    (11) expresion -> . expresion IGUAL_IGUAL expresion
+    (12) expresion -> . expresion NO_IGUAL expresion
+    (13) expresion -> . expresion MAYOR expresion
+    (14) expresion -> . expresion MENOR expresion
+    (15) expresion -> . expresion MAYOR_IGUAL expresion
+    (16) expresion -> . expresion MENOR_IGUAL expresion
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
+
+    I64             shift and go to state 12
+    NOT             shift and go to state 13
+    PARA            shift and go to state 9
+    MENOS           shift and go to state 11
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
+
+    expresion                      shift and go to state 48
+
+state 32
+
+    (18) expresion -> expresion OR . expresion
+    (5) expresion -> . expresion MAS expresion
+    (6) expresion -> . expresion MENOS expresion
+    (7) expresion -> . expresion MULTI expresion
+    (8) expresion -> . expresion DIV expresion
+    (9) expresion -> . expresion MODULO expresion
+    (10) expresion -> . I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+    (11) expresion -> . expresion IGUAL_IGUAL expresion
+    (12) expresion -> . expresion NO_IGUAL expresion
+    (13) expresion -> . expresion MAYOR expresion
+    (14) expresion -> . expresion MENOR expresion
+    (15) expresion -> . expresion MAYOR_IGUAL expresion
+    (16) expresion -> . expresion MENOR_IGUAL expresion
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
+
+    I64             shift and go to state 12
+    NOT             shift and go to state 13
+    PARA            shift and go to state 9
+    MENOS           shift and go to state 11
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
+
+    expresion                      shift and go to state 49
+
+state 33
+
+    (21) expresion -> MENOS expresion .
     (5) expresion -> expresion . MAS expresion
     (6) expresion -> expresion . MENOS expresion
     (7) expresion -> expresion . MULTI expresion
@@ -740,61 +926,117 @@ state 30
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-    PARC            reduce using rule 18 (expresion -> MENOS expresion .)
-    MAS             reduce using rule 18 (expresion -> MENOS expresion .)
-    MENOS           reduce using rule 18 (expresion -> MENOS expresion .)
-    MULTI           reduce using rule 18 (expresion -> MENOS expresion .)
-    DIV             reduce using rule 18 (expresion -> MENOS expresion .)
-    MODULO          reduce using rule 18 (expresion -> MENOS expresion .)
-    IGUAL_IGUAL     reduce using rule 18 (expresion -> MENOS expresion .)
-    NO_IGUAL        reduce using rule 18 (expresion -> MENOS expresion .)
-    MAYOR           reduce using rule 18 (expresion -> MENOS expresion .)
-    MENOR           reduce using rule 18 (expresion -> MENOS expresion .)
-    MAYOR_IGUAL     reduce using rule 18 (expresion -> MENOS expresion .)
-    MENOR_IGUAL     reduce using rule 18 (expresion -> MENOS expresion .)
-    COMA            reduce using rule 18 (expresion -> MENOS expresion .)
+    PARC            reduce using rule 21 (expresion -> MENOS expresion .)
+    MAS             reduce using rule 21 (expresion -> MENOS expresion .)
+    MENOS           reduce using rule 21 (expresion -> MENOS expresion .)
+    MULTI           reduce using rule 21 (expresion -> MENOS expresion .)
+    DIV             reduce using rule 21 (expresion -> MENOS expresion .)
+    MODULO          reduce using rule 21 (expresion -> MENOS expresion .)
+    IGUAL_IGUAL     reduce using rule 21 (expresion -> MENOS expresion .)
+    NO_IGUAL        reduce using rule 21 (expresion -> MENOS expresion .)
+    MAYOR           reduce using rule 21 (expresion -> MENOS expresion .)
+    MENOR           reduce using rule 21 (expresion -> MENOS expresion .)
+    MAYOR_IGUAL     reduce using rule 21 (expresion -> MENOS expresion .)
+    MENOR_IGUAL     reduce using rule 21 (expresion -> MENOS expresion .)
+    AND             reduce using rule 21 (expresion -> MENOS expresion .)
+    OR              reduce using rule 21 (expresion -> MENOS expresion .)
+    COMA            reduce using rule 21 (expresion -> MENOS expresion .)
 
-  ! MAS             [ shift and go to state 19 ]
-  ! MENOS           [ shift and go to state 20 ]
-  ! MULTI           [ shift and go to state 21 ]
-  ! DIV             [ shift and go to state 22 ]
-  ! MODULO          [ shift and go to state 23 ]
-  ! IGUAL_IGUAL     [ shift and go to state 24 ]
-  ! NO_IGUAL        [ shift and go to state 25 ]
-  ! MAYOR           [ shift and go to state 26 ]
-  ! MENOR           [ shift and go to state 27 ]
-  ! MAYOR_IGUAL     [ shift and go to state 28 ]
-  ! MENOR_IGUAL     [ shift and go to state 29 ]
+  ! MAS             [ shift and go to state 20 ]
+  ! MENOS           [ shift and go to state 21 ]
+  ! MULTI           [ shift and go to state 22 ]
+  ! DIV             [ shift and go to state 23 ]
+  ! MODULO          [ shift and go to state 24 ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 31
+state 34
 
     (10) expresion -> I64 DOS_PT . DOS_PT POW PARA expresion COMA expresion PARC
 
-    DOS_PT          shift and go to state 44
+    DOS_PT          shift and go to state 50
 
 
-state 32
+state 35
 
-    (17) expresion -> PARA expresion PARC .
+    (19) expresion -> NOT expresion .
+    (5) expresion -> expresion . MAS expresion
+    (6) expresion -> expresion . MENOS expresion
+    (7) expresion -> expresion . MULTI expresion
+    (8) expresion -> expresion . DIV expresion
+    (9) expresion -> expresion . MODULO expresion
+    (11) expresion -> expresion . IGUAL_IGUAL expresion
+    (12) expresion -> expresion . NO_IGUAL expresion
+    (13) expresion -> expresion . MAYOR expresion
+    (14) expresion -> expresion . MENOR expresion
+    (15) expresion -> expresion . MAYOR_IGUAL expresion
+    (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-    PARC            reduce using rule 17 (expresion -> PARA expresion PARC .)
-    MAS             reduce using rule 17 (expresion -> PARA expresion PARC .)
-    MENOS           reduce using rule 17 (expresion -> PARA expresion PARC .)
-    MULTI           reduce using rule 17 (expresion -> PARA expresion PARC .)
-    DIV             reduce using rule 17 (expresion -> PARA expresion PARC .)
-    MODULO          reduce using rule 17 (expresion -> PARA expresion PARC .)
-    IGUAL_IGUAL     reduce using rule 17 (expresion -> PARA expresion PARC .)
-    NO_IGUAL        reduce using rule 17 (expresion -> PARA expresion PARC .)
-    MAYOR           reduce using rule 17 (expresion -> PARA expresion PARC .)
-    MENOR           reduce using rule 17 (expresion -> PARA expresion PARC .)
-    MAYOR_IGUAL     reduce using rule 17 (expresion -> PARA expresion PARC .)
-    MENOR_IGUAL     reduce using rule 17 (expresion -> PARA expresion PARC .)
-    COMA            reduce using rule 17 (expresion -> PARA expresion PARC .)
+    PARC            reduce using rule 19 (expresion -> NOT expresion .)
+    AND             reduce using rule 19 (expresion -> NOT expresion .)
+    OR              reduce using rule 19 (expresion -> NOT expresion .)
+    COMA            reduce using rule 19 (expresion -> NOT expresion .)
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
+    IGUAL_IGUAL     shift and go to state 25
+    NO_IGUAL        shift and go to state 26
+    MAYOR           shift and go to state 27
+    MENOR           shift and go to state 28
+    MAYOR_IGUAL     shift and go to state 29
+    MENOR_IGUAL     shift and go to state 30
+
+  ! MAS             [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! MENOS           [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! MULTI           [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! DIV             [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! MODULO          [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! IGUAL_IGUAL     [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! NO_IGUAL        [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! MAYOR           [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! MENOR           [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! MAYOR_IGUAL     [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! MENOR_IGUAL     [ reduce using rule 19 (expresion -> NOT expresion .) ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 33
+state 36
+
+    (20) expresion -> PARA expresion PARC .
+
+    PARC            reduce using rule 20 (expresion -> PARA expresion PARC .)
+    MAS             reduce using rule 20 (expresion -> PARA expresion PARC .)
+    MENOS           reduce using rule 20 (expresion -> PARA expresion PARC .)
+    MULTI           reduce using rule 20 (expresion -> PARA expresion PARC .)
+    DIV             reduce using rule 20 (expresion -> PARA expresion PARC .)
+    MODULO          reduce using rule 20 (expresion -> PARA expresion PARC .)
+    IGUAL_IGUAL     reduce using rule 20 (expresion -> PARA expresion PARC .)
+    NO_IGUAL        reduce using rule 20 (expresion -> PARA expresion PARC .)
+    MAYOR           reduce using rule 20 (expresion -> PARA expresion PARC .)
+    MENOR           reduce using rule 20 (expresion -> PARA expresion PARC .)
+    MAYOR_IGUAL     reduce using rule 20 (expresion -> PARA expresion PARC .)
+    MENOR_IGUAL     reduce using rule 20 (expresion -> PARA expresion PARC .)
+    AND             reduce using rule 20 (expresion -> PARA expresion PARC .)
+    OR              reduce using rule 20 (expresion -> PARA expresion PARC .)
+    COMA            reduce using rule 20 (expresion -> PARA expresion PARC .)
+
+
+state 37
 
     (5) expresion -> expresion MAS expresion .
     (5) expresion -> expresion . MAS expresion
@@ -808,6 +1050,8 @@ state 33
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
     PARC            reduce using rule 5 (expresion -> expresion MAS expresion .)
     MAS             reduce using rule 5 (expresion -> expresion MAS expresion .)
@@ -818,25 +1062,29 @@ state 33
     MENOR           reduce using rule 5 (expresion -> expresion MAS expresion .)
     MAYOR_IGUAL     reduce using rule 5 (expresion -> expresion MAS expresion .)
     MENOR_IGUAL     reduce using rule 5 (expresion -> expresion MAS expresion .)
+    AND             reduce using rule 5 (expresion -> expresion MAS expresion .)
+    OR              reduce using rule 5 (expresion -> expresion MAS expresion .)
     COMA            reduce using rule 5 (expresion -> expresion MAS expresion .)
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MULTI           [ reduce using rule 5 (expresion -> expresion MAS expresion .) ]
   ! DIV             [ reduce using rule 5 (expresion -> expresion MAS expresion .) ]
   ! MODULO          [ reduce using rule 5 (expresion -> expresion MAS expresion .) ]
-  ! MAS             [ shift and go to state 19 ]
-  ! MENOS           [ shift and go to state 20 ]
-  ! IGUAL_IGUAL     [ shift and go to state 24 ]
-  ! NO_IGUAL        [ shift and go to state 25 ]
-  ! MAYOR           [ shift and go to state 26 ]
-  ! MENOR           [ shift and go to state 27 ]
-  ! MAYOR_IGUAL     [ shift and go to state 28 ]
-  ! MENOR_IGUAL     [ shift and go to state 29 ]
+  ! MAS             [ shift and go to state 20 ]
+  ! MENOS           [ shift and go to state 21 ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 34
+state 38
 
     (6) expresion -> expresion MENOS expresion .
     (5) expresion -> expresion . MAS expresion
@@ -850,6 +1098,8 @@ state 34
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
     PARC            reduce using rule 6 (expresion -> expresion MENOS expresion .)
     MAS             reduce using rule 6 (expresion -> expresion MENOS expresion .)
@@ -860,25 +1110,29 @@ state 34
     MENOR           reduce using rule 6 (expresion -> expresion MENOS expresion .)
     MAYOR_IGUAL     reduce using rule 6 (expresion -> expresion MENOS expresion .)
     MENOR_IGUAL     reduce using rule 6 (expresion -> expresion MENOS expresion .)
+    AND             reduce using rule 6 (expresion -> expresion MENOS expresion .)
+    OR              reduce using rule 6 (expresion -> expresion MENOS expresion .)
     COMA            reduce using rule 6 (expresion -> expresion MENOS expresion .)
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MULTI           [ reduce using rule 6 (expresion -> expresion MENOS expresion .) ]
   ! DIV             [ reduce using rule 6 (expresion -> expresion MENOS expresion .) ]
   ! MODULO          [ reduce using rule 6 (expresion -> expresion MENOS expresion .) ]
-  ! MAS             [ shift and go to state 19 ]
-  ! MENOS           [ shift and go to state 20 ]
-  ! IGUAL_IGUAL     [ shift and go to state 24 ]
-  ! NO_IGUAL        [ shift and go to state 25 ]
-  ! MAYOR           [ shift and go to state 26 ]
-  ! MENOR           [ shift and go to state 27 ]
-  ! MAYOR_IGUAL     [ shift and go to state 28 ]
-  ! MENOR_IGUAL     [ shift and go to state 29 ]
+  ! MAS             [ shift and go to state 20 ]
+  ! MENOS           [ shift and go to state 21 ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 35
+state 39
 
     (7) expresion -> expresion MULTI expresion .
     (5) expresion -> expresion . MAS expresion
@@ -892,6 +1146,8 @@ state 35
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
     PARC            reduce using rule 7 (expresion -> expresion MULTI expresion .)
     MAS             reduce using rule 7 (expresion -> expresion MULTI expresion .)
@@ -905,22 +1161,26 @@ state 35
     MENOR           reduce using rule 7 (expresion -> expresion MULTI expresion .)
     MAYOR_IGUAL     reduce using rule 7 (expresion -> expresion MULTI expresion .)
     MENOR_IGUAL     reduce using rule 7 (expresion -> expresion MULTI expresion .)
+    AND             reduce using rule 7 (expresion -> expresion MULTI expresion .)
+    OR              reduce using rule 7 (expresion -> expresion MULTI expresion .)
     COMA            reduce using rule 7 (expresion -> expresion MULTI expresion .)
 
-  ! MAS             [ shift and go to state 19 ]
-  ! MENOS           [ shift and go to state 20 ]
-  ! MULTI           [ shift and go to state 21 ]
-  ! DIV             [ shift and go to state 22 ]
-  ! MODULO          [ shift and go to state 23 ]
-  ! IGUAL_IGUAL     [ shift and go to state 24 ]
-  ! NO_IGUAL        [ shift and go to state 25 ]
-  ! MAYOR           [ shift and go to state 26 ]
-  ! MENOR           [ shift and go to state 27 ]
-  ! MAYOR_IGUAL     [ shift and go to state 28 ]
-  ! MENOR_IGUAL     [ shift and go to state 29 ]
+  ! MAS             [ shift and go to state 20 ]
+  ! MENOS           [ shift and go to state 21 ]
+  ! MULTI           [ shift and go to state 22 ]
+  ! DIV             [ shift and go to state 23 ]
+  ! MODULO          [ shift and go to state 24 ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 36
+state 40
 
     (8) expresion -> expresion DIV expresion .
     (5) expresion -> expresion . MAS expresion
@@ -934,6 +1194,8 @@ state 36
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
     PARC            reduce using rule 8 (expresion -> expresion DIV expresion .)
     MAS             reduce using rule 8 (expresion -> expresion DIV expresion .)
@@ -947,22 +1209,26 @@ state 36
     MENOR           reduce using rule 8 (expresion -> expresion DIV expresion .)
     MAYOR_IGUAL     reduce using rule 8 (expresion -> expresion DIV expresion .)
     MENOR_IGUAL     reduce using rule 8 (expresion -> expresion DIV expresion .)
+    AND             reduce using rule 8 (expresion -> expresion DIV expresion .)
+    OR              reduce using rule 8 (expresion -> expresion DIV expresion .)
     COMA            reduce using rule 8 (expresion -> expresion DIV expresion .)
 
-  ! MAS             [ shift and go to state 19 ]
-  ! MENOS           [ shift and go to state 20 ]
-  ! MULTI           [ shift and go to state 21 ]
-  ! DIV             [ shift and go to state 22 ]
-  ! MODULO          [ shift and go to state 23 ]
-  ! IGUAL_IGUAL     [ shift and go to state 24 ]
-  ! NO_IGUAL        [ shift and go to state 25 ]
-  ! MAYOR           [ shift and go to state 26 ]
-  ! MENOR           [ shift and go to state 27 ]
-  ! MAYOR_IGUAL     [ shift and go to state 28 ]
-  ! MENOR_IGUAL     [ shift and go to state 29 ]
+  ! MAS             [ shift and go to state 20 ]
+  ! MENOS           [ shift and go to state 21 ]
+  ! MULTI           [ shift and go to state 22 ]
+  ! DIV             [ shift and go to state 23 ]
+  ! MODULO          [ shift and go to state 24 ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 37
+state 41
 
     (9) expresion -> expresion MODULO expresion .
     (5) expresion -> expresion . MAS expresion
@@ -976,6 +1242,8 @@ state 37
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
     PARC            reduce using rule 9 (expresion -> expresion MODULO expresion .)
     MAS             reduce using rule 9 (expresion -> expresion MODULO expresion .)
@@ -989,22 +1257,26 @@ state 37
     MENOR           reduce using rule 9 (expresion -> expresion MODULO expresion .)
     MAYOR_IGUAL     reduce using rule 9 (expresion -> expresion MODULO expresion .)
     MENOR_IGUAL     reduce using rule 9 (expresion -> expresion MODULO expresion .)
+    AND             reduce using rule 9 (expresion -> expresion MODULO expresion .)
+    OR              reduce using rule 9 (expresion -> expresion MODULO expresion .)
     COMA            reduce using rule 9 (expresion -> expresion MODULO expresion .)
 
-  ! MAS             [ shift and go to state 19 ]
-  ! MENOS           [ shift and go to state 20 ]
-  ! MULTI           [ shift and go to state 21 ]
-  ! DIV             [ shift and go to state 22 ]
-  ! MODULO          [ shift and go to state 23 ]
-  ! IGUAL_IGUAL     [ shift and go to state 24 ]
-  ! NO_IGUAL        [ shift and go to state 25 ]
-  ! MAYOR           [ shift and go to state 26 ]
-  ! MENOR           [ shift and go to state 27 ]
-  ! MAYOR_IGUAL     [ shift and go to state 28 ]
-  ! MENOR_IGUAL     [ shift and go to state 29 ]
+  ! MAS             [ shift and go to state 20 ]
+  ! MENOS           [ shift and go to state 21 ]
+  ! MULTI           [ shift and go to state 22 ]
+  ! DIV             [ shift and go to state 23 ]
+  ! MODULO          [ shift and go to state 24 ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 38
+state 42
 
     (11) expresion -> expresion IGUAL_IGUAL expresion .
     (5) expresion -> expresion . MAS expresion
@@ -1018,46 +1290,41 @@ state 38
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-  ! shift/reduce conflict for MAS resolved as shift
-  ! shift/reduce conflict for MENOS resolved as shift
-  ! shift/reduce conflict for MULTI resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for MODULO resolved as shift
-  ! shift/reduce conflict for IGUAL_IGUAL resolved as shift
-  ! shift/reduce conflict for NO_IGUAL resolved as shift
-  ! shift/reduce conflict for MAYOR resolved as shift
-  ! shift/reduce conflict for MENOR resolved as shift
-  ! shift/reduce conflict for MAYOR_IGUAL resolved as shift
-  ! shift/reduce conflict for MENOR_IGUAL resolved as shift
     PARC            reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
+    IGUAL_IGUAL     reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
+    NO_IGUAL        reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
+    MAYOR           reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
+    MENOR           reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
+    MAYOR_IGUAL     reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
+    MENOR_IGUAL     reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
+    AND             reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
+    OR              reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
     COMA            reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .)
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MAS             [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
   ! MENOS           [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
   ! MULTI           [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
   ! DIV             [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
   ! MODULO          [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
-  ! IGUAL_IGUAL     [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
-  ! NO_IGUAL        [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
-  ! MAYOR           [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
-  ! MENOR           [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
-  ! MAYOR_IGUAL     [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
-  ! MENOR_IGUAL     [ reduce using rule 11 (expresion -> expresion IGUAL_IGUAL expresion .) ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 39
+state 43
 
     (12) expresion -> expresion NO_IGUAL expresion .
     (5) expresion -> expresion . MAS expresion
@@ -1071,46 +1338,41 @@ state 39
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-  ! shift/reduce conflict for MAS resolved as shift
-  ! shift/reduce conflict for MENOS resolved as shift
-  ! shift/reduce conflict for MULTI resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for MODULO resolved as shift
-  ! shift/reduce conflict for IGUAL_IGUAL resolved as shift
-  ! shift/reduce conflict for NO_IGUAL resolved as shift
-  ! shift/reduce conflict for MAYOR resolved as shift
-  ! shift/reduce conflict for MENOR resolved as shift
-  ! shift/reduce conflict for MAYOR_IGUAL resolved as shift
-  ! shift/reduce conflict for MENOR_IGUAL resolved as shift
     PARC            reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
+    IGUAL_IGUAL     reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
+    NO_IGUAL        reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
+    MAYOR           reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
+    MENOR           reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
+    MAYOR_IGUAL     reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
+    MENOR_IGUAL     reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
+    AND             reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
+    OR              reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
     COMA            reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .)
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MAS             [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
   ! MENOS           [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
   ! MULTI           [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
   ! DIV             [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
   ! MODULO          [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
-  ! IGUAL_IGUAL     [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
-  ! NO_IGUAL        [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
-  ! MAYOR           [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
-  ! MENOR           [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
-  ! MAYOR_IGUAL     [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
-  ! MENOR_IGUAL     [ reduce using rule 12 (expresion -> expresion NO_IGUAL expresion .) ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 40
+state 44
 
     (13) expresion -> expresion MAYOR expresion .
     (5) expresion -> expresion . MAS expresion
@@ -1124,46 +1386,41 @@ state 40
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-  ! shift/reduce conflict for MAS resolved as shift
-  ! shift/reduce conflict for MENOS resolved as shift
-  ! shift/reduce conflict for MULTI resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for MODULO resolved as shift
-  ! shift/reduce conflict for IGUAL_IGUAL resolved as shift
-  ! shift/reduce conflict for NO_IGUAL resolved as shift
-  ! shift/reduce conflict for MAYOR resolved as shift
-  ! shift/reduce conflict for MENOR resolved as shift
-  ! shift/reduce conflict for MAYOR_IGUAL resolved as shift
-  ! shift/reduce conflict for MENOR_IGUAL resolved as shift
     PARC            reduce using rule 13 (expresion -> expresion MAYOR expresion .)
+    IGUAL_IGUAL     reduce using rule 13 (expresion -> expresion MAYOR expresion .)
+    NO_IGUAL        reduce using rule 13 (expresion -> expresion MAYOR expresion .)
+    MAYOR           reduce using rule 13 (expresion -> expresion MAYOR expresion .)
+    MENOR           reduce using rule 13 (expresion -> expresion MAYOR expresion .)
+    MAYOR_IGUAL     reduce using rule 13 (expresion -> expresion MAYOR expresion .)
+    MENOR_IGUAL     reduce using rule 13 (expresion -> expresion MAYOR expresion .)
+    AND             reduce using rule 13 (expresion -> expresion MAYOR expresion .)
+    OR              reduce using rule 13 (expresion -> expresion MAYOR expresion .)
     COMA            reduce using rule 13 (expresion -> expresion MAYOR expresion .)
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MAS             [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
   ! MENOS           [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
   ! MULTI           [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
   ! DIV             [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
   ! MODULO          [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
-  ! IGUAL_IGUAL     [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
-  ! NO_IGUAL        [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
-  ! MAYOR           [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
-  ! MENOR           [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
-  ! MAYOR_IGUAL     [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
-  ! MENOR_IGUAL     [ reduce using rule 13 (expresion -> expresion MAYOR expresion .) ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 41
+state 45
 
     (14) expresion -> expresion MENOR expresion .
     (5) expresion -> expresion . MAS expresion
@@ -1177,46 +1434,41 @@ state 41
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-  ! shift/reduce conflict for MAS resolved as shift
-  ! shift/reduce conflict for MENOS resolved as shift
-  ! shift/reduce conflict for MULTI resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for MODULO resolved as shift
-  ! shift/reduce conflict for IGUAL_IGUAL resolved as shift
-  ! shift/reduce conflict for NO_IGUAL resolved as shift
-  ! shift/reduce conflict for MAYOR resolved as shift
-  ! shift/reduce conflict for MENOR resolved as shift
-  ! shift/reduce conflict for MAYOR_IGUAL resolved as shift
-  ! shift/reduce conflict for MENOR_IGUAL resolved as shift
     PARC            reduce using rule 14 (expresion -> expresion MENOR expresion .)
+    IGUAL_IGUAL     reduce using rule 14 (expresion -> expresion MENOR expresion .)
+    NO_IGUAL        reduce using rule 14 (expresion -> expresion MENOR expresion .)
+    MAYOR           reduce using rule 14 (expresion -> expresion MENOR expresion .)
+    MENOR           reduce using rule 14 (expresion -> expresion MENOR expresion .)
+    MAYOR_IGUAL     reduce using rule 14 (expresion -> expresion MENOR expresion .)
+    MENOR_IGUAL     reduce using rule 14 (expresion -> expresion MENOR expresion .)
+    AND             reduce using rule 14 (expresion -> expresion MENOR expresion .)
+    OR              reduce using rule 14 (expresion -> expresion MENOR expresion .)
     COMA            reduce using rule 14 (expresion -> expresion MENOR expresion .)
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MAS             [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
   ! MENOS           [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
   ! MULTI           [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
   ! DIV             [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
   ! MODULO          [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
-  ! IGUAL_IGUAL     [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
-  ! NO_IGUAL        [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
-  ! MAYOR           [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
-  ! MENOR           [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
-  ! MAYOR_IGUAL     [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
-  ! MENOR_IGUAL     [ reduce using rule 14 (expresion -> expresion MENOR expresion .) ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 42
+state 46
 
     (15) expresion -> expresion MAYOR_IGUAL expresion .
     (5) expresion -> expresion . MAS expresion
@@ -1230,46 +1482,41 @@ state 42
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-  ! shift/reduce conflict for MAS resolved as shift
-  ! shift/reduce conflict for MENOS resolved as shift
-  ! shift/reduce conflict for MULTI resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for MODULO resolved as shift
-  ! shift/reduce conflict for IGUAL_IGUAL resolved as shift
-  ! shift/reduce conflict for NO_IGUAL resolved as shift
-  ! shift/reduce conflict for MAYOR resolved as shift
-  ! shift/reduce conflict for MENOR resolved as shift
-  ! shift/reduce conflict for MAYOR_IGUAL resolved as shift
-  ! shift/reduce conflict for MENOR_IGUAL resolved as shift
     PARC            reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
+    IGUAL_IGUAL     reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
+    NO_IGUAL        reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MAYOR           reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MENOR           reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MAYOR_IGUAL     reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MENOR_IGUAL     reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
+    AND             reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
+    OR              reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
     COMA            reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .)
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MAS             [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
   ! MENOS           [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
   ! MULTI           [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
   ! DIV             [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
   ! MODULO          [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
-  ! IGUAL_IGUAL     [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
-  ! NO_IGUAL        [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
-  ! MAYOR           [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
-  ! MENOR           [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
-  ! MAYOR_IGUAL     [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
-  ! MENOR_IGUAL     [ reduce using rule 15 (expresion -> expresion MAYOR_IGUAL expresion .) ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 43
+state 47
 
     (16) expresion -> expresion MENOR_IGUAL expresion .
     (5) expresion -> expresion . MAS expresion
@@ -1283,60 +1530,151 @@ state 43
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-  ! shift/reduce conflict for MAS resolved as shift
-  ! shift/reduce conflict for MENOS resolved as shift
-  ! shift/reduce conflict for MULTI resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for MODULO resolved as shift
-  ! shift/reduce conflict for IGUAL_IGUAL resolved as shift
-  ! shift/reduce conflict for NO_IGUAL resolved as shift
-  ! shift/reduce conflict for MAYOR resolved as shift
-  ! shift/reduce conflict for MENOR resolved as shift
-  ! shift/reduce conflict for MAYOR_IGUAL resolved as shift
-  ! shift/reduce conflict for MENOR_IGUAL resolved as shift
     PARC            reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
+    IGUAL_IGUAL     reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
+    NO_IGUAL        reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
+    MAYOR           reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
+    MENOR           reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
+    MAYOR_IGUAL     reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
+    MENOR_IGUAL     reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
+    AND             reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
+    OR              reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
     COMA            reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .)
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MAS             [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
   ! MENOS           [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
   ! MULTI           [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
   ! DIV             [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
   ! MODULO          [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
-  ! IGUAL_IGUAL     [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
-  ! NO_IGUAL        [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
-  ! MAYOR           [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
-  ! MENOR           [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
-  ! MAYOR_IGUAL     [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
-  ! MENOR_IGUAL     [ reduce using rule 16 (expresion -> expresion MENOR_IGUAL expresion .) ]
+  ! IGUAL_IGUAL     [ shift and go to state 25 ]
+  ! NO_IGUAL        [ shift and go to state 26 ]
+  ! MAYOR           [ shift and go to state 27 ]
+  ! MENOR           [ shift and go to state 28 ]
+  ! MAYOR_IGUAL     [ shift and go to state 29 ]
+  ! MENOR_IGUAL     [ shift and go to state 30 ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
 
 
-state 44
+state 48
+
+    (17) expresion -> expresion AND expresion .
+    (5) expresion -> expresion . MAS expresion
+    (6) expresion -> expresion . MENOS expresion
+    (7) expresion -> expresion . MULTI expresion
+    (8) expresion -> expresion . DIV expresion
+    (9) expresion -> expresion . MODULO expresion
+    (11) expresion -> expresion . IGUAL_IGUAL expresion
+    (12) expresion -> expresion . NO_IGUAL expresion
+    (13) expresion -> expresion . MAYOR expresion
+    (14) expresion -> expresion . MENOR expresion
+    (15) expresion -> expresion . MAYOR_IGUAL expresion
+    (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
+
+    PARC            reduce using rule 17 (expresion -> expresion AND expresion .)
+    AND             reduce using rule 17 (expresion -> expresion AND expresion .)
+    OR              reduce using rule 17 (expresion -> expresion AND expresion .)
+    COMA            reduce using rule 17 (expresion -> expresion AND expresion .)
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
+    IGUAL_IGUAL     shift and go to state 25
+    NO_IGUAL        shift and go to state 26
+    MAYOR           shift and go to state 27
+    MENOR           shift and go to state 28
+    MAYOR_IGUAL     shift and go to state 29
+    MENOR_IGUAL     shift and go to state 30
+
+  ! MAS             [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! MENOS           [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! MULTI           [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! DIV             [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! MODULO          [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! IGUAL_IGUAL     [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! NO_IGUAL        [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! MAYOR           [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! MENOR           [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! MAYOR_IGUAL     [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! MENOR_IGUAL     [ reduce using rule 17 (expresion -> expresion AND expresion .) ]
+  ! AND             [ shift and go to state 31 ]
+  ! OR              [ shift and go to state 32 ]
+
+
+state 49
+
+    (18) expresion -> expresion OR expresion .
+    (5) expresion -> expresion . MAS expresion
+    (6) expresion -> expresion . MENOS expresion
+    (7) expresion -> expresion . MULTI expresion
+    (8) expresion -> expresion . DIV expresion
+    (9) expresion -> expresion . MODULO expresion
+    (11) expresion -> expresion . IGUAL_IGUAL expresion
+    (12) expresion -> expresion . NO_IGUAL expresion
+    (13) expresion -> expresion . MAYOR expresion
+    (14) expresion -> expresion . MENOR expresion
+    (15) expresion -> expresion . MAYOR_IGUAL expresion
+    (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
+
+    PARC            reduce using rule 18 (expresion -> expresion OR expresion .)
+    OR              reduce using rule 18 (expresion -> expresion OR expresion .)
+    COMA            reduce using rule 18 (expresion -> expresion OR expresion .)
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
+    IGUAL_IGUAL     shift and go to state 25
+    NO_IGUAL        shift and go to state 26
+    MAYOR           shift and go to state 27
+    MENOR           shift and go to state 28
+    MAYOR_IGUAL     shift and go to state 29
+    MENOR_IGUAL     shift and go to state 30
+    AND             shift and go to state 31
+
+  ! MAS             [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! MENOS           [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! MULTI           [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! DIV             [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! MODULO          [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! IGUAL_IGUAL     [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! NO_IGUAL        [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! MAYOR           [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! MENOR           [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! MAYOR_IGUAL     [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! MENOR_IGUAL     [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! AND             [ reduce using rule 18 (expresion -> expresion OR expresion .) ]
+  ! OR              [ shift and go to state 32 ]
+
+
+state 50
 
     (10) expresion -> I64 DOS_PT DOS_PT . POW PARA expresion COMA expresion PARC
 
-    POW             shift and go to state 45
+    POW             shift and go to state 51
 
 
-state 45
+state 51
 
     (10) expresion -> I64 DOS_PT DOS_PT POW . PARA expresion COMA expresion PARC
 
-    PARA            shift and go to state 46
+    PARA            shift and go to state 52
 
 
-state 46
+state 52
 
     (10) expresion -> I64 DOS_PT DOS_PT POW PARA . expresion COMA expresion PARC
     (5) expresion -> . expresion MAS expresion
@@ -1351,24 +1689,28 @@ state 46
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 47
+    expresion                      shift and go to state 53
 
-state 47
+state 53
 
     (10) expresion -> I64 DOS_PT DOS_PT POW PARA expresion . COMA expresion PARC
     (5) expresion -> expresion . MAS expresion
@@ -1382,22 +1724,26 @@ state 47
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-    COMA            shift and go to state 48
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    COMA            shift and go to state 54
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
+    IGUAL_IGUAL     shift and go to state 25
+    NO_IGUAL        shift and go to state 26
+    MAYOR           shift and go to state 27
+    MENOR           shift and go to state 28
+    MAYOR_IGUAL     shift and go to state 29
+    MENOR_IGUAL     shift and go to state 30
+    AND             shift and go to state 31
+    OR              shift and go to state 32
 
 
-state 48
+state 54
 
     (10) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA . expresion PARC
     (5) expresion -> . expresion MAS expresion
@@ -1412,24 +1758,28 @@ state 48
     (14) expresion -> . expresion MENOR expresion
     (15) expresion -> . expresion MAYOR_IGUAL expresion
     (16) expresion -> . expresion MENOR_IGUAL expresion
-    (17) expresion -> . PARA expresion PARC
-    (18) expresion -> . MENOS expresion
-    (19) expresion -> . ENTERO
-    (20) expresion -> . DECIMAL
-    (21) expresion -> . TRUE
-    (22) expresion -> . FALSE
+    (17) expresion -> . expresion AND expresion
+    (18) expresion -> . expresion OR expresion
+    (19) expresion -> . NOT expresion
+    (20) expresion -> . PARA expresion PARC
+    (21) expresion -> . MENOS expresion
+    (22) expresion -> . ENTERO
+    (23) expresion -> . DECIMAL
+    (24) expresion -> . TRUE
+    (25) expresion -> . FALSE
 
     I64             shift and go to state 12
+    NOT             shift and go to state 13
     PARA            shift and go to state 9
     MENOS           shift and go to state 11
-    ENTERO          shift and go to state 13
-    DECIMAL         shift and go to state 14
-    TRUE            shift and go to state 15
-    FALSE           shift and go to state 16
+    ENTERO          shift and go to state 14
+    DECIMAL         shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
 
-    expresion                      shift and go to state 49
+    expresion                      shift and go to state 55
 
-state 49
+state 55
 
     (10) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion . PARC
     (5) expresion -> expresion . MAS expresion
@@ -1443,22 +1793,26 @@ state 49
     (14) expresion -> expresion . MENOR expresion
     (15) expresion -> expresion . MAYOR_IGUAL expresion
     (16) expresion -> expresion . MENOR_IGUAL expresion
+    (17) expresion -> expresion . AND expresion
+    (18) expresion -> expresion . OR expresion
 
-    PARC            shift and go to state 50
-    MAS             shift and go to state 19
-    MENOS           shift and go to state 20
-    MULTI           shift and go to state 21
-    DIV             shift and go to state 22
-    MODULO          shift and go to state 23
-    IGUAL_IGUAL     shift and go to state 24
-    NO_IGUAL        shift and go to state 25
-    MAYOR           shift and go to state 26
-    MENOR           shift and go to state 27
-    MAYOR_IGUAL     shift and go to state 28
-    MENOR_IGUAL     shift and go to state 29
+    PARC            shift and go to state 56
+    MAS             shift and go to state 20
+    MENOS           shift and go to state 21
+    MULTI           shift and go to state 22
+    DIV             shift and go to state 23
+    MODULO          shift and go to state 24
+    IGUAL_IGUAL     shift and go to state 25
+    NO_IGUAL        shift and go to state 26
+    MAYOR           shift and go to state 27
+    MENOR           shift and go to state 28
+    MAYOR_IGUAL     shift and go to state 29
+    MENOR_IGUAL     shift and go to state 30
+    AND             shift and go to state 31
+    OR              shift and go to state 32
 
 
-state 50
+state 56
 
     (10) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .
 
@@ -1474,74 +1828,7 @@ state 50
     MENOR           reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
     MAYOR_IGUAL     reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
     MENOR_IGUAL     reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    AND             reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    OR              reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
     COMA            reduce using rule 10 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for MAS in state 38 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 38 resolved as shift
-WARNING: shift/reduce conflict for MULTI in state 38 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 38 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 38 resolved as shift
-WARNING: shift/reduce conflict for IGUAL_IGUAL in state 38 resolved as shift
-WARNING: shift/reduce conflict for NO_IGUAL in state 38 resolved as shift
-WARNING: shift/reduce conflict for MAYOR in state 38 resolved as shift
-WARNING: shift/reduce conflict for MENOR in state 38 resolved as shift
-WARNING: shift/reduce conflict for MAYOR_IGUAL in state 38 resolved as shift
-WARNING: shift/reduce conflict for MENOR_IGUAL in state 38 resolved as shift
-WARNING: shift/reduce conflict for MAS in state 39 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 39 resolved as shift
-WARNING: shift/reduce conflict for MULTI in state 39 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 39 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 39 resolved as shift
-WARNING: shift/reduce conflict for IGUAL_IGUAL in state 39 resolved as shift
-WARNING: shift/reduce conflict for NO_IGUAL in state 39 resolved as shift
-WARNING: shift/reduce conflict for MAYOR in state 39 resolved as shift
-WARNING: shift/reduce conflict for MENOR in state 39 resolved as shift
-WARNING: shift/reduce conflict for MAYOR_IGUAL in state 39 resolved as shift
-WARNING: shift/reduce conflict for MENOR_IGUAL in state 39 resolved as shift
-WARNING: shift/reduce conflict for MAS in state 40 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 40 resolved as shift
-WARNING: shift/reduce conflict for MULTI in state 40 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 40 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 40 resolved as shift
-WARNING: shift/reduce conflict for IGUAL_IGUAL in state 40 resolved as shift
-WARNING: shift/reduce conflict for NO_IGUAL in state 40 resolved as shift
-WARNING: shift/reduce conflict for MAYOR in state 40 resolved as shift
-WARNING: shift/reduce conflict for MENOR in state 40 resolved as shift
-WARNING: shift/reduce conflict for MAYOR_IGUAL in state 40 resolved as shift
-WARNING: shift/reduce conflict for MENOR_IGUAL in state 40 resolved as shift
-WARNING: shift/reduce conflict for MAS in state 41 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 41 resolved as shift
-WARNING: shift/reduce conflict for MULTI in state 41 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 41 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 41 resolved as shift
-WARNING: shift/reduce conflict for IGUAL_IGUAL in state 41 resolved as shift
-WARNING: shift/reduce conflict for NO_IGUAL in state 41 resolved as shift
-WARNING: shift/reduce conflict for MAYOR in state 41 resolved as shift
-WARNING: shift/reduce conflict for MENOR in state 41 resolved as shift
-WARNING: shift/reduce conflict for MAYOR_IGUAL in state 41 resolved as shift
-WARNING: shift/reduce conflict for MENOR_IGUAL in state 41 resolved as shift
-WARNING: shift/reduce conflict for MAS in state 42 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 42 resolved as shift
-WARNING: shift/reduce conflict for MULTI in state 42 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 42 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 42 resolved as shift
-WARNING: shift/reduce conflict for IGUAL_IGUAL in state 42 resolved as shift
-WARNING: shift/reduce conflict for NO_IGUAL in state 42 resolved as shift
-WARNING: shift/reduce conflict for MAYOR in state 42 resolved as shift
-WARNING: shift/reduce conflict for MENOR in state 42 resolved as shift
-WARNING: shift/reduce conflict for MAYOR_IGUAL in state 42 resolved as shift
-WARNING: shift/reduce conflict for MENOR_IGUAL in state 42 resolved as shift
-WARNING: shift/reduce conflict for MAS in state 43 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 43 resolved as shift
-WARNING: shift/reduce conflict for MULTI in state 43 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 43 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 43 resolved as shift
-WARNING: shift/reduce conflict for IGUAL_IGUAL in state 43 resolved as shift
-WARNING: shift/reduce conflict for NO_IGUAL in state 43 resolved as shift
-WARNING: shift/reduce conflict for MAYOR in state 43 resolved as shift
-WARNING: shift/reduce conflict for MENOR in state 43 resolved as shift
-WARNING: shift/reduce conflict for MAYOR_IGUAL in state 43 resolved as shift
-WARNING: shift/reduce conflict for MENOR_IGUAL in state 43 resolved as shift

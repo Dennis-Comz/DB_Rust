@@ -27,7 +27,10 @@ tokens = [
             'MAYOR',
             'MENOR',
             'MAYOR_IGUAL',
-            'MENOR_IGUAL'
+            'MENOR_IGUAL',
+            'AND',
+            'OR',
+            'NOT'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
@@ -50,6 +53,9 @@ t_MAYOR = r'>'
 t_MENOR = r'<'
 t_MAYOR_IGUAL = r'>='
 t_MENOR_IGUAL = r'<='
+t_AND = r'&&'
+t_OR = r'\|\|'
+t_NOT = r'\!'
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'

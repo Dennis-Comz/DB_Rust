@@ -5,11 +5,16 @@ from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
 from Interpreter.Expresiones.Primitivo import Primitivo
 from Interpreter.AST.ast import Ast
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
+from Interpreter.Expresiones.Operaciones.Logicas import Logicas
 
 tokens = lexer.tokens
 
 # PRECEDENCIA
 precedence = (
+    ('left', 'OR'),
+    ('left', 'AND'),
+    ('right', 'NOT'),
+    ('left', 'IGUAL_IGUAL', 'NO_IGUAL', 'MENOR', 'MAYOR', 'MENOR_IGUAL', 'MAYOR_IGUAL'),
     ('left', 'MAS', 'MENOS'),
     ('left', 'MULTI', 'DIV', 'MODULO'),
     ('right', 'UNARIO')
@@ -26,6 +31,12 @@ precedence = (
 #           | expresion DIV expresion
 #           | expresion MODULO expresion
 #           | I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+#           | expresion IGUAL_IGUAL expresion
+#           | expresion NO_IGUAL expresion
+#           | expresion MAYOR expresion
+#           | expresion MENOR expresion
+#           | expresion MAYOR_IGUAL expresion
+#           | expresion MENOR_IGUAL expresion
 #           | PARA expresion PARC
 #           | MENOS expresion
 #           | ENTERO
@@ -86,6 +97,21 @@ def p_exp_relacionales(p):
     p[0] = Relacionales(exp1 = p[1], operador = p[2], exp2 = p[3], linea = p.lineno(1), columna = p.lexpos)
 # === FIN RELACIONALES ===
 
+# === INICIO LOGICAS ===
+def p_exp_logicas(p):
+    """
+    expresion : expresion AND expresion
+            | expresion OR expresion
+    """
+    p[0] = Logicas(exp1 = p[1], operador = p[2], exp2 = p[3], linea = p.lineno(1), columna = p.lexpos)
+
+def p_exp_not(p):
+    """
+    expresion : NOT expresion
+    """
+    p[0] = Logicas(exp1 = None, operador = p[1], exp2 = p[2], linea = p.lineno(1), columna = p.lexpos)
+
+# === FIN LOGICAS ===
 def p_exp_parentesis(p):
     """
     expresion : PARA expresion PARC
@@ -112,7 +138,10 @@ def p_exp_booleano(p):
     expresion : TRUE
             | FALSE
     """
-    p[0] = Primitivo(p[1], p.lineno(1), 0)
+    if p[1] == 'true':
+        p[0] = Primitivo(True, p.lineno(1), 0)
+    elif p[1] == 'false':
+        p[0] = Primitivo(False, p.lineno(1), 0)
 
 # Error sintactico
 def p_error(p):
