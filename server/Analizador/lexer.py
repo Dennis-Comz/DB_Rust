@@ -1,23 +1,33 @@
 # Declaracion de tokens
+from dataclasses import replace
 from plyFiles.ply import lex
 
 reservadas = {
     'print': 'PRINT',
     'i64': 'I64',
+    'f64': 'F64',
+    '&str': 'STR',
+    'String': 'STRING',
+    'char': 'CHAR',
     'pow': 'POW',
     'true': 'TRUE',
-    'false': 'FALSE'
+    'false': 'FALSE',
+    'to_owned': 'TO_OWNED',
+    'to_string': 'TO_STRING'
 }
 
 tokens = [
             'DECIMAL',
             'ENTERO',
+            'CARACTER',
+            'CADENA',
             'MAS',
             'MENOS',
             'MULTI',
             'DIV',
             'MODULO',
             'PT_COMA',
+            'PUNTO',
             'PARA',
             'PARC',
             'COMA',
@@ -45,6 +55,7 @@ t_MODULO = r'\%'
 t_PARA = r'\('
 t_PARC = r'\)'
 t_PT_COMA = r'\;'
+t_PUNTO = r'\.'
 t_COMA = r'\,'
 t_DOS_PT = r'\:'
 t_IGUAL_IGUAL = r'=='
@@ -57,12 +68,25 @@ t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'\!'
 
+def t_COMENTARIO(t):
+    r'\/\/.*'
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reservadas.get(t.value, 'ID')  # Check for reserved words
     return t
 
 #==== TIPOS DE DATO =====
+def t_CADENA(t):
+    r'\"[^\"\n]*\"'
+    t.value = t.value[1:-1]
+    return t
+
+def t_CARACTER(t):
+    r'\'[^\']\''
+    t.value = t.value[1:-1]
+    return t
+
 def t_DECIMAL(t):
     r"""\d+\.\d+"""
     try:

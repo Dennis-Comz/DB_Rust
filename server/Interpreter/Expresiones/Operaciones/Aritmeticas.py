@@ -24,6 +24,8 @@ class Aritmeticas(Operacion):
                     return self.exp1.getValor(driver, ts) + self.exp2.getValor(driver, ts)
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts) + self.exp2.getValor(driver, ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
+                    return self.exp1.getValor(driver, ts) + self.exp2.getValor(driver, ts)
             else:
                 print(f'No se pueden sumar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
 

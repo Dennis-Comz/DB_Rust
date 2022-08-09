@@ -4,8 +4,8 @@ from Interpreter.TablaSimbolos.Tipos import definirTipo
 
 class Primitivo(Expresion):
 
-    def __init__(self, primitivo, linea: int, columna: int):
-        self.tipo = None
+    def __init__(self, primitivo, tipo, linea: int, columna: int):
+        self.tipo = tipo
         self.primitivo = primitivo
         self.linea = linea
         self.columna = columna
@@ -19,5 +19,4 @@ class Primitivo(Expresion):
 
     def getValor(self, driver, ts):
         value = self.primitivo
-        self.tipo = definirTipo(value)
         return value

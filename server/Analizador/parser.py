@@ -6,6 +6,7 @@ from Interpreter.Expresiones.Primitivo import Primitivo
 from Interpreter.AST.ast import Ast
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
 from Interpreter.Expresiones.Operaciones.Logicas import Logicas
+from Interpreter.TablaSimbolos.Tipos import Tipos
 
 tokens = lexer.tokens
 
@@ -77,7 +78,7 @@ def p_exp_aritmeticas(p):
     """
     p[0] = Aritmeticas(exp1 = p[1], operador = p[2], exp2 = p[3], expU = False, linea = p.lineno(1), columna = p.lexpos)
 
-def p_exp_protencia(p):
+def p_exp_potencia(p):
     """
     expresion : I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     """
@@ -126,12 +127,36 @@ def p_exp_unario(p):
     p[0] = Aritmeticas(exp1=p[2], operador='UNARIO', exp2=None, expU=True, linea=p.lineno(1), columna = p.lexpos)
 
 
-def p_exp_numero(p):
+def p_exp_entero(p):
     """
     expresion :  ENTERO
-            | DECIMAL
     """
-    p[0] = Primitivo(p[1], p.lineno(1), 0)
+    p[0] = Primitivo(p[1], Tipos.INT64, p.lineno(1), 0)
+
+def p_exp_decimal(p):
+    """
+    expresion : DECIMAL
+    """
+    p[0] = Primitivo(p[1], Tipos.FLOAT64, p.lineno(1), 0)
+
+def p_exp_caracter(p):
+    """
+    expresion : CARACTER
+    """
+    p[0] = Primitivo(p[1], Tipos.CARACTER, p.lineno(1), 0)
+
+def p_exp_cadena_pointer(p):
+    """
+    expresion : CADENA
+    """
+    p[0] = Primitivo(p[1], Tipos.STR_POINTER, p.lineno(1), 0)
+    
+def p_exp_cadena_buffer(p):
+    """
+    expresion : CADENA PUNTO TO_OWNED PARA PARC
+            | CADENA PUNTO TO_STRING PARA PARC
+    """
+    p[0] = Primitivo(p[1], Tipos.STR_BUFFER, p.lineno(1), 0)
 
 def p_exp_booleano(p):
     """
@@ -139,9 +164,9 @@ def p_exp_booleano(p):
             | FALSE
     """
     if p[1] == 'true':
-        p[0] = Primitivo(True, p.lineno(1), 0)
+        p[0] = Primitivo(True, Tipos.BOOLEAN, p.lineno(1), 0)
     elif p[1] == 'false':
-        p[0] = Primitivo(False, p.lineno(1), 0)
+        p[0] = Primitivo(False, Tipos.BOOLEAN, p.lineno(1), 0)
 
 # Error sintactico
 def p_error(p):

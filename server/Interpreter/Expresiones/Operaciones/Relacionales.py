@@ -18,6 +18,14 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts) == self.exp2.getValor(driver,ts)
             elif tipo_exp1 == Tipos.BOOLEAN and tipo_exp2 == Tipos.BOOLEAN:
                 return self.exp1.getValor(driver, ts) == self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) == self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) == self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) == self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) == self.exp2.getValor(driver,ts)
             else:
                 print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
         elif self.operador == Operador.NO_IGUAL:
@@ -26,6 +34,14 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                 return self.exp1.getValor(driver, ts) != self.exp2.getValor(driver,ts)
             elif tipo_exp1 == Tipos.BOOLEAN and tipo_exp2 == Tipos.BOOLEAN:
+                return self.exp1.getValor(driver, ts) != self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) != self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) != self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) != self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) != self.exp2.getValor(driver,ts)
             else:
                 print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
@@ -37,6 +53,14 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts) > self.exp2.getValor(driver,ts)
             elif tipo_exp1 == Tipos.BOOLEAN and tipo_exp2 == Tipos.BOOLEAN:
                 return self.exp1.getValor(driver, ts) > self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) > self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) > self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) > self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) > self.exp2.getValor(driver,ts)
             else:
                 print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
         
@@ -46,6 +70,14 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                 return self.exp1.getValor(driver, ts) < self.exp2.getValor(driver,ts)
             elif tipo_exp1 == Tipos.BOOLEAN and tipo_exp2 == Tipos.BOOLEAN:
+                return self.exp1.getValor(driver, ts) < self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) < self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) < self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) < self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) < self.exp2.getValor(driver,ts)
             else:
                 print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
@@ -57,6 +89,14 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts) >= self.exp2.getValor(driver,ts)
             elif tipo_exp1 == Tipos.BOOLEAN and tipo_exp2 == Tipos.BOOLEAN:
                 return self.exp1.getValor(driver, ts) >= self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) >= self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) >= self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) >= self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) >= self.exp2.getValor(driver,ts)
             else:
                 print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
 
@@ -66,6 +106,14 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                 return self.exp1.getValor(driver, ts) <= self.exp2.getValor(driver,ts)
             elif tipo_exp1 == Tipos.BOOLEAN and tipo_exp2 == Tipos.BOOLEAN:
+                return self.exp1.getValor(driver, ts) <= self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_BUFFER:
+                return self.exp1.getValor(driver, ts) <= self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) <= self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
+                return self.exp1.getValor(driver, ts) <= self.exp2.getValor(driver,ts)
+            elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) <= self.exp2.getValor(driver,ts)
             else:
                 print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
