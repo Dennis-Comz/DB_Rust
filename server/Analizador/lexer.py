@@ -9,11 +9,14 @@ reservadas = {
     '&str': 'STR',
     'String': 'STRING',
     'char': 'CHAR',
+    'bool': 'BOOL',
     'pow': 'POW',
     'true': 'TRUE',
     'false': 'FALSE',
     'to_owned': 'TO_OWNED',
-    'to_string': 'TO_STRING'
+    'to_string': 'TO_STRING',
+    'let': 'LET',
+    'mut': 'MUT'
 }
 
 tokens = [
@@ -40,11 +43,13 @@ tokens = [
             'MENOR_IGUAL',
             'AND',
             'OR',
-            'NOT'
+            'NOT',
+            'IGUAL',
+            'ID'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
-t_ignore = '[\t ]'
+t_ignore = '[\r\t ]'
 
 # Tokens con Regex
 t_MAS = r'\+'
@@ -58,34 +63,16 @@ t_PT_COMA = r'\;'
 t_PUNTO = r'\.'
 t_COMA = r'\,'
 t_DOS_PT = r'\:'
-t_IGUAL_IGUAL = r'=='
-t_NO_IGUAL = r'!='
-t_MAYOR = r'>'
-t_MENOR = r'<'
-t_MAYOR_IGUAL = r'>='
-t_MENOR_IGUAL = r'<='
-t_AND = r'&&'
+t_IGUAL_IGUAL = r'\=\='
+t_NO_IGUAL = r'\!\='
+t_MAYOR = r'\>'
+t_MENOR = r'\<'
+t_MAYOR_IGUAL = r'\>\='
+t_MENOR_IGUAL = r'\<\='
+t_AND = r'\&\&'
 t_OR = r'\|\|'
 t_NOT = r'\!'
-
-def t_COMENTARIO(t):
-    r'\/\/.*'
-
-def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reservadas.get(t.value, 'ID')  # Check for reserved words
-    return t
-
-#==== TIPOS DE DATO =====
-def t_CADENA(t):
-    r'\"[^\"\n]*\"'
-    t.value = t.value[1:-1]
-    return t
-
-def t_CARACTER(t):
-    r'\'[^\']\''
-    t.value = t.value[1:-1]
-    return t
+t_IGUAL = r'\='
 
 def t_DECIMAL(t):
     r"""\d+\.\d+"""
@@ -100,12 +87,29 @@ def t_ENTERO(t):
     r"""\d+"""
     t.value = int(t.value)
     return t
-#==== FIN TIPOS DE DATO =====
 
-# === Fin token potencia ===
+def t_ID(t):
+    r"""[a-zA-Z_][a-zA-Z_0-9]*"""
+    t.type = reservadas.get(t.value, 'ID')
+    return t
+
+def t_CADENA(t):
+    r"""\"[^\"\n]*\""""
+    t.value = t.value[1:-1]
+    return t
+
+def t_CARACTER(t):
+    r"""\'[^\']\'"""
+    t.value = t.value[1:-1]
+    return t
+
+def t_COMENTARIO(t):
+    r"""\/\/.*"""
+
+
 # Ignora y hace una accion
 def t_ignorar_salto(t):
-    r'\n+'
+    r"""\n+"""
     t.lexer.lineno += t.value.count('\n')
 
 def find_column(input, token):

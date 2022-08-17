@@ -3,8 +3,8 @@ from enum import Enum
 
 class Simbolo:
 
-    def __init__(self, simbolo: int, tipo: Tipo, id: str, value):
-        self.value = value
+    def __init__(self, simbolo: int, tipo: Tipo, id: str, valor):
+        self.valor = valor
         self.id = id
         self.tipo = tipo
         self.simbolo = getSimbolo(simbolo)
