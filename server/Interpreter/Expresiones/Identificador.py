@@ -19,5 +19,5 @@ class Identificador(Expresion):
         if simbolo is not None:
             return simbolo.valor
         else:
-            driver.console(f"No se encontró el símbolo linea: {self.linea}, columna: {self.columna}")
+            driver.append(f"No se encontró el símbolo linea: {self.linea}, columna: {self.columna}")
             return

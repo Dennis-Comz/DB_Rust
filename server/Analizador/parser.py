@@ -40,6 +40,7 @@ precedence = (
 #           | LET ID DOS_PT tipo
 #           | LET ID IGUAL expresion
 #           | LET ID
+#           | ID IGUAL expresion
 # expresion : expresion MAS expresion
 #           | expresion MENOS expresion
 #           | expresion MULTI expresion
@@ -59,7 +60,6 @@ precedence = (
 #           | NOT expresion
 #           | expresion TO_OWNED PARA PARC
 #           | expresion TO_STRING PARA PARC
-#           | ID IGUAL expresion
 #           | CADENA
 #           | CARACTER
 #           | TRUE
@@ -107,63 +107,115 @@ def p_instruccion_declaracion(p):
     p[0] = Declaracion(
         True,
         p[3],
-        Simbolo(Simbolos.VARIABLE, p[5], p[3], p[7]),
+        Simbolo(Simbolos.VARIABLE, True, p[5], p[3], p[7]),
         p[5],
         p.lineno(1),
         0
     )
 
-# def p_declaracion_2(p):
-#     """
-#     declaracion : LET MUT ID DOS_PT tipo
-#     """
-#     p[0] = Declaracion(
-#         True,
-#         p[3],
-#         Simbolo(Simbolos.VARIABLE, p[5], p[3], None),
-#         p[5],
-#         p.lineno(1),
-#         0
-#     )
+def p_declaracion_2(p):
+    """
+    declaracion : LET MUT ID DOS_PT tipo
+    """
+    p[0] = Declaracion(
+        True,
+        p[3],
+        Simbolo(Simbolos.VARIABLE, True, p[3], p[5], None),
+        p[5],
+        p.lineno(1),
+        0
+    )
 
-# def p_instruccion_declaracion_asignacion(p):
-#     """
-#     instruccion : ID IGUAL expresion
-#     """
-#     p[0] = Declaracion(
-#         None,
-#         p[1],
-#         Simbolo(Simbolos.VARIABLE, p[5], p[3], None),
-#     )
-# def p_declaracion_3(p):
-#     """
-#     declaracion : LET MUT ID IGUAL expresion
-#     """
+def p_declaracion_3(p):
+    """
+    declaracion : LET MUT ID IGUAL expresion
+    """
+    p[0] = Declaracion(
+        True,
+        p[3],
+        Simbolo(Simbolos.VARIABLE, True, p[3], None, p[5]),
+        None,
+        p.lineno(1),
+        0
+    )
 
-# def p_declaracion_4(p):
-#     """
-#     declaracion : LET MUT ID
-#     """
+def p_declaracion_4(p):
+    """
+    declaracion : LET MUT ID
+    """
+    p[0] = Declaracion(
+        True,
+        p[3],
+        Simbolo(Simbolos.VARIABLE, True, p[3], None, None),
+        None,
+        p.lineno(1),
+        0
+    )
 
-# def p_declaracion_5(p):
-#     """
-#     declaracion : LET ID DOS_PT tipo IGUAL expresion
-#     """
+def p_declaracion_5(p):
+    """
+    declaracion : LET ID DOS_PT tipo IGUAL expresion
+    """
+    p[0] = Declaracion(
+        False,
+        p[2],
+        Simbolo(Simbolos.VARIABLE, False, p[2], p[4], p[6]),
+        p[4],
+        p.lineno(1),
+        0
+    )
 
-# def p_declaracion_6(p):
-#     """
-#     declaracion : LET ID DOS_PT tipo
-#     """
+def p_declaracion_6(p):
+    """
+    declaracion : LET ID DOS_PT tipo
+    """
+    p[0] = Declaracion(
+        False,
+        p[2],
+        Simbolo(Simbolos.VARIABLE, False, p[2], p[4], None),
+        p[4],
+        p.lineno(1),
+        0
+    )
 
-# def p_declaracion_7(p):
-#     """
-#     declaracion : LET ID IGUAL expresion
-#     """
+def p_declaracion_7(p):
+    """
+    declaracion : LET ID IGUAL expresion
+    """
+    p[0] = Declaracion(
+        False,
+        p[2],
+        Simbolo(Simbolos.VARIABLE, False, p[2], None, p[4]),
+        None,
+        p.lineno(1),
+        0
+    )
 
-# def p_declaracion_8(p):
-#     """
-#     declaracion : LET ID
-#     """
+def p_declaracion_8(p):
+    """
+    declaracion : LET ID
+    """
+    p[0] = Declaracion(
+        False,
+        p[2],
+        Simbolo(Simbolos.VARIABLE, False, p[2], None, None),
+        None,
+        p.lineno(1),
+        0
+    )
+
+def p__declaracion_asignacion(p):
+    """
+    declaracion : ID IGUAL expresion
+    """
+    p[0] = Declaracion(
+        False,
+        p[1],
+        Simbolo(Simbolos.VARIABLE, False, p[1], None, p[3]),
+        None,
+        p.lineno(1),
+        0
+    )
 # === FIN DIFERENTES DECLARACIONES ===
 
 def p_tipo(p):

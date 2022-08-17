@@ -7,7 +7,7 @@ from Interpreter.Driver.Driver import Driver
 
 class Declaracion(Instruccion):
 
-    def __init__(self, muteable: bool, identificador: str, variable: Simbolo, tipo: Tipo, linea: int, columna: int):
+    def __init__(self, muteable: bool, identificador: str, variable: Simbolo, tipo, linea: int, columna: int):
         self.muteable = muteable
         self.identificador = identificador
         self.variable = variable
@@ -16,22 +16,42 @@ class Declaracion(Instruccion):
         self.columna = columna
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
-        tipo_var = self.variable.valor.getTipo(driver, ts)
-        valor_var = self.variable.valor.getValor(driver, ts)
+        #Validacion de si la variable enviada existe
+        simbolo = ts.buscar(self.identificador)
+        #Validacion si la declaracion trae un valor
+        if self.variable.valor != None:
+            #Obteniendo tipo y valor de la variable
+            tipo_var = self.variable.valor.getTipo(driver, ts)
+            valor_var = self.variable.valor.getValor(driver, ts)
+            #Si el tipo se envia como None se le otorga un tipo en base al valor
+            if self.tipo == None:
+                self.tipo = tipo_var
+
+            if self.tipo != tipo_var:
+                driver.append(f"La variable no coincide con el tipo del valor linea: {self.linea}, columna: {self.columna}")
+                return
+
+            if simbolo is None:
+                #si aun no existe la variable se crea una
+                simbolo_nuevo = Simbolo(Simbolos.VARIABLE, self.muteable, self.identificador, self.tipo, valor_var)
+                ts.add(self.identificador, simbolo_nuevo)
+            else:
+                #si ya existe la variable se valida si esta puede cambiar su valor
+                if simbolo.valor == None and simbolo.mutable is False:
+                        simbolo.valor = valor_var
+                        ts.add(self.identificador, simbolo)
+                else:
+                    if simbolo.mutable:
+                        simbolo.valor = valor_var
+                        ts.add(self.identificador, simbolo)
+                    else:
+                        driver.append("Error semantico, no se le puede cambiar su valor a una variable no mutable")
+        else:
+            if simbolo is None:
+                #si aun no existe la variable se crea una
+                simbolo_nuevo = Simbolo(Simbolos.VARIABLE, self.muteable, self.identificador, self.tipo, None)
+                ts.add(self.identificador, simbolo_nuevo)
+            else:
+                driver.append("Error semantico, variable ya declarada")
 
         # Verificar el tipo
-        if self.tipo != tipo_var:
-            driver.append(f"La variable no coincide con el tipo del valor linea: {self.linea}, columna: {self.columna}")
-            return
-
-        # Agregar a tabla de simbolos
-        simbolo = ts.buscar(self.identificador)
-
-        if simbolo is None:
-            # Si no existe la variable
-            simbolo_nuevo = Simbolo(Simbolos.VARIABLE, self.tipo, self.identificador, valor_var)
-            ts.add(self.identificador, simbolo_nuevo)
-        else:
-            # Si ya existe la variable
-            simbolo.valor = valor_var
-            ts.add(self.identificador, simbolo)
