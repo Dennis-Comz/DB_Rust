@@ -6,7 +6,6 @@ reservadas = {
     'print': 'PRINT',
     'i64': 'I64',
     'f64': 'F64',
-    '&str': 'STR',
     'String': 'STRING',
     'char': 'CHAR',
     'bool': 'BOOL',
@@ -24,6 +23,7 @@ tokens = [
             'ENTERO',
             'CARACTER',
             'CADENA',
+            'STR',
             'MAS',
             'MENOS',
             'MULTI',
@@ -69,6 +69,7 @@ t_MAYOR = r'\>'
 t_MENOR = r'\<'
 t_MAYOR_IGUAL = r'\>\='
 t_MENOR_IGUAL = r'\<\='
+t_STR = r'\&str'
 t_AND = r'\&\&'
 t_OR = r'\|\|'
 t_NOT = r'\!'
@@ -85,7 +86,11 @@ def t_DECIMAL(t):
 
 def t_ENTERO(t):
     r"""\d+"""
-    t.value = int(t.value)
+    try:
+        t.value = int(t.value)
+    except ValueError:
+        print("Integer value too large %d", t.value)
+        t.value = 0
     return t
 
 def t_ID(t):
@@ -110,7 +115,7 @@ def t_COMENTARIO(t):
 # Ignora y hace una accion
 def t_ignorar_salto(t):
     r"""\n+"""
-    t.lexer.lineno += t.value.count('\n')
+    t.lexer.lineno += t.value.count("\n")
 
 def find_column(input, token):
      line_start = input.rfind('\n', 0, token.lexpos) + 1

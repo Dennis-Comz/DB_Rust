@@ -8,4 +8,11 @@ class Print(Instruccion):
         self.exp = exp
 
     def ejecutar(self, driver, ts):
-        driver.append(str(self.exp.getValor(driver, ts)))
+        cadena = str(self.exp.getValor(driver, ts))
+        cadena = cadena.replace("\\n", '\n')
+        cadena = cadena.replace("\\\\", '\\')
+        cadena = cadena.replace("\\\"", '\"')
+        cadena = cadena.replace("\\t", '\t')
+        cadena = cadena.replace("\\'", '\'')
+        if cadena != 'None':
+            driver.append(cadena)

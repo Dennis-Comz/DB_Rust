@@ -27,7 +27,8 @@ class Aritmeticas(Operacion):
             elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
                     return self.exp1.getValor(driver, ts) + self.exp2.getValor(driver, ts)
             else:
-                print(f'No se pueden sumar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden sumar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
+                return
 
         elif self.operador == Operador.RESTA:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -35,7 +36,8 @@ class Aritmeticas(Operacion):
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts) - self.exp2.getValor(driver, ts)
             else:
-                print(f'No se pueden restar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden restar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
+                return
 
         elif self.operador == Operador.MULTI:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -43,7 +45,8 @@ class Aritmeticas(Operacion):
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts) * self.exp2.getValor(driver, ts)
             else:
-                print(f'No se pueden multiplicar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden multiplicar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
+                return
 
         elif self.operador == Operador.DIV:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -51,7 +54,8 @@ class Aritmeticas(Operacion):
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts) / self.exp2.getValor(driver, ts)
             else:
-                print(f'No se pueden dividir {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden dividir {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
+                return
 
         elif self.operador == Operador.POTENCIA:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -59,7 +63,8 @@ class Aritmeticas(Operacion):
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts) ** self.exp2.getValor(driver, ts)
             else:
-                print(f'No se pueden elevar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden elevar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
+                return
 
         elif self.operador == Operador.MODULO:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -67,7 +72,9 @@ class Aritmeticas(Operacion):
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts) % self.exp2.getValor(driver, ts)
             else:
-                print(f'No se pueden operar modulo {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden operar modulo {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
+                return
 
         else:
-            print(f'La operacion {self.operador} no es soportado')
+            driver.append(f'La operacion {self.operador} no es soportado \n')
+            return

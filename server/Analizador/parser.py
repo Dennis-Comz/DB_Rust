@@ -110,7 +110,7 @@ def p_instruccion_declaracion(p):
         Simbolo(Simbolos.VARIABLE, True, p[5], p[3], p[7]),
         p[5],
         p.lineno(1),
-        0
+        p.lexpos(5)
     )
 
 def p_declaracion_2(p):
@@ -214,7 +214,7 @@ def p__declaracion_asignacion(p):
         Simbolo(Simbolos.VARIABLE, False, p[1], None, p[3]),
         None,
         p.lineno(1),
-        0
+        p.lexpos(1)
     )
 # === FIN DIFERENTES DECLARACIONES ===
 
@@ -288,13 +288,13 @@ def p_exp_logicas(p):
     expresion : expresion AND expresion
             | expresion OR expresion
     """
-    p[0] = Logicas(exp1 = p[1], operador = p[2], exp2 = p[3], linea = p.lineno(1), columna = p.lexpos)
+    p[0] = Logicas(exp1 = p[1], operador = p[2], exp2 = p[3], linea = p.lineno(1), columna = p.lexpos(1))
 
 def p_exp_not(p):
     """
     expresion : NOT expresion
     """
-    p[0] = Logicas(exp1 = None, operador = p[1], exp2 = p[2], linea = p.lineno(1), columna = p.lexpos)
+    p[0] = Logicas(exp1 = None, operador = p[1], exp2 = p[2], linea = p.lineno(1), columna = p.lexpos(1))
 
 # === FIN LOGICAS ===
 

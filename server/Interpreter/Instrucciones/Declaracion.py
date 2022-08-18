@@ -23,19 +23,15 @@ class Declaracion(Instruccion):
             #Obteniendo tipo y valor de la variable
             tipo_var = self.variable.valor.getTipo(driver, ts)
             valor_var = self.variable.valor.getValor(driver, ts)
-            #Si el tipo se envia como None se le otorga un tipo en base al valor
-            if self.tipo == None:
-                self.tipo = tipo_var
-
-            if self.tipo != tipo_var:
-                driver.append(f"La variable no coincide con el tipo del valor linea: {self.linea}, columna: {self.columna}")
-                return
 
             if simbolo is None:
                 #si aun no existe la variable se crea una
                 simbolo_nuevo = Simbolo(Simbolos.VARIABLE, self.muteable, self.identificador, self.tipo, valor_var)
                 ts.add(self.identificador, simbolo_nuevo)
             else:
+                if simbolo.tipo != None and simbolo.tipo != tipo_var:
+                    driver.append(f"La variable no coincide con el tipo del valor linea: {self.linea}, columna: {self.columna} \n")
+                    return
                 #si ya existe la variable se valida si esta puede cambiar su valor
                 if simbolo.valor == None and simbolo.mutable is False:
                         simbolo.valor = valor_var
@@ -43,15 +39,16 @@ class Declaracion(Instruccion):
                 else:
                     if simbolo.mutable:
                         simbolo.valor = valor_var
+                        simbolo.tipo = tipo_var
                         ts.add(self.identificador, simbolo)
                     else:
-                        driver.append("Error semantico, no se le puede cambiar su valor a una variable no mutable")
+                        driver.append("Error semantico, no se le puede cambiar su valor a una variable no mutable \n")
+                        return
         else:
             if simbolo is None:
                 #si aun no existe la variable se crea una
                 simbolo_nuevo = Simbolo(Simbolos.VARIABLE, self.muteable, self.identificador, self.tipo, None)
                 ts.add(self.identificador, simbolo_nuevo)
             else:
-                driver.append("Error semantico, variable ya declarada")
-
-        # Verificar el tipo
+                driver.append("Error semantico, variable ya declarada \n")
+                return
