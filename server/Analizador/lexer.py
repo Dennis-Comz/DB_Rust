@@ -15,7 +15,9 @@ reservadas = {
     'to_owned': 'TO_OWNED',
     'to_string': 'TO_STRING',
     'let': 'LET',
-    'mut': 'MUT'
+    'mut': 'MUT',
+    'if' : 'IF',
+    'else': 'ELSE'
 }
 
 tokens = [
@@ -45,7 +47,9 @@ tokens = [
             'OR',
             'NOT',
             'IGUAL',
-            'ID'
+            'ID',
+            'LLAVA',
+            'LLAVC'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
@@ -74,6 +78,8 @@ t_AND = r'\&\&'
 t_OR = r'\|\|'
 t_NOT = r'\!'
 t_IGUAL = r'\='
+t_LLAVA = r'\{'
+t_LLAVC = r'\}'
 
 def t_DECIMAL(t):
     r"""\d+\.\d+"""

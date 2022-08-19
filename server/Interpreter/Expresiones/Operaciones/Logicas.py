@@ -21,10 +21,10 @@ class Logicas(OperacionLogica):
                 elif self.operador == Operador.OR:
                     return self.exp1.getValor(driver, ts) or self.exp2.getValor(driver, ts)
             else:
-                print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
         else:
             if tipo_exp2 == Tipos.BOOLEAN:
                 if self.operador == Operador.NOT:
                     return not self.exp2.getValor(driver, ts)
             else:
-                print(f'No se puede negar {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se puede negar {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')

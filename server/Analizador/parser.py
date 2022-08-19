@@ -6,10 +6,12 @@ from Interpreter.TablaSimbolos.Tipos import Tipos
 from Interpreter.Expresiones.ToOwned import ToOwned
 from Interpreter.Expresiones.ToString import ToString
 from Interpreter.Expresiones.Primitivo import Primitivo
+from Interpreter.Instrucciones.Statement import Statement
 from Interpreter.Instrucciones.Declaracion import Declaracion
 from Interpreter.Expresiones.Identificador import Identificador
 from Interpreter.Expresiones.Operaciones.Logicas import Logicas
 from Interpreter.TablaSimbolos.Simbolo import Simbolo, Simbolos
+from Interpreter.Instrucciones.Condicionales.ClaseIf import ClaseIf
 from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
 
@@ -30,8 +32,10 @@ precedence = (
 # inicio : instrucciones
 # instrucciones: instrucciones instruccion PT_COMA
 #            | instruccion PT_COMA
-# instruccion : PRINT PARA expresion PARC
+# instruccion : print
 #           | declaracion
+#           | sent_if
+# print : PRINT PARA expresion PARC
 # declaracion : LET MUT ID DOS_PT tipo IGUAL expresion
 #           | LET MUT ID DOS_PT tipo
 #           | LET MUT ID IGUAL expresion
@@ -41,6 +45,12 @@ precedence = (
 #           | LET ID IGUAL expresion
 #           | LET ID
 #           | ID IGUAL expresion
+# sent_if : IF expresion statement sent_else
+# sent_else : ELSE statement
+#           | ELSE if
+#           |
+# statement : LLAVA instrucciones LLAVC
+#           | LLAVA LLAVC
 # expresion : expresion MAS expresion
 #           | expresion MENOS expresion
 #           | expresion MULTI expresion
@@ -91,6 +101,7 @@ def p_instruccion(p):
     """
     instruccion : print
                 | declaracion
+                | sent_if
     """
     p[0] = p[1]
 
@@ -100,6 +111,7 @@ def p_instruccion_print(p):
     """
     p[0] = Print(p[3], p.lineno(1), 0)
 
+# === INICIO DIFERENTES DECLARACIONES ===
 def p_instruccion_declaracion(p):
     """
     declaracion : LET MUT ID DOS_PT tipo IGUAL expresion
@@ -217,6 +229,37 @@ def p__declaracion_asignacion(p):
         p.lexpos(1)
     )
 # === FIN DIFERENTES DECLARACIONES ===
+
+def p_instruccion_sent_if(p):
+    """
+    sent_if : IF expresion statement sent_else
+    """
+    p[0] = ClaseIf(p[2], p[3], p[4], p.lineno(1), p.lexpos(1))
+
+def p_sent_else(p):
+    """
+    sent_else : ELSE statement
+            | ELSE sent_if
+    """
+    p[0] = p[2]
+
+def p_sent_else_vacio(p):
+    """
+    sent_else : 
+    """
+    p[0] = None
+
+def p_statement(p):
+    """
+    statement : LLAVA instrucciones LLAVC
+    """
+    p[0] = Statement(p[2], p.lineno(1), p.lexpos(1))
+
+def p_statement_vacio(p):
+    """
+    statement : LLAVA LLAVC
+    """
+    p[0] = Statement([], p.lineno(1), p.lexpos(1))
 
 def p_tipo(p):
     """

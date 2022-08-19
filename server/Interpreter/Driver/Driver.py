@@ -4,4 +4,4 @@ class Driver:
         self.console = ""
 
     def append(self, text):
-        self.console += text
+        self.console += text + '\n'

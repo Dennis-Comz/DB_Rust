@@ -27,7 +27,7 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) == self.exp2.getValor(driver,ts)
             else:
-                print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
         elif self.operador == Operador.NO_IGUAL:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
                 return self.exp1.getValor(driver, ts) != self.exp2.getValor(driver,ts)
@@ -44,7 +44,7 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) != self.exp2.getValor(driver,ts)
             else:
-                print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
         
         elif self.operador == Operador.MAYOR:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -62,7 +62,7 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) > self.exp2.getValor(driver,ts)
             else:
-                print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
         
         elif self.operador == Operador.MENOR:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -80,7 +80,7 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) < self.exp2.getValor(driver,ts)
             else:
-                print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
         
         elif self.operador == Operador.MAYOR_IGUAL:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -98,7 +98,7 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) >= self.exp2.getValor(driver,ts)
             else:
-                print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
 
         elif self.operador == Operador.MENOR_IGUAL:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -116,7 +116,7 @@ class Relacionales(OperacionRelacional):
             elif tipo_exp1 == Tipos.STR_POINTER and tipo_exp2 == Tipos.STR_BUFFER:
                 return self.exp1.getValor(driver, ts) <= self.exp2.getValor(driver,ts)
             else:
-                print(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}', self.exp2.linea, self.exp2.columna)
+                driver.append(f'No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna} \n')
         
         else:
-            print(f'La operacion {self.operador} no es soportado')
+            driver.append(f'La operacion {self.operador} no es soportado \n')

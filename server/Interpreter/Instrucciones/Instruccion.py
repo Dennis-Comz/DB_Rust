@@ -4,5 +4,5 @@ from Interpreter.Driver import Driver
 
 class Instruccion:
 
-    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos, ubicacion:None):
         pass

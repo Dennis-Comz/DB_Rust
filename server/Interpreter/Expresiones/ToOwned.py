@@ -19,6 +19,6 @@ class ToOwned(Expresion):
     def getValor(self, driver, ts):
         value = self.exp.getValor(driver, ts)
         if type(value) != str:
-            print("tipo no valido")
+            driver.append("tipo no valido \n")
             return;
         return value
