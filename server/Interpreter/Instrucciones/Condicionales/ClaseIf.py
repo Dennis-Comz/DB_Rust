@@ -13,6 +13,7 @@ class ClaseIf(Instruccion):
         self.columna = columna
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+        ts_local = TablaSimbolos(ts, 'IF')
         condicion = self.condicion.getValor(driver, ts)
         tipo_condicion = self.condicion.getTipo(driver, ts)
 
@@ -20,8 +21,6 @@ class ClaseIf(Instruccion):
             driver.append("Error Semantico, la condicion a evaluar no es booleana")
         
         if condicion:
-            self.cuerpo.ejecutar(driver, ts, 'IF')
+            self.cuerpo.ejecutar(driver, ts_local)
         elif self.Else != None:
-            self.Else.ejecutar(driver, ts, 'IF')
-
-        print(ts.env)
+            self.Else.ejecutar(driver, ts_local)

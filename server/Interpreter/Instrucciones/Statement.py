@@ -9,11 +9,6 @@ class Statement(Instruccion):
         self.linea = linea
         self.columna = columna
 
-    def ejecutar(self, driver: Driver, ts: TablaSimbolos, ubicacion: None):
-        ts_local = TablaSimbolos(ts, ubicacion)
-
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
         for ins in self.code:
-            ins.ejecutar(driver, ts_local)
-        
-        print(ts_local.tabla)
-        print(ts_local.env)
+            ins.ejecutar(driver, ts)

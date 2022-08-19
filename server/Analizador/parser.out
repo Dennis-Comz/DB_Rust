@@ -8,10 +8,10 @@ Grammar
 
 Rule 0     S' -> inicio
 Rule 1     inicio -> instrucciones
-Rule 2     instrucciones -> instrucciones instruccion PT_COMA
-Rule 3     instrucciones -> instruccion PT_COMA
-Rule 4     instruccion -> print
-Rule 5     instruccion -> declaracion
+Rule 2     instrucciones -> instrucciones instruccion
+Rule 3     instrucciones -> instruccion
+Rule 4     instruccion -> print PT_COMA
+Rule 5     instruccion -> declaracion PT_COMA
 Rule 6     instruccion -> sent_if
 Rule 7     print -> PRINT PARA expresion PARC
 Rule 8     declaracion -> LET MUT ID DOS_PT tipo IGUAL expresion
@@ -100,7 +100,7 @@ PARA                 : 7 33 34 45 46
 PARC                 : 7 33 34 45 46
 POW                  : 33
 PRINT                : 7
-PT_COMA              : 2 3
+PT_COMA              : 4 5
 PUNTO                : 45 46
 STR                  : 27
 STRING               : 26
@@ -128,10 +128,10 @@ state 0
 
     (0) S' -> . inicio
     (1) inicio -> . instrucciones
-    (2) instrucciones -> . instrucciones instruccion PT_COMA
-    (3) instrucciones -> . instruccion PT_COMA
-    (4) instruccion -> . print
-    (5) instruccion -> . declaracion
+    (2) instrucciones -> . instrucciones instruccion
+    (3) instrucciones -> . instruccion
+    (4) instruccion -> . print PT_COMA
+    (5) instruccion -> . declaracion PT_COMA
     (6) instruccion -> . sent_if
     (7) print -> . PRINT PARA expresion PARC
     (8) declaracion -> . LET MUT ID DOS_PT tipo IGUAL expresion
@@ -166,9 +166,9 @@ state 1
 state 2
 
     (1) inicio -> instrucciones .
-    (2) instrucciones -> instrucciones . instruccion PT_COMA
-    (4) instruccion -> . print
-    (5) instruccion -> . declaracion
+    (2) instrucciones -> instrucciones . instruccion
+    (4) instruccion -> . print PT_COMA
+    (5) instruccion -> . declaracion PT_COMA
     (6) instruccion -> . sent_if
     (7) print -> . PRINT PARA expresion PARC
     (8) declaracion -> . LET MUT ID DOS_PT tipo IGUAL expresion
@@ -195,37 +195,47 @@ state 2
 
 state 3
 
-    (3) instrucciones -> instruccion . PT_COMA
+    (3) instrucciones -> instruccion .
 
-    PT_COMA         shift and go to state 12
+    PRINT           reduce using rule 3 (instrucciones -> instruccion .)
+    LET             reduce using rule 3 (instrucciones -> instruccion .)
+    ID              reduce using rule 3 (instrucciones -> instruccion .)
+    IF              reduce using rule 3 (instrucciones -> instruccion .)
+    $end            reduce using rule 3 (instrucciones -> instruccion .)
+    LLAVC           reduce using rule 3 (instrucciones -> instruccion .)
 
 
 state 4
 
-    (4) instruccion -> print .
+    (4) instruccion -> print . PT_COMA
 
-    PT_COMA         reduce using rule 4 (instruccion -> print .)
+    PT_COMA         shift and go to state 12
 
 
 state 5
 
-    (5) instruccion -> declaracion .
+    (5) instruccion -> declaracion . PT_COMA
 
-    PT_COMA         reduce using rule 5 (instruccion -> declaracion .)
+    PT_COMA         shift and go to state 13
 
 
 state 6
 
     (6) instruccion -> sent_if .
 
-    PT_COMA         reduce using rule 6 (instruccion -> sent_if .)
+    PRINT           reduce using rule 6 (instruccion -> sent_if .)
+    LET             reduce using rule 6 (instruccion -> sent_if .)
+    ID              reduce using rule 6 (instruccion -> sent_if .)
+    IF              reduce using rule 6 (instruccion -> sent_if .)
+    $end            reduce using rule 6 (instruccion -> sent_if .)
+    LLAVC           reduce using rule 6 (instruccion -> sent_if .)
 
 
 state 7
 
     (7) print -> PRINT . PARA expresion PARC
 
-    PARA            shift and go to state 13
+    PARA            shift and go to state 14
 
 
 state 8
@@ -239,15 +249,15 @@ state 8
     (14) declaracion -> LET . ID IGUAL expresion
     (15) declaracion -> LET . ID
 
-    MUT             shift and go to state 14
-    ID              shift and go to state 15
+    MUT             shift and go to state 15
+    ID              shift and go to state 16
 
 
 state 9
 
     (16) declaracion -> ID . IGUAL expresion
 
-    IGUAL           shift and go to state 16
+    IGUAL           shift and go to state 17
 
 
 state 10
@@ -280,40 +290,57 @@ state 10
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
-    expresion                      shift and go to state 17
+    expresion                      shift and go to state 18
 
 state 11
 
-    (2) instrucciones -> instrucciones instruccion . PT_COMA
+    (2) instrucciones -> instrucciones instruccion .
 
-    PT_COMA         shift and go to state 29
+    PRINT           reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+    LET             reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+    ID              reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+    IF              reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+    $end            reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+    LLAVC           reduce using rule 2 (instrucciones -> instrucciones instruccion .)
 
 
 state 12
 
-    (3) instrucciones -> instruccion PT_COMA .
+    (4) instruccion -> print PT_COMA .
 
-    PRINT           reduce using rule 3 (instrucciones -> instruccion PT_COMA .)
-    LET             reduce using rule 3 (instrucciones -> instruccion PT_COMA .)
-    ID              reduce using rule 3 (instrucciones -> instruccion PT_COMA .)
-    IF              reduce using rule 3 (instrucciones -> instruccion PT_COMA .)
-    $end            reduce using rule 3 (instrucciones -> instruccion PT_COMA .)
-    LLAVC           reduce using rule 3 (instrucciones -> instruccion PT_COMA .)
+    PRINT           reduce using rule 4 (instruccion -> print PT_COMA .)
+    LET             reduce using rule 4 (instruccion -> print PT_COMA .)
+    ID              reduce using rule 4 (instruccion -> print PT_COMA .)
+    IF              reduce using rule 4 (instruccion -> print PT_COMA .)
+    $end            reduce using rule 4 (instruccion -> print PT_COMA .)
+    LLAVC           reduce using rule 4 (instruccion -> print PT_COMA .)
 
 
 state 13
+
+    (5) instruccion -> declaracion PT_COMA .
+
+    PRINT           reduce using rule 5 (instruccion -> declaracion PT_COMA .)
+    LET             reduce using rule 5 (instruccion -> declaracion PT_COMA .)
+    ID              reduce using rule 5 (instruccion -> declaracion PT_COMA .)
+    IF              reduce using rule 5 (instruccion -> declaracion PT_COMA .)
+    $end            reduce using rule 5 (instruccion -> declaracion PT_COMA .)
+    LLAVC           reduce using rule 5 (instruccion -> declaracion PT_COMA .)
+
+
+state 14
 
     (7) print -> PRINT PARA . expresion PARC
     (28) expresion -> . expresion MAS expresion
@@ -343,21 +370,21 @@ state 13
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 30
 
-state 14
+state 15
 
     (8) declaracion -> LET MUT . ID DOS_PT tipo IGUAL expresion
     (9) declaracion -> LET MUT . ID DOS_PT tipo
@@ -367,7 +394,7 @@ state 14
     ID              shift and go to state 31
 
 
-state 15
+state 16
 
     (12) declaracion -> LET ID . DOS_PT tipo IGUAL expresion
     (13) declaracion -> LET ID . DOS_PT tipo
@@ -379,7 +406,7 @@ state 15
     PT_COMA         reduce using rule 15 (declaracion -> LET ID .)
 
 
-state 16
+state 17
 
     (16) declaracion -> ID IGUAL . expresion
     (28) expresion -> . expresion MAS expresion
@@ -409,21 +436,21 @@ state 16
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 34
 
-state 17
+state 18
 
     (17) sent_if -> IF expresion . statement sent_else
     (28) expresion -> expresion . MAS expresion
@@ -462,7 +489,7 @@ state 17
 
     statement                      shift and go to state 35
 
-state 18
+state 19
 
     (35) expresion -> MENOS . expresion
     (28) expresion -> . expresion MAS expresion
@@ -492,28 +519,28 @@ state 18
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 51
 
-state 19
+state 20
 
     (33) expresion -> I64 . DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
 
     DOS_PT          shift and go to state 52
 
 
-state 20
+state 21
 
     (34) expresion -> PARA . expresion PARC
     (28) expresion -> . expresion MAS expresion
@@ -543,21 +570,21 @@ state 20
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 53
 
-state 21
+state 22
 
     (44) expresion -> NOT . expresion
     (28) expresion -> . expresion MAS expresion
@@ -587,21 +614,21 @@ state 21
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 54
 
-state 22
+state 23
 
     (47) expresion -> ENTERO .
 
@@ -625,7 +652,7 @@ state 22
     COMA            reduce using rule 47 (expresion -> ENTERO .)
 
 
-state 23
+state 24
 
     (48) expresion -> DECIMAL .
 
@@ -649,7 +676,7 @@ state 23
     COMA            reduce using rule 48 (expresion -> DECIMAL .)
 
 
-state 24
+state 25
 
     (49) expresion -> CARACTER .
 
@@ -673,7 +700,7 @@ state 24
     COMA            reduce using rule 49 (expresion -> CARACTER .)
 
 
-state 25
+state 26
 
     (50) expresion -> CADENA .
 
@@ -697,7 +724,7 @@ state 25
     COMA            reduce using rule 50 (expresion -> CADENA .)
 
 
-state 26
+state 27
 
     (51) expresion -> TRUE .
 
@@ -721,7 +748,7 @@ state 26
     COMA            reduce using rule 51 (expresion -> TRUE .)
 
 
-state 27
+state 28
 
     (52) expresion -> FALSE .
 
@@ -745,7 +772,7 @@ state 27
     COMA            reduce using rule 52 (expresion -> FALSE .)
 
 
-state 28
+state 29
 
     (53) expresion -> ID .
 
@@ -767,18 +794,6 @@ state 28
     PARC            reduce using rule 53 (expresion -> ID .)
     PT_COMA         reduce using rule 53 (expresion -> ID .)
     COMA            reduce using rule 53 (expresion -> ID .)
-
-
-state 29
-
-    (2) instrucciones -> instrucciones instruccion PT_COMA .
-
-    PRINT           reduce using rule 2 (instrucciones -> instrucciones instruccion PT_COMA .)
-    LET             reduce using rule 2 (instrucciones -> instrucciones instruccion PT_COMA .)
-    ID              reduce using rule 2 (instrucciones -> instrucciones instruccion PT_COMA .)
-    IF              reduce using rule 2 (instrucciones -> instrucciones instruccion PT_COMA .)
-    $end            reduce using rule 2 (instrucciones -> instrucciones instruccion PT_COMA .)
-    LLAVC           reduce using rule 2 (instrucciones -> instrucciones instruccion PT_COMA .)
 
 
 state 30
@@ -877,17 +892,17 @@ state 33
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 64
 
@@ -935,7 +950,12 @@ state 35
     (20) sent_else -> .
 
     ELSE            shift and go to state 66
-    PT_COMA         reduce using rule 20 (sent_else -> .)
+    PRINT           reduce using rule 20 (sent_else -> .)
+    LET             reduce using rule 20 (sent_else -> .)
+    ID              reduce using rule 20 (sent_else -> .)
+    IF              reduce using rule 20 (sent_else -> .)
+    $end            reduce using rule 20 (sent_else -> .)
+    LLAVC           reduce using rule 20 (sent_else -> .)
 
     sent_else                      shift and go to state 65
 
@@ -969,17 +989,17 @@ state 36
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 67
 
@@ -1013,17 +1033,17 @@ state 37
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 68
 
@@ -1057,17 +1077,17 @@ state 38
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 69
 
@@ -1101,17 +1121,17 @@ state 39
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 70
 
@@ -1145,17 +1165,17 @@ state 40
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 71
 
@@ -1189,17 +1209,17 @@ state 41
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 72
 
@@ -1233,17 +1253,17 @@ state 42
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 73
 
@@ -1277,17 +1297,17 @@ state 43
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 74
 
@@ -1321,17 +1341,17 @@ state 44
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 75
 
@@ -1365,17 +1385,17 @@ state 45
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 76
 
@@ -1409,17 +1429,17 @@ state 46
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 77
 
@@ -1453,17 +1473,17 @@ state 47
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 78
 
@@ -1497,17 +1517,17 @@ state 48
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 79
 
@@ -1524,10 +1544,10 @@ state 50
 
     (21) statement -> LLAVA . instrucciones LLAVC
     (22) statement -> LLAVA . LLAVC
-    (2) instrucciones -> . instrucciones instruccion PT_COMA
-    (3) instrucciones -> . instruccion PT_COMA
-    (4) instruccion -> . print
-    (5) instruccion -> . declaracion
+    (2) instrucciones -> . instrucciones instruccion
+    (3) instrucciones -> . instruccion
+    (4) instruccion -> . print PT_COMA
+    (5) instruccion -> . declaracion PT_COMA
     (6) instruccion -> . sent_if
     (7) print -> . PRINT PARA expresion PARC
     (8) declaracion -> . LET MUT ID DOS_PT tipo IGUAL expresion
@@ -1759,17 +1779,17 @@ state 57
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 87
 
@@ -1862,7 +1882,12 @@ state 65
 
     (17) sent_if -> IF expresion statement sent_else .
 
-    PT_COMA         reduce using rule 17 (sent_if -> IF expresion statement sent_else .)
+    PRINT           reduce using rule 17 (sent_if -> IF expresion statement sent_else .)
+    LET             reduce using rule 17 (sent_if -> IF expresion statement sent_else .)
+    ID              reduce using rule 17 (sent_if -> IF expresion statement sent_else .)
+    IF              reduce using rule 17 (sent_if -> IF expresion statement sent_else .)
+    $end            reduce using rule 17 (sent_if -> IF expresion statement sent_else .)
+    LLAVC           reduce using rule 17 (sent_if -> IF expresion statement sent_else .)
 
 
 state 66
@@ -2598,9 +2623,9 @@ state 81
 state 82
 
     (21) statement -> LLAVA instrucciones . LLAVC
-    (2) instrucciones -> instrucciones . instruccion PT_COMA
-    (4) instruccion -> . print
-    (5) instruccion -> . declaracion
+    (2) instrucciones -> instrucciones . instruccion
+    (4) instruccion -> . print PT_COMA
+    (5) instruccion -> . declaracion PT_COMA
     (6) instruccion -> . sent_if
     (7) print -> . PRINT PARA expresion PARC
     (8) declaracion -> . LET MUT ID DOS_PT tipo IGUAL expresion
@@ -2630,7 +2655,12 @@ state 83
     (22) statement -> LLAVA LLAVC .
 
     ELSE            reduce using rule 22 (statement -> LLAVA LLAVC .)
-    PT_COMA         reduce using rule 22 (statement -> LLAVA LLAVC .)
+    PRINT           reduce using rule 22 (statement -> LLAVA LLAVC .)
+    LET             reduce using rule 22 (statement -> LLAVA LLAVC .)
+    ID              reduce using rule 22 (statement -> LLAVA LLAVC .)
+    IF              reduce using rule 22 (statement -> LLAVA LLAVC .)
+    $end            reduce using rule 22 (statement -> LLAVA LLAVC .)
+    LLAVC           reduce using rule 22 (statement -> LLAVA LLAVC .)
 
 
 state 84
@@ -2739,17 +2769,17 @@ state 88
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 96
 
@@ -2757,14 +2787,24 @@ state 89
 
     (18) sent_else -> ELSE statement .
 
-    PT_COMA         reduce using rule 18 (sent_else -> ELSE statement .)
+    PRINT           reduce using rule 18 (sent_else -> ELSE statement .)
+    LET             reduce using rule 18 (sent_else -> ELSE statement .)
+    ID              reduce using rule 18 (sent_else -> ELSE statement .)
+    IF              reduce using rule 18 (sent_else -> ELSE statement .)
+    $end            reduce using rule 18 (sent_else -> ELSE statement .)
+    LLAVC           reduce using rule 18 (sent_else -> ELSE statement .)
 
 
 state 90
 
     (19) sent_else -> ELSE sent_if .
 
-    PT_COMA         reduce using rule 19 (sent_else -> ELSE sent_if .)
+    PRINT           reduce using rule 19 (sent_else -> ELSE sent_if .)
+    LET             reduce using rule 19 (sent_else -> ELSE sent_if .)
+    ID              reduce using rule 19 (sent_else -> ELSE sent_if .)
+    IF              reduce using rule 19 (sent_else -> ELSE sent_if .)
+    $end            reduce using rule 19 (sent_else -> ELSE sent_if .)
+    LLAVC           reduce using rule 19 (sent_else -> ELSE sent_if .)
 
 
 state 91
@@ -2786,7 +2826,12 @@ state 93
     (21) statement -> LLAVA instrucciones LLAVC .
 
     ELSE            reduce using rule 21 (statement -> LLAVA instrucciones LLAVC .)
-    PT_COMA         reduce using rule 21 (statement -> LLAVA instrucciones LLAVC .)
+    PRINT           reduce using rule 21 (statement -> LLAVA instrucciones LLAVC .)
+    LET             reduce using rule 21 (statement -> LLAVA instrucciones LLAVC .)
+    ID              reduce using rule 21 (statement -> LLAVA instrucciones LLAVC .)
+    IF              reduce using rule 21 (statement -> LLAVA instrucciones LLAVC .)
+    $end            reduce using rule 21 (statement -> LLAVA instrucciones LLAVC .)
+    LLAVC           reduce using rule 21 (statement -> LLAVA instrucciones LLAVC .)
 
 
 state 94
@@ -2826,17 +2871,17 @@ state 95
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 100
 
@@ -2954,17 +2999,17 @@ state 99
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 101
 
@@ -3070,17 +3115,17 @@ state 102
     (52) expresion -> . FALSE
     (53) expresion -> . ID
 
-    I64             shift and go to state 19
-    PARA            shift and go to state 20
-    MENOS           shift and go to state 18
-    NOT             shift and go to state 21
-    ENTERO          shift and go to state 22
-    DECIMAL         shift and go to state 23
-    CARACTER        shift and go to state 24
-    CADENA          shift and go to state 25
-    TRUE            shift and go to state 26
-    FALSE           shift and go to state 27
-    ID              shift and go to state 28
+    I64             shift and go to state 20
+    PARA            shift and go to state 21
+    MENOS           shift and go to state 19
+    NOT             shift and go to state 22
+    ENTERO          shift and go to state 23
+    DECIMAL         shift and go to state 24
+    CARACTER        shift and go to state 25
+    CADENA          shift and go to state 26
+    TRUE            shift and go to state 27
+    FALSE           shift and go to state 28
+    ID              shift and go to state 29
 
     expresion                      shift and go to state 103
 

@@ -26,6 +26,8 @@ class Declaracion(Instruccion):
 
             if simbolo is None:
                 #si aun no existe la variable se crea una
+                if self.tipo == None:
+                    self.tipo = tipo_var
                 simbolo_nuevo = Simbolo(Simbolos.VARIABLE, self.muteable, self.identificador, self.tipo, valor_var)
                 ts.add(self.identificador, simbolo_nuevo)
             else:

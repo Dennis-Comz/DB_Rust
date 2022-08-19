@@ -86,21 +86,21 @@ def p_inicio(p):
 
 def p_lista_instrucciones(p):
     """
-    instrucciones : instrucciones instruccion PT_COMA
+    instrucciones : instrucciones instruccion
     """
     p[1].append(p[2])
     p[0] = p[1]
 
 def p_instrucciones_instruccion(p):
     """
-    instrucciones : instruccion PT_COMA
+    instrucciones : instruccion
     """ 
     p[0] = [p[1]]
 
 def p_instruccion(p):
     """
-    instruccion : print
-                | declaracion
+    instruccion : print PT_COMA
+                | declaracion PT_COMA
                 | sent_if
     """
     p[0] = p[1]
@@ -240,14 +240,15 @@ def p_sent_else(p):
     """
     sent_else : ELSE statement
             | ELSE sent_if
+            |
     """
     p[0] = p[2]
 
-def p_sent_else_vacio(p):
-    """
-    sent_else : 
-    """
-    p[0] = None
+# def p_sent_else_vacio(p):
+#     """
+#     sent_else : 
+#     """
+#     p[0] = p
 
 def p_statement(p):
     """
