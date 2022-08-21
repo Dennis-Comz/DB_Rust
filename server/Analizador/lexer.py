@@ -17,7 +17,8 @@ reservadas = {
     'let': 'LET',
     'mut': 'MUT',
     'if' : 'IF',
-    'else': 'ELSE'
+    'else': 'ELSE',
+    'match' : 'MATCH'
 }
 
 tokens = [
@@ -47,9 +48,12 @@ tokens = [
             'OR',
             'NOT',
             'IGUAL',
+            'GUION_B',
             'ID',
             'LLAVA',
-            'LLAVC'
+            'LLAVC',
+            'ARROW',
+            'SEP_MATCH'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
@@ -67,6 +71,7 @@ t_PT_COMA = r'\;'
 t_PUNTO = r'\.'
 t_COMA = r'\,'
 t_DOS_PT = r'\:'
+t_ARROW = r'\=\>'
 t_IGUAL_IGUAL = r'\=\='
 t_NO_IGUAL = r'\!\='
 t_MAYOR = r'\>'
@@ -75,6 +80,7 @@ t_MAYOR_IGUAL = r'\>\='
 t_MENOR_IGUAL = r'\<\='
 t_STR = r'\&str'
 t_AND = r'\&\&'
+t_SEP_MATCH = r'\|'
 t_OR = r'\|\|'
 t_NOT = r'\!'
 t_IGUAL = r'\='
@@ -97,6 +103,11 @@ def t_ENTERO(t):
     except ValueError:
         print("Integer value too large %d", t.value)
         t.value = 0
+    return t
+
+def t_GUION_B(t):
+    r"""\_"""
+    t.type = reservadas.get(t.value, 'GUION_B')
     return t
 
 def t_ID(t):

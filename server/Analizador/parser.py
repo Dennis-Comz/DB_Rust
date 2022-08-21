@@ -1,3 +1,4 @@
+from email.policy import default
 from Analizador import lexer
 from plyFiles.ply.yacc import yacc
 from Interpreter.AST.ast import Ast
@@ -11,6 +12,8 @@ from Interpreter.Instrucciones.Declaracion import Declaracion
 from Interpreter.Expresiones.Identificador import Identificador
 from Interpreter.Expresiones.Operaciones.Logicas import Logicas
 from Interpreter.TablaSimbolos.Simbolo import Simbolo, Simbolos
+from Interpreter.Instrucciones.Coincidencia import Coincidencia
+from Interpreter.Instrucciones.Condicionales.Match import Match
 from Interpreter.Instrucciones.Condicionales.ClaseIf import ClaseIf
 from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
@@ -49,6 +52,16 @@ precedence = (
 # sent_else : ELSE statement
 #           | ELSE if
 #           |
+# match : MATCH expresion LLAVA coincidencias LLAVC
+# coincidencias : lista_coincidencias default
+# 		| default
+# lista_coincidencias : lista_coincidencias COMA coincidencia
+# 		| coincidencia COMA
+# coincidencia : lista_valores ARROW statement
+# 		| lista_valores ARROW instruccion
+# lista_valores : lista_valores SEP_MATCH expresion
+# 		| expresion
+# default : GUION_B ARROW instruccion
 # statement : LLAVA instrucciones LLAVC
 #           | LLAVA LLAVC
 # expresion : expresion MAS expresion
@@ -102,6 +115,7 @@ def p_instruccion(p):
     instruccion : print PT_COMA
                 | declaracion PT_COMA
                 | sent_if
+                | match
     """
     p[0] = p[1]
 
@@ -122,7 +136,7 @@ def p_instruccion_declaracion(p):
         Simbolo(Simbolos.VARIABLE, True, p[5], p[3], p[7]),
         p[5],
         p.lineno(1),
-        p.lexpos(5)
+        p.lexpos(1)
     )
 
 def p_declaracion_2(p):
@@ -135,7 +149,7 @@ def p_declaracion_2(p):
         Simbolo(Simbolos.VARIABLE, True, p[3], p[5], None),
         p[5],
         p.lineno(1),
-        0
+        p.lexpos(1)
     )
 
 def p_declaracion_3(p):
@@ -148,7 +162,7 @@ def p_declaracion_3(p):
         Simbolo(Simbolos.VARIABLE, True, p[3], None, p[5]),
         None,
         p.lineno(1),
-        0
+        p.lexpos(1)
     )
 
 def p_declaracion_4(p):
@@ -161,7 +175,7 @@ def p_declaracion_4(p):
         Simbolo(Simbolos.VARIABLE, True, p[3], None, None),
         None,
         p.lineno(1),
-        0
+        p.lexpos(1)
     )
 
 def p_declaracion_5(p):
@@ -174,7 +188,7 @@ def p_declaracion_5(p):
         Simbolo(Simbolos.VARIABLE, False, p[2], p[4], p[6]),
         p[4],
         p.lineno(1),
-        0
+        p.lexpos(1)
     )
 
 def p_declaracion_6(p):
@@ -187,7 +201,7 @@ def p_declaracion_6(p):
         Simbolo(Simbolos.VARIABLE, False, p[2], p[4], None),
         p[4],
         p.lineno(1),
-        0
+        p.lexpos(1)
     )
 
 def p_declaracion_7(p):
@@ -200,7 +214,7 @@ def p_declaracion_7(p):
         Simbolo(Simbolos.VARIABLE, False, p[2], None, p[4]),
         None,
         p.lineno(1),
-        0
+        p.lexpos(1)
     )
 
 def p_declaracion_8(p):
@@ -213,7 +227,7 @@ def p_declaracion_8(p):
         Simbolo(Simbolos.VARIABLE, False, p[2], None, None),
         None,
         p.lineno(1),
-        0
+        p.lexpos(1)
     )
 
 def p__declaracion_asignacion(p):
@@ -230,6 +244,7 @@ def p__declaracion_asignacion(p):
     )
 # === FIN DIFERENTES DECLARACIONES ===
 
+# === INICIO INSTRUCCION IF-ELSE ===
 def p_instruccion_sent_if(p):
     """
     sent_if : IF expresion statement sent_else
@@ -240,16 +255,67 @@ def p_sent_else(p):
     """
     sent_else : ELSE statement
             | ELSE sent_if
-            |
     """
     p[0] = p[2]
 
-# def p_sent_else_vacio(p):
-#     """
-#     sent_else : 
-#     """
-#     p[0] = p
+def p_sent_else_vacio(p):
+    """
+    sent_else : 
+    """
+    p[0] = None
 
+# === FIN INSTRUCCION IF-ELSE
+
+# === INICIO INSTRUCCION MATCH ===
+def p_instruccion_match(p):
+    """
+    match : MATCH expresion casos_match
+    """
+    p[0] = Match(p[2], p[3], p.lineno(1), p.lexpos(1))
+
+def p_match_casos(p):
+    """
+    casos_match : LLAVA lista_casos default LLAVC
+    """
+    p[2].append(p[3])
+    p[0] = p[2]
+
+def p_match_lista_casos(p):
+    """
+    lista_casos : lista_casos lista_expresiones ARROW statement COMA
+                | lista_casos lista_expresiones ARROW instruccion COMA
+    """
+    p[1].append(Coincidencia(p[2], p[4], p.lineno(1), p.lexpos(1)))
+    p[0] = p[1]
+
+def p_match_lista_casos_salida(p):
+    """
+    lista_casos : lista_expresiones ARROW statement COMA
+                | lista_expresiones ARROW instruccion COMA
+    """
+    p[0] = [Coincidencia(p[1], p[3], p.lineno(1), p.lexpos(1))]
+
+def p_match_lista_expresiones(p):
+    """
+    lista_expresiones : lista_expresiones SEP_MATCH expresion
+    """
+    p[1].append(p[3])
+    p[0] = p[1]
+
+def p_match_lista_expresiones2(p):
+    """
+    lista_expresiones : expresion
+    """
+    p[0] = [p[1]]
+
+def p_match_default(p):
+    """
+    default : GUION_B ARROW statement COMA
+            | GUION_B ARROW instruccion COMA
+    """
+    p[0] = Coincidencia([], p[3], p.lineno(1), p.lexpos(1))
+
+# === FIN INSTRUCCION MATCH ===
 def p_statement(p):
     """
     statement : LLAVA instrucciones LLAVC
@@ -269,6 +335,7 @@ def p_tipo(p):
         | BOOL
         | STRING
         | STR
+        | CHAR
     """
     if p[1] == 'i64':
         p[0] = Tipos.INT64
