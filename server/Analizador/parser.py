@@ -32,11 +32,13 @@ precedence = (
 
 # DEFINICION INICIO GRAMATICA
 # inicio : instrucciones
-# instrucciones: instrucciones instruccion PT_COMA
-#            | instruccion PT_COMA
-# instruccion : print
-#           | declaracion
+# instrucciones: instrucciones instruccion
+#            | instruccion
+# instruccion : print PT_COMA
+#           | declaracion PT_COMA
 #           | sent_if
+#           | match
+#           | expresion
 # print : PRINT PARA expresion PARC
 # declaracion : LET MUT ID DOS_PT tipo IGUAL expresion
 #           | LET MUT ID DOS_PT tipo
@@ -115,6 +117,7 @@ def p_instruccion(p):
                 | declaracion PT_COMA
                 | sent_if
                 | match
+                | expresion
     """
     p[0] = p[1]
 
@@ -145,6 +148,7 @@ def p_println_listexp_exit(p):
     p[0] = [p[1]]
     
 #=== FIN INSTRUCCION PRINTLN ===
+
 # === INICIO DIFERENTES DECLARACIONES ===
 def p_instruccion_declaracion(p):
     """
@@ -286,6 +290,28 @@ def p_sent_else_vacio(p):
 
 # === FIN INSTRUCCION IF-ELSE
 
+# === INICIO EXPRESION IF-ELSE ===
+def p_exp_if(p):
+    """
+    exp_if : IF expresion exp_statement exp_else
+    """
+    p[0] = ClaseIf(p[2], p[3], p[4], p.lineno(1), p.lexpos(1))
+
+def p_if_exp_else(p):
+    """
+    exp_else : ELSE exp_statement
+            | ELSE exp_if
+    """
+    p[0] = p[2]
+
+def p_exp_if_statement(p):
+    """
+    exp_statement : LLAVA instrucciones LLAVC
+    """
+    p[0] = Statement(p[2], p.lineno(1), p.lexpos(1))
+    
+# === FIN EXPRESION IF-ELSE ===
+
 # === INICIO INSTRUCCION MATCH ===
 def p_instruccion_match(p):
     """
@@ -336,6 +362,8 @@ def p_match_default(p):
     p[0] = Coincidencia([], p[3], p.lineno(1), p.lexpos(1))
 
 # === FIN INSTRUCCION MATCH ===
+
+# === INICIO STATEMENT ===
 def p_statement(p):
     """
     statement : LLAVA instrucciones LLAVC
@@ -347,6 +375,8 @@ def p_statement_vacio(p):
     statement : LLAVA LLAVC
     """
     p[0] = Statement([], p.lineno(1), p.lexpos(1))
+
+# === FIN STATEMENT ===
 
 def p_tipo(p):
     """
@@ -429,6 +459,13 @@ def p_exp_not(p):
 
 # === FIN LOGICAS ===
 
+def p_exp_if_exp(p):
+    """
+    expresion : exp_if
+    """
+    p[0] = p[1]
+
+# === INICIO TIPOS DE DATO ===
 def p_exp_cadena_toowned(p):
     """
     expresion : expresion PUNTO TO_OWNED PARA PARC
@@ -441,7 +478,12 @@ def p_exp_cadena_tostring(p):
     """
     p[0] = ToString(p[1], Tipos.STR_BUFFER, p.lineno(1), 0)
 
-# === INICIO TIPOS DE DATO ===
+def p_exp_cadena_pointer(p):
+    """
+    expresion : CADENA
+    """
+    p[0] = Primitivo(p[1], Tipos.STR_POINTER, p.lineno(1), 0)
+
 def p_exp_entero(p):
     """
     expresion :  ENTERO
@@ -459,12 +501,6 @@ def p_exp_caracter(p):
     expresion : CARACTER
     """
     p[0] = Primitivo(p[1], Tipos.CARACTER, p.lineno(1), 0)
-
-def p_exp_cadena_pointer(p):
-    """
-    expresion : CADENA
-    """
-    p[0] = Primitivo(p[1], Tipos.STR_POINTER, p.lineno(1), 0)
     
 def p_exp_booleano(p):
     """

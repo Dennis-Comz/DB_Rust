@@ -26,7 +26,27 @@ class ClaseIf(Instruccion, Expresion):
             self.Else.ejecutar(driver, ts_local)
     
     def getTipo(self, driver, ts):
-        return super().getTipo(driver, ts)
+        ts_local = TablaSimbolos(ts, 'IF')
+        condicion = self.condicion.getValor(driver, ts)
+        tipo_condicion = self.condicion.getTipo(driver, ts)
+
+        if tipo_condicion != Tipos.BOOLEAN:
+            driver.append("Error Semantico, la condicion a evaluar no es booleana")
+
+        if condicion:
+            return self.cuerpo.getTipo(driver, ts_local)
+        elif self.Else != None:
+            return self.Else.getTipo(driver, ts_local)
 
     def getValor(self, driver, ts):
-        return super().getValor(driver, ts)
+        ts_local = TablaSimbolos(ts, 'IF')
+        condicion = self.condicion.getValor(driver, ts)
+        tipo_condicion = self.condicion.getTipo(driver, ts)
+
+        if tipo_condicion != Tipos.BOOLEAN:
+            driver.append("Error Semantico, la condicion a evaluar no es booleana")
+
+        if condicion:
+            return self.cuerpo.getValor(driver, ts_local)
+        elif self.Else != None:
+            return self.Else.getValor(driver, ts_local)

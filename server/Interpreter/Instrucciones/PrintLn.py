@@ -30,7 +30,6 @@ class PrintLn(Instruccion):
         cad = ""
         contadorAbre = 0
         contadorCierra = 0
-        index = 0
         for i in range(0, len(cadena)):
             if cadena[i] == "{":
                 contadorAbre += 1

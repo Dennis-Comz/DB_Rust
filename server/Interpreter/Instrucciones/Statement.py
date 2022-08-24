@@ -15,7 +15,10 @@ class Statement(Instruccion, Expresion):
             ins.ejecutar(driver, ts)
 
     def getTipo(self, driver, ts):
-        return super().getTipo(driver, ts)
+        for ins in self.code:
+            if not ("Expresion" in str(type(ins))):
+                ins.ejecutar(driver, ts)
+        return self.code[(len(self.code)-1)].getTipo(driver, ts)
 
     def getValor(self, driver, ts):
-        return super().getValor(driver, ts)
+        return self.code[(len(self.code)-1)].getValor(driver, ts)
