@@ -445,13 +445,13 @@ def p_exp_aritmeticas(p):
            | expresion DIV expresion
            | expresion MODULO expresion
     """
-    p[0] = Aritmeticas(exp1 = p[1], operador = p[2], exp2 = p[3], expU = False, linea = p.lineno(1), columna = p.lexpos)
+    p[0] = Aritmeticas(exp1 = p[1], operador = p[2], exp2 = p[3], expU = False, linea = p.lineno(1), columna = p.lexpos(1))
 
 def p_exp_potencia(p):
     """
     expresion : I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
     """
-    p[0] = Aritmeticas(exp1 = p[6], operador = '^', exp2 = p[8], expU = False, linea = p.lineno(1), columna = p.lexpos)
+    p[0] = Aritmeticas(exp1 = p[6], operador = '^', exp2 = p[8], expU = False, linea = p.lineno(1), columna = p.lexpos(1))
 
 def p_exp_parentesis(p):
     """
@@ -464,7 +464,7 @@ def p_exp_unario(p):
     """
     expresion : MENOS expresion %prec UNARIO
     """
-    p[0] = Aritmeticas(exp1=p[2], operador='UNARIO', exp2=None, expU=True, linea=p.lineno(1), columna = p.lexpos)
+    p[0] = Aritmeticas(exp1=p[2], operador='UNARIO', exp2=None, expU=True, linea=p.lineno(1), columna = p.lexpos(1))
 
 # === FIN ARITMETICAS ===
 
@@ -478,7 +478,7 @@ def p_exp_relacionales(p):
             | expresion MAYOR_IGUAL expresion
             | expresion MENOR_IGUAL expresion
     """
-    p[0] = Relacionales(exp1 = p[1], operador = p[2], exp2 = p[3], linea = p.lineno(1), columna = p.lexpos)
+    p[0] = Relacionales(exp1 = p[1], operador = p[2], exp2 = p[3], linea = p.lineno(1), columna = p.lexpos(1))
 # === FIN RELACIONALES ===
 
 # === INICIO LOGICAS ===
@@ -514,37 +514,37 @@ def p_exp_cadena_toowned(p):
     """
     expresion : expresion PUNTO TO_OWNED PARA PARC
     """
-    p[0] = ToOwned(p[1], Tipos.STR_BUFFER, p.lineno(1), 0)
+    p[0] = ToOwned(p[1], Tipos.STR_BUFFER, p.lineno(1), p.lexpos(1))
 
 def p_exp_cadena_tostring(p):
     """
     expresion : expresion PUNTO TO_STRING PARA PARC
     """
-    p[0] = ToString(p[1], Tipos.STR_BUFFER, p.lineno(1), 0)
+    p[0] = ToString(p[1], Tipos.STR_BUFFER, p.lineno(1), p.lexpos(1))
 
 def p_exp_cadena_pointer(p):
     """
     expresion : CADENA
     """
-    p[0] = Primitivo(p[1], Tipos.STR_POINTER, p.lineno(1), 0)
+    p[0] = Primitivo(p[1], Tipos.STR_POINTER, p.lineno(1), p.lexpos(1))
 
 def p_exp_entero(p):
     """
     expresion :  ENTERO
     """
-    p[0] = Primitivo(p[1], Tipos.INT64, p.lineno(1), 0)
+    p[0] = Primitivo(p[1], Tipos.INT64, p.lineno(1), p.lexpos(1))
 
 def p_exp_decimal(p):
     """
     expresion : DECIMAL
     """
-    p[0] = Primitivo(p[1], Tipos.FLOAT64, p.lineno(1), 0)
+    p[0] = Primitivo(p[1], Tipos.FLOAT64, p.lineno(1), p.lexpos(1))
 
 def p_exp_caracter(p):
     """
     expresion : CARACTER
     """
-    p[0] = Primitivo(p[1], Tipos.CARACTER, p.lineno(1), 0)
+    p[0] = Primitivo(p[1], Tipos.CARACTER, p.lineno(1), p.lexpos(1))
     
 def p_exp_booleano(p):
     """
@@ -552,15 +552,15 @@ def p_exp_booleano(p):
             | FALSE
     """
     if p[1] == 'true':
-        p[0] = Primitivo(True, Tipos.BOOLEAN, p.lineno(1), 0)
+        p[0] = Primitivo(True, Tipos.BOOLEAN, p.lineno(1), p.lexpos(1))
     elif p[1] == 'false':
-        p[0] = Primitivo(False, Tipos.BOOLEAN, p.lineno(1), 0)
+        p[0] = Primitivo(False, Tipos.BOOLEAN, p.lineno(1), p.lexpos(1))
 
 def p_exp_identificador(p):
     """
     expresion : ID
     """
-    p[0] = Identificador(p[1], p.lineno(1), 0)
+    p[0] = Identificador(p[1], p.lineno(1), p.lexpos(1))
 
 
 # === FIN TIPOS DE DATO ===

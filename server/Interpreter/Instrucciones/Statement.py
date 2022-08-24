@@ -1,3 +1,4 @@
+import traceback
 from Interpreter.Expresiones.Expresion import Expresion
 from Interpreter.Instrucciones.Instruccion import Instruccion
 from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos

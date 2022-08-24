@@ -1,3 +1,4 @@
+import traceback
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from Analizador.parser import parser
@@ -24,7 +25,10 @@ def interpretar():
         ts = TablaSimbolos(None, 'Global')
         driver = Driver()
 
-        ast.ejecutar(driver, ts)
+        try:
+            ast.ejecutar(driver, ts)
+        except: 
+            traceback.print_exc()
 
         if driver.console == 'None':
             driver.console = "La entrada tiene errores."
