@@ -1,21 +1,25 @@
-from typing import List
 from Interpreter.Expresiones.Expresion import Expresion
 from Interpreter.Instrucciones.Instruccion import Instruccion
 from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
 from Interpreter.TablaSimbolos.Tipos import Tipos
 from Interpreter.Driver.Driver import Driver
 
-class Coincidencia(Instruccion):
-    def __init__(self, valores, cuerpo: Instruccion, linea: int, columna: int):
+class Coincidencia(Instruccion, Expresion):
+    def __init__(self, valores, cuerpo, linea: int, columna: int):
         self.valores = valores
         self.cuerpo = cuerpo
         self.linea = linea
         self.columna = columna
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
-        
         self.cuerpo.ejecutar(driver, ts);
     
+    def getTipo(self, driver, ts):
+        return self.cuerpo.getTipo(driver, ts)
+
+    def getValor(self, driver, ts):
+        return self.cuerpo.getValor(driver, ts)
+
     def getValores(self, driver, ts):
         vals = []
         

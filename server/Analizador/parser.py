@@ -309,7 +309,7 @@ def p_exp_if_statement(p):
     exp_statement : LLAVA instrucciones LLAVC
     """
     p[0] = Statement(p[2], p.lineno(1), p.lexpos(1))
-    
+
 # === FIN EXPRESION IF-ELSE ===
 
 # === INICIO INSTRUCCION MATCH ===
@@ -362,6 +362,44 @@ def p_match_default(p):
     p[0] = Coincidencia([], p[3], p.lineno(1), p.lexpos(1))
 
 # === FIN INSTRUCCION MATCH ===
+
+# === INICIO EXPRESION MATCH ===
+def p_expresion_match(p):
+    """
+    exp_match : MATCH expresion exp_casos_match
+    """
+    p[0] = Match(p[2], p[3], p.lineno(1), p.lexpos(1))
+
+def p_match_expcasos(p):
+    """
+    exp_casos_match : LLAVA exp_lista_casos exp_default LLAVC
+    """
+    p[2].append(p[3])
+    p[0] = p[2]
+
+def p_match_explista_casos(p):
+    """
+    exp_lista_casos : exp_lista_casos lista_expresiones ARROW statement COMA
+                | exp_lista_casos lista_expresiones ARROW expresion COMA
+    """
+    p[1].append(Coincidencia(p[2], p[4], p.lineno(1), p.lexpos(1)))
+    p[0] = p[1]
+
+def p_match_explista_casos_salida(p):
+    """
+    exp_lista_casos : lista_expresiones ARROW statement COMA
+                | lista_expresiones ARROW expresion COMA
+    """
+    p[0] = [Coincidencia(p[1], p[3], p.lineno(1), p.lexpos(1))]
+
+def p_match_expdefault(p):
+    """
+    exp_default : GUION_B ARROW statement COMA
+            | GUION_B ARROW expresion COMA
+    """
+    p[0] = Coincidencia([], p[3], p.lineno(1), p.lexpos(1))
+
+# === FIN EXPRESION MATCH
 
 # === INICIO STATEMENT ===
 def p_statement(p):
@@ -462,6 +500,12 @@ def p_exp_not(p):
 def p_exp_if_exp(p):
     """
     expresion : exp_if
+    """
+    p[0] = p[1]
+
+def p_exp_match_exp(p):
+    """
+    expresion : exp_match
     """
     p[0] = p[1]
 
