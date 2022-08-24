@@ -12,3 +12,4 @@ class Statement(Instruccion):
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
         for ins in self.code:
             ins.ejecutar(driver, ts)
+            
