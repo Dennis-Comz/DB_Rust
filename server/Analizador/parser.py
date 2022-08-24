@@ -1,8 +1,7 @@
-from email.policy import default
 from Analizador import lexer
 from plyFiles.ply.yacc import yacc
 from Interpreter.AST.ast import Ast
-from Interpreter.Instrucciones.Print import Print
+from Interpreter.Instrucciones.PrintLn import PrintLn
 from Interpreter.TablaSimbolos.Tipos import Tipos
 from Interpreter.Expresiones.ToOwned import ToOwned
 from Interpreter.Expresiones.ToString import ToString
@@ -112,19 +111,40 @@ def p_instrucciones_instruccion(p):
 
 def p_instruccion(p):
     """
-    instruccion : print PT_COMA
+    instruccion : prints PT_COMA
                 | declaracion PT_COMA
                 | sent_if
                 | match
     """
     p[0] = p[1]
 
-def p_instruccion_print(p):
+#=== INICIO INSTRUCCION PRINTLN ===
+def p_instruccion_println(p):
     """
-    print : PRINT PARA expresion PARC
+    prints : PRINTLN ADMIRACION PARA CADENA COMA list_exp PARC
     """
-    p[0] = Print(p[3], p.lineno(1), 0)
+    p[0] = PrintLn(Primitivo(p[4], Tipos.STR_POINTER, p.lineno(1), p.lexpos(1)), p[6], p.lineno(1), p.lexpos(1))
 
+def p_instruccion_println_cads(p):
+    """
+    prints : PRINTLN ADMIRACION PARA CADENA PARC
+    """
+    p[0] = PrintLn(Primitivo(p[4], Tipos.STR_POINTER, p.lineno(1), p.lexpos(1)), [], p.lineno(1), p.lexpos(1))
+
+def p_println_listexp(p):
+    """
+    list_exp : list_exp COMA expresion
+    """
+    p[1].append(p[3])
+    p[0] = p[1]
+
+def p_println_listexp_exit(p):
+    """
+    list_exp : expresion
+    """
+    p[0] = [p[1]]
+    
+#=== FIN INSTRUCCION PRINTLN ===
 # === INICIO DIFERENTES DECLARACIONES ===
 def p_instruccion_declaracion(p):
     """

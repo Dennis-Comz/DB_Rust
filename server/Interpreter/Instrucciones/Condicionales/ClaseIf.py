@@ -4,7 +4,7 @@ from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
 from Interpreter.TablaSimbolos.Tipos import Tipos
 from Interpreter.Driver.Driver import Driver
 
-class ClaseIf(Instruccion):
+class ClaseIf(Instruccion, Expresion):
     def __init__(self, condicion: Expresion, cuerpo: Instruccion, Else, linea: int, columna: int):
         self.condicion = condicion
         self.cuerpo = cuerpo
@@ -24,3 +24,9 @@ class ClaseIf(Instruccion):
             self.cuerpo.ejecutar(driver, ts_local)
         elif self.Else != None:
             self.Else.ejecutar(driver, ts_local)
+    
+    def getTipo(self, driver, ts):
+        return super().getTipo(driver, ts)
+
+    def getValor(self, driver, ts):
+        return super().getValor(driver, ts)

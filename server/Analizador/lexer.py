@@ -3,7 +3,7 @@ from dataclasses import replace
 from plyFiles.ply import lex
 
 reservadas = {
-    'print': 'PRINT',
+    'println': 'PRINTLN',
     'i64': 'I64',
     'f64': 'F64',
     'String': 'STRING',
@@ -53,7 +53,8 @@ tokens = [
             'LLAVA',
             'LLAVC',
             'ARROW',
-            'SEP_MATCH'
+            'SEP_MATCH',
+            'ADMIRACION'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
@@ -73,6 +74,7 @@ t_COMA = r'\,'
 t_DOS_PT = r'\:'
 t_ARROW = r'\=\>'
 t_IGUAL_IGUAL = r'\=\='
+t_ADMIRACION = r'\!'
 t_NO_IGUAL = r'\!\='
 t_MAYOR = r'\>'
 t_MENOR = r'\<'
