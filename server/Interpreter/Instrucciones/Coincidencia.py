@@ -12,7 +12,8 @@ class Coincidencia(Instruccion, Expresion):
         self.columna = columna
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
-        self.cuerpo.ejecutar(driver, ts);
+        if getattr(self.cuerpo, "ejecutar", None) != None:
+            self.cuerpo.ejecutar(driver, ts);
     
     def getTipo(self, driver, ts):
         return self.cuerpo.getTipo(driver, ts)

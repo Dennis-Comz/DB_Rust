@@ -17,7 +17,7 @@ class Statement(Instruccion, Expresion):
 
     def getTipo(self, driver, ts):
         for ins in self.code:
-            if not ("Expresion" in str(type(ins))):
+            if getattr(ins, "ejecutar", None) != None:
                 ins.ejecutar(driver, ts)
         return self.code[(len(self.code)-1)].getTipo(driver, ts)
 

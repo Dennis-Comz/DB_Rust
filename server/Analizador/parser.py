@@ -435,6 +435,8 @@ def p_tipo(p):
         p[0] = Tipos.STR_BUFFER
     elif p[1] == '&str':
         p[0] = Tipos.STR_POINTER
+    elif p[1] == 'char':
+        p[0] = Tipos.CARACTER
 
 # === INICIO ARITMETICAS
 def p_exp_aritmeticas(p):
