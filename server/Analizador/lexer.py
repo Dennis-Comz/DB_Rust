@@ -18,7 +18,10 @@ reservadas = {
     'mut': 'MUT',
     'if' : 'IF',
     'else': 'ELSE',
-    'match' : 'MATCH'
+    'match' : 'MATCH',
+    'abs' : 'ABSOLUTO',
+    'sqrt' : 'RAIZ',
+    'as' : 'AS'
 }
 
 tokens = [

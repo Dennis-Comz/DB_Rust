@@ -1,24 +1,21 @@
 from Interpreter.Expresiones.Expresion import Expresion
 from Interpreter.TablaSimbolos.Tipos import definirTipo
 
-class ToString(Expresion):
+class Absoluto(Expresion):
 
-    def __init__(self, exp: Expresion, tipo, linea, columna):
+    def __init__(self, exp: Expresion, linea, columna):
         self.exp = exp
-        self.tipo = tipo
         self.linea = linea
         self.columna = columna
     
     def getTipo(self, driver, ts):
-        if self.tipo is None:
-            value = self.getValor(driver, ts)
-            return definirTipo(value)
-        else:
-            return self.tipo
+        return self.exp.getTipo(driver, ts)
 
     def getValor(self, driver, ts):
         value = self.exp.getValor(driver, ts)
-        if type(value) != str:
-            driver.append("tipo no valido \n")
+        if type(value) != int and type(value) != float:
+            driver.append("tipo no valido")
             return
+        if value < 0:
+            value = value * (-1)
         return value

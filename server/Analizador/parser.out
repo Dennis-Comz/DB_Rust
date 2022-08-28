@@ -75,11 +75,17 @@ Rule 69    expresion -> TRUE
 Rule 70    expresion -> FALSE
 Rule 71    expresion -> expresion PUNTO TO_OWNED PARA PARC
 Rule 72    expresion -> expresion PUNTO TO_STRING PARA PARC
+Rule 73    expresion -> expresion PUNTO ABSOLUTO PARA PARC
+Rule 74    expresion -> expresion PUNTO RAIZ PARA PARC
+Rule 75    expresion -> expresion AS F64
+Rule 76    expresion -> expresion AS I64
 
 Terminals, with rules where they appear
 
+ABSOLUTO             : 73
 AND                  : 61
 ARROW                : 31 32 33 34 37 38
+AS                   : 75 76
 BOOL                 : 43
 CADENA               : 9 10 67
 CARACTER             : 68
@@ -90,10 +96,10 @@ DIV                  : 51
 DOS_PT               : 13 14 17 18 53 53
 ELSE                 : 26 27
 ENTERO               : 64
-F64                  : 42
+F64                  : 42 75
 FALSE                : 70
 GUION_B              : 37 38
-I64                  : 41 53
+I64                  : 41 53 76
 ID                   : 13 14 15 16 17 18 19 20 21 66
 IF                   : 25
 IGUAL                : 13 15 17 19 21
@@ -114,12 +120,13 @@ MUT                  : 13 14 15 16
 NOT                  : 9 10 63
 NO_IGUAL             : 56
 OR                   : 62
-PARA                 : 9 10 53 54 71 72
-PARC                 : 9 10 53 54 71 72
+PARA                 : 9 10 53 54 71 72 73 74
+PARC                 : 9 10 53 54 71 72 73 74
 POW                  : 53
 PRINTLN              : 9 10
 PT_COMA              : 4 5
-PUNTO                : 71 72
+PUNTO                : 71 72 73 74
+RAIZ                 : 74
 SEP_MATCH            : 35
 STR                  : 45
 STRING               : 44
@@ -133,7 +140,7 @@ Nonterminals, with rules where they appear
 casos_match          : 29
 declaracion          : 5
 default              : 30
-expresion            : 8 11 12 22 25 29 35 36 47 48 48 49 49 50 50 51 51 52 52 53 53 54 55 55 56 56 57 57 58 58 59 59 60 60 61 61 62 62 63 71 72
+expresion            : 8 11 12 22 25 29 35 36 47 48 48 49 49 50 50 51 51 52 52 53 53 54 55 55 56 56 57 57 58 58 59 59 60 60 61 61 62 62 63 71 72 73 74 75 76
 inicio               : 0
 instruccion          : 2 3 32 34 38
 instrucciones        : 1 2 39
@@ -200,6 +207,10 @@ state 0
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     PRINTLN         shift and go to state 9
     LET             shift and go to state 13
@@ -280,6 +291,10 @@ state 2
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     $end            reduce using rule 1 (inicio -> instrucciones .)
     PRINTLN         shift and go to state 9
@@ -408,6 +423,10 @@ state 8
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
   ! shift/reduce conflict for MENOS resolved as shift
     PRINTLN         reduce using rule 8 (instruccion -> expresion .)
@@ -441,6 +460,7 @@ state 8
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
   ! MENOS           [ reduce using rule 8 (instruccion -> expresion .) ]
 
@@ -450,7 +470,7 @@ state 9
     (9) prints -> PRINTLN . NOT PARA CADENA COMA list_exp PARC
     (10) prints -> PRINTLN . NOT PARA CADENA PARC
 
-    NOT             shift and go to state 41
+    NOT             shift and go to state 42
 
 
 state 10
@@ -482,6 +502,10 @@ state 10
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -489,13 +513,13 @@ state 10
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 42
+    expresion                      shift and go to state 43
 
 state 11
 
@@ -526,6 +550,10 @@ state 11
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -533,13 +561,13 @@ state 11
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 44
+    expresion                      shift and go to state 45
 
 state 12
 
@@ -559,6 +587,7 @@ state 12
     AND             reduce using rule 67 (expresion -> CADENA .)
     OR              reduce using rule 67 (expresion -> CADENA .)
     PUNTO           reduce using rule 67 (expresion -> CADENA .)
+    AS              reduce using rule 67 (expresion -> CADENA .)
     PRINTLN         reduce using rule 67 (expresion -> CADENA .)
     LET             reduce using rule 67 (expresion -> CADENA .)
     ID              reduce using rule 67 (expresion -> CADENA .)
@@ -594,8 +623,8 @@ state 13
     (19) declaracion -> LET . ID IGUAL valores
     (20) declaracion -> LET . ID
 
-    MUT             shift and go to state 45
-    ID              shift and go to state 46
+    MUT             shift and go to state 46
+    ID              shift and go to state 47
 
 
 state 14
@@ -603,7 +632,7 @@ state 14
     (21) declaracion -> ID . IGUAL valores
     (66) expresion -> ID .
 
-    IGUAL           shift and go to state 47
+    IGUAL           shift and go to state 48
     MAS             reduce using rule 66 (expresion -> ID .)
     MENOS           reduce using rule 66 (expresion -> ID .)
     MULTI           reduce using rule 66 (expresion -> ID .)
@@ -618,6 +647,7 @@ state 14
     AND             reduce using rule 66 (expresion -> ID .)
     OR              reduce using rule 66 (expresion -> ID .)
     PUNTO           reduce using rule 66 (expresion -> ID .)
+    AS              reduce using rule 66 (expresion -> ID .)
     PRINTLN         reduce using rule 66 (expresion -> ID .)
     LET             reduce using rule 66 (expresion -> ID .)
     ID              reduce using rule 66 (expresion -> ID .)
@@ -666,6 +696,10 @@ state 15
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -673,13 +707,13 @@ state 15
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 48
+    expresion                      shift and go to state 49
 
 state 16
 
@@ -710,6 +744,10 @@ state 16
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -717,13 +755,13 @@ state 16
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 49
+    expresion                      shift and go to state 50
 
 state 17
 
@@ -754,6 +792,10 @@ state 17
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -761,19 +803,19 @@ state 17
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 50
+    expresion                      shift and go to state 51
 
 state 18
 
     (53) expresion -> I64 . DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
 
-    DOS_PT          shift and go to state 51
+    DOS_PT          shift and go to state 52
 
 
 state 19
@@ -794,6 +836,7 @@ state 19
     AND             reduce using rule 64 (expresion -> ENTERO .)
     OR              reduce using rule 64 (expresion -> ENTERO .)
     PUNTO           reduce using rule 64 (expresion -> ENTERO .)
+    AS              reduce using rule 64 (expresion -> ENTERO .)
     PRINTLN         reduce using rule 64 (expresion -> ENTERO .)
     LET             reduce using rule 64 (expresion -> ENTERO .)
     ID              reduce using rule 64 (expresion -> ENTERO .)
@@ -836,6 +879,7 @@ state 20
     AND             reduce using rule 65 (expresion -> DECIMAL .)
     OR              reduce using rule 65 (expresion -> DECIMAL .)
     PUNTO           reduce using rule 65 (expresion -> DECIMAL .)
+    AS              reduce using rule 65 (expresion -> DECIMAL .)
     PRINTLN         reduce using rule 65 (expresion -> DECIMAL .)
     LET             reduce using rule 65 (expresion -> DECIMAL .)
     ID              reduce using rule 65 (expresion -> DECIMAL .)
@@ -878,6 +922,7 @@ state 21
     AND             reduce using rule 68 (expresion -> CARACTER .)
     OR              reduce using rule 68 (expresion -> CARACTER .)
     PUNTO           reduce using rule 68 (expresion -> CARACTER .)
+    AS              reduce using rule 68 (expresion -> CARACTER .)
     PRINTLN         reduce using rule 68 (expresion -> CARACTER .)
     LET             reduce using rule 68 (expresion -> CARACTER .)
     ID              reduce using rule 68 (expresion -> CARACTER .)
@@ -920,6 +965,7 @@ state 22
     AND             reduce using rule 69 (expresion -> TRUE .)
     OR              reduce using rule 69 (expresion -> TRUE .)
     PUNTO           reduce using rule 69 (expresion -> TRUE .)
+    AS              reduce using rule 69 (expresion -> TRUE .)
     PRINTLN         reduce using rule 69 (expresion -> TRUE .)
     LET             reduce using rule 69 (expresion -> TRUE .)
     ID              reduce using rule 69 (expresion -> TRUE .)
@@ -962,6 +1008,7 @@ state 23
     AND             reduce using rule 70 (expresion -> FALSE .)
     OR              reduce using rule 70 (expresion -> FALSE .)
     PUNTO           reduce using rule 70 (expresion -> FALSE .)
+    AS              reduce using rule 70 (expresion -> FALSE .)
     PRINTLN         reduce using rule 70 (expresion -> FALSE .)
     LET             reduce using rule 70 (expresion -> FALSE .)
     ID              reduce using rule 70 (expresion -> FALSE .)
@@ -1086,6 +1133,10 @@ state 27
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1093,13 +1144,13 @@ state 27
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 52
+    expresion                      shift and go to state 53
 
 state 28
 
@@ -1130,6 +1181,10 @@ state 28
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1137,13 +1192,13 @@ state 28
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 53
+    expresion                      shift and go to state 54
 
 state 29
 
@@ -1174,6 +1229,10 @@ state 29
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1181,13 +1240,13 @@ state 29
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 54
+    expresion                      shift and go to state 55
 
 state 30
 
@@ -1218,6 +1277,10 @@ state 30
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1225,13 +1288,13 @@ state 30
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 55
+    expresion                      shift and go to state 56
 
 state 31
 
@@ -1262,6 +1325,10 @@ state 31
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1269,13 +1336,13 @@ state 31
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 56
+    expresion                      shift and go to state 57
 
 state 32
 
@@ -1306,6 +1373,10 @@ state 32
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1313,13 +1384,13 @@ state 32
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 57
+    expresion                      shift and go to state 58
 
 state 33
 
@@ -1350,6 +1421,10 @@ state 33
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1357,13 +1432,13 @@ state 33
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 58
+    expresion                      shift and go to state 59
 
 state 34
 
@@ -1394,6 +1469,10 @@ state 34
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1401,13 +1480,13 @@ state 34
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 59
+    expresion                      shift and go to state 60
 
 state 35
 
@@ -1438,6 +1517,10 @@ state 35
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1445,13 +1528,13 @@ state 35
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 60
+    expresion                      shift and go to state 61
 
 state 36
 
@@ -1482,6 +1565,10 @@ state 36
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1489,13 +1576,13 @@ state 36
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 61
+    expresion                      shift and go to state 62
 
 state 37
 
@@ -1526,6 +1613,10 @@ state 37
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1533,13 +1624,13 @@ state 37
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 62
+    expresion                      shift and go to state 63
 
 state 38
 
@@ -1570,6 +1661,10 @@ state 38
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1577,13 +1672,13 @@ state 38
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 63
+    expresion                      shift and go to state 64
 
 state 39
 
@@ -1614,6 +1709,10 @@ state 39
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -1621,32 +1720,45 @@ state 39
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 64
+    expresion                      shift and go to state 65
 
 state 40
 
     (71) expresion -> expresion PUNTO . TO_OWNED PARA PARC
     (72) expresion -> expresion PUNTO . TO_STRING PARA PARC
+    (73) expresion -> expresion PUNTO . ABSOLUTO PARA PARC
+    (74) expresion -> expresion PUNTO . RAIZ PARA PARC
 
-    TO_OWNED        shift and go to state 65
-    TO_STRING       shift and go to state 66
+    TO_OWNED        shift and go to state 66
+    TO_STRING       shift and go to state 67
+    ABSOLUTO        shift and go to state 68
+    RAIZ            shift and go to state 69
 
 
 state 41
 
-    (9) prints -> PRINTLN NOT . PARA CADENA COMA list_exp PARC
-    (10) prints -> PRINTLN NOT . PARA CADENA PARC
+    (75) expresion -> expresion AS . F64
+    (76) expresion -> expresion AS . I64
 
-    PARA            shift and go to state 67
+    F64             shift and go to state 70
+    I64             shift and go to state 71
 
 
 state 42
+
+    (9) prints -> PRINTLN NOT . PARA CADENA COMA list_exp PARC
+    (10) prints -> PRINTLN NOT . PARA CADENA PARC
+
+    PARA            shift and go to state 72
+
+
+state 43
 
     (63) expresion -> NOT expresion .
     (48) expresion -> expresion . MAS expresion
@@ -1664,6 +1776,10 @@ state 42
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     MAS             reduce using rule 63 (expresion -> NOT expresion .)
     MENOS           reduce using rule 63 (expresion -> NOT expresion .)
@@ -1679,6 +1795,7 @@ state 42
     AND             reduce using rule 63 (expresion -> NOT expresion .)
     OR              reduce using rule 63 (expresion -> NOT expresion .)
     PUNTO           reduce using rule 63 (expresion -> NOT expresion .)
+    AS              reduce using rule 63 (expresion -> NOT expresion .)
     PRINTLN         reduce using rule 63 (expresion -> NOT expresion .)
     LET             reduce using rule 63 (expresion -> NOT expresion .)
     ID              reduce using rule 63 (expresion -> NOT expresion .)
@@ -1716,9 +1833,10 @@ state 42
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 43
+state 44
 
     (66) expresion -> ID .
 
@@ -1736,6 +1854,7 @@ state 43
     AND             reduce using rule 66 (expresion -> ID .)
     OR              reduce using rule 66 (expresion -> ID .)
     PUNTO           reduce using rule 66 (expresion -> ID .)
+    AS              reduce using rule 66 (expresion -> ID .)
     PRINTLN         reduce using rule 66 (expresion -> ID .)
     LET             reduce using rule 66 (expresion -> ID .)
     ID              reduce using rule 66 (expresion -> ID .)
@@ -1760,7 +1879,7 @@ state 43
     COMA            reduce using rule 66 (expresion -> ID .)
 
 
-state 44
+state 45
 
     (54) expresion -> PARA expresion . PARC
     (48) expresion -> expresion . MAS expresion
@@ -1778,8 +1897,12 @@ state 44
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
-    PARC            shift and go to state 68
+    PARC            shift and go to state 73
     MAS             shift and go to state 27
     MENOS           shift and go to state 28
     MULTI           shift and go to state 29
@@ -1794,31 +1917,32 @@ state 44
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
 
-state 45
+state 46
 
     (13) declaracion -> LET MUT . ID DOS_PT tipo IGUAL valores
     (14) declaracion -> LET MUT . ID DOS_PT tipo
     (15) declaracion -> LET MUT . ID IGUAL valores
     (16) declaracion -> LET MUT . ID
 
-    ID              shift and go to state 69
+    ID              shift and go to state 74
 
 
-state 46
+state 47
 
     (17) declaracion -> LET ID . DOS_PT tipo IGUAL valores
     (18) declaracion -> LET ID . DOS_PT tipo
     (19) declaracion -> LET ID . IGUAL valores
     (20) declaracion -> LET ID .
 
-    DOS_PT          shift and go to state 70
-    IGUAL           shift and go to state 71
+    DOS_PT          shift and go to state 75
+    IGUAL           shift and go to state 76
     PT_COMA         reduce using rule 20 (declaracion -> LET ID .)
 
 
-state 47
+state 48
 
     (21) declaracion -> ID IGUAL . valores
     (22) valores -> . expresion
@@ -1850,6 +1974,10 @@ state 47
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
     (25) sent_if -> . IF expresion statement sent_else
     (29) match -> . MATCH expresion casos_match
 
@@ -1859,7 +1987,7 @@ state 47
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
@@ -1867,12 +1995,12 @@ state 47
     IF              shift and go to state 15
     MATCH           shift and go to state 16
 
-    valores                        shift and go to state 72
-    expresion                      shift and go to state 73
-    sent_if                        shift and go to state 74
-    match                          shift and go to state 75
+    valores                        shift and go to state 77
+    expresion                      shift and go to state 78
+    sent_if                        shift and go to state 79
+    match                          shift and go to state 80
 
-state 48
+state 49
 
     (25) sent_if -> IF expresion . statement sent_else
     (48) expresion -> expresion . MAS expresion
@@ -1890,6 +2018,10 @@ state 48
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
     (39) statement -> . LLAVA instrucciones LLAVC
     (40) statement -> . LLAVA LLAVC
 
@@ -1907,11 +2039,12 @@ state 48
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
-    LLAVA           shift and go to state 77
+    AS              shift and go to state 41
+    LLAVA           shift and go to state 82
 
-    statement                      shift and go to state 76
+    statement                      shift and go to state 81
 
-state 49
+state 50
 
     (29) match -> MATCH expresion . casos_match
     (48) expresion -> expresion . MAS expresion
@@ -1929,6 +2062,10 @@ state 49
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
     (30) casos_match -> . LLAVA lista_casos default LLAVC
 
     MAS             shift and go to state 27
@@ -1945,11 +2082,12 @@ state 49
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
-    LLAVA           shift and go to state 79
+    AS              shift and go to state 41
+    LLAVA           shift and go to state 84
 
-    casos_match                    shift and go to state 78
+    casos_match                    shift and go to state 83
 
-state 50
+state 51
 
     (47) expresion -> MENOS expresion .
     (48) expresion -> expresion . MAS expresion
@@ -1967,6 +2105,10 @@ state 50
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     MAS             reduce using rule 47 (expresion -> MENOS expresion .)
     MENOS           reduce using rule 47 (expresion -> MENOS expresion .)
@@ -1982,6 +2124,7 @@ state 50
     AND             reduce using rule 47 (expresion -> MENOS expresion .)
     OR              reduce using rule 47 (expresion -> MENOS expresion .)
     PUNTO           reduce using rule 47 (expresion -> MENOS expresion .)
+    AS              reduce using rule 47 (expresion -> MENOS expresion .)
     PRINTLN         reduce using rule 47 (expresion -> MENOS expresion .)
     LET             reduce using rule 47 (expresion -> MENOS expresion .)
     ID              reduce using rule 47 (expresion -> MENOS expresion .)
@@ -2019,16 +2162,17 @@ state 50
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
-
-
-state 51
-
-    (53) expresion -> I64 DOS_PT . DOS_PT POW PARA expresion COMA expresion PARC
-
-    DOS_PT          shift and go to state 80
+  ! AS              [ shift and go to state 41 ]
 
 
 state 52
+
+    (53) expresion -> I64 DOS_PT . DOS_PT POW PARA expresion COMA expresion PARC
+
+    DOS_PT          shift and go to state 85
+
+
+state 53
 
     (48) expresion -> expresion MAS expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2046,6 +2190,10 @@ state 52
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     MAS             reduce using rule 48 (expresion -> expresion MAS expresion .)
     MENOS           reduce using rule 48 (expresion -> expresion MAS expresion .)
@@ -2058,6 +2206,7 @@ state 52
     AND             reduce using rule 48 (expresion -> expresion MAS expresion .)
     OR              reduce using rule 48 (expresion -> expresion MAS expresion .)
     PUNTO           reduce using rule 48 (expresion -> expresion MAS expresion .)
+    AS              reduce using rule 48 (expresion -> expresion MAS expresion .)
     PRINTLN         reduce using rule 48 (expresion -> expresion MAS expresion .)
     LET             reduce using rule 48 (expresion -> expresion MAS expresion .)
     ID              reduce using rule 48 (expresion -> expresion MAS expresion .)
@@ -2098,9 +2247,10 @@ state 52
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 53
+state 54
 
     (49) expresion -> expresion MENOS expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2118,6 +2268,10 @@ state 53
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     MAS             reduce using rule 49 (expresion -> expresion MENOS expresion .)
     MENOS           reduce using rule 49 (expresion -> expresion MENOS expresion .)
@@ -2130,6 +2284,7 @@ state 53
     AND             reduce using rule 49 (expresion -> expresion MENOS expresion .)
     OR              reduce using rule 49 (expresion -> expresion MENOS expresion .)
     PUNTO           reduce using rule 49 (expresion -> expresion MENOS expresion .)
+    AS              reduce using rule 49 (expresion -> expresion MENOS expresion .)
     PRINTLN         reduce using rule 49 (expresion -> expresion MENOS expresion .)
     LET             reduce using rule 49 (expresion -> expresion MENOS expresion .)
     ID              reduce using rule 49 (expresion -> expresion MENOS expresion .)
@@ -2170,9 +2325,10 @@ state 53
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 54
+state 55
 
     (50) expresion -> expresion MULTI expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2190,6 +2346,10 @@ state 54
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     MAS             reduce using rule 50 (expresion -> expresion MULTI expresion .)
     MENOS           reduce using rule 50 (expresion -> expresion MULTI expresion .)
@@ -2205,6 +2365,7 @@ state 54
     AND             reduce using rule 50 (expresion -> expresion MULTI expresion .)
     OR              reduce using rule 50 (expresion -> expresion MULTI expresion .)
     PUNTO           reduce using rule 50 (expresion -> expresion MULTI expresion .)
+    AS              reduce using rule 50 (expresion -> expresion MULTI expresion .)
     PRINTLN         reduce using rule 50 (expresion -> expresion MULTI expresion .)
     LET             reduce using rule 50 (expresion -> expresion MULTI expresion .)
     ID              reduce using rule 50 (expresion -> expresion MULTI expresion .)
@@ -2242,9 +2403,10 @@ state 54
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 55
+state 56
 
     (51) expresion -> expresion DIV expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2262,6 +2424,10 @@ state 55
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     MAS             reduce using rule 51 (expresion -> expresion DIV expresion .)
     MENOS           reduce using rule 51 (expresion -> expresion DIV expresion .)
@@ -2277,6 +2443,7 @@ state 55
     AND             reduce using rule 51 (expresion -> expresion DIV expresion .)
     OR              reduce using rule 51 (expresion -> expresion DIV expresion .)
     PUNTO           reduce using rule 51 (expresion -> expresion DIV expresion .)
+    AS              reduce using rule 51 (expresion -> expresion DIV expresion .)
     PRINTLN         reduce using rule 51 (expresion -> expresion DIV expresion .)
     LET             reduce using rule 51 (expresion -> expresion DIV expresion .)
     ID              reduce using rule 51 (expresion -> expresion DIV expresion .)
@@ -2314,9 +2481,10 @@ state 55
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 56
+state 57
 
     (52) expresion -> expresion MODULO expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2334,6 +2502,10 @@ state 56
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     MAS             reduce using rule 52 (expresion -> expresion MODULO expresion .)
     MENOS           reduce using rule 52 (expresion -> expresion MODULO expresion .)
@@ -2349,6 +2521,7 @@ state 56
     AND             reduce using rule 52 (expresion -> expresion MODULO expresion .)
     OR              reduce using rule 52 (expresion -> expresion MODULO expresion .)
     PUNTO           reduce using rule 52 (expresion -> expresion MODULO expresion .)
+    AS              reduce using rule 52 (expresion -> expresion MODULO expresion .)
     PRINTLN         reduce using rule 52 (expresion -> expresion MODULO expresion .)
     LET             reduce using rule 52 (expresion -> expresion MODULO expresion .)
     ID              reduce using rule 52 (expresion -> expresion MODULO expresion .)
@@ -2386,9 +2559,10 @@ state 56
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 57
+state 58
 
     (55) expresion -> expresion IGUAL_IGUAL expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2406,6 +2580,10 @@ state 57
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     IGUAL_IGUAL     reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
     NO_IGUAL        reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
@@ -2416,6 +2594,7 @@ state 57
     AND             reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
     OR              reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
     PUNTO           reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
+    AS              reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
     PRINTLN         reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
     LET             reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
     ID              reduce using rule 55 (expresion -> expresion IGUAL_IGUAL expresion .)
@@ -2458,9 +2637,10 @@ state 57
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 58
+state 59
 
     (56) expresion -> expresion NO_IGUAL expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2478,6 +2658,10 @@ state 58
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     IGUAL_IGUAL     reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
     NO_IGUAL        reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
@@ -2488,6 +2672,7 @@ state 58
     AND             reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
     OR              reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
     PUNTO           reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
+    AS              reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
     PRINTLN         reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
     LET             reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
     ID              reduce using rule 56 (expresion -> expresion NO_IGUAL expresion .)
@@ -2530,9 +2715,10 @@ state 58
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 59
+state 60
 
     (57) expresion -> expresion MAYOR expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2550,6 +2736,10 @@ state 59
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     IGUAL_IGUAL     reduce using rule 57 (expresion -> expresion MAYOR expresion .)
     NO_IGUAL        reduce using rule 57 (expresion -> expresion MAYOR expresion .)
@@ -2560,6 +2750,7 @@ state 59
     AND             reduce using rule 57 (expresion -> expresion MAYOR expresion .)
     OR              reduce using rule 57 (expresion -> expresion MAYOR expresion .)
     PUNTO           reduce using rule 57 (expresion -> expresion MAYOR expresion .)
+    AS              reduce using rule 57 (expresion -> expresion MAYOR expresion .)
     PRINTLN         reduce using rule 57 (expresion -> expresion MAYOR expresion .)
     LET             reduce using rule 57 (expresion -> expresion MAYOR expresion .)
     ID              reduce using rule 57 (expresion -> expresion MAYOR expresion .)
@@ -2602,9 +2793,10 @@ state 59
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 60
+state 61
 
     (58) expresion -> expresion MENOR expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2622,6 +2814,10 @@ state 60
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     IGUAL_IGUAL     reduce using rule 58 (expresion -> expresion MENOR expresion .)
     NO_IGUAL        reduce using rule 58 (expresion -> expresion MENOR expresion .)
@@ -2632,6 +2828,7 @@ state 60
     AND             reduce using rule 58 (expresion -> expresion MENOR expresion .)
     OR              reduce using rule 58 (expresion -> expresion MENOR expresion .)
     PUNTO           reduce using rule 58 (expresion -> expresion MENOR expresion .)
+    AS              reduce using rule 58 (expresion -> expresion MENOR expresion .)
     PRINTLN         reduce using rule 58 (expresion -> expresion MENOR expresion .)
     LET             reduce using rule 58 (expresion -> expresion MENOR expresion .)
     ID              reduce using rule 58 (expresion -> expresion MENOR expresion .)
@@ -2674,9 +2871,10 @@ state 60
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 61
+state 62
 
     (59) expresion -> expresion MAYOR_IGUAL expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2694,6 +2892,10 @@ state 61
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     IGUAL_IGUAL     reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
     NO_IGUAL        reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
@@ -2704,6 +2906,7 @@ state 61
     AND             reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
     OR              reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
     PUNTO           reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
+    AS              reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
     PRINTLN         reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
     LET             reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
     ID              reduce using rule 59 (expresion -> expresion MAYOR_IGUAL expresion .)
@@ -2746,9 +2949,10 @@ state 61
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 62
+state 63
 
     (60) expresion -> expresion MENOR_IGUAL expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2766,6 +2970,10 @@ state 62
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     IGUAL_IGUAL     reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
     NO_IGUAL        reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
@@ -2776,6 +2984,7 @@ state 62
     AND             reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
     OR              reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
     PUNTO           reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
+    AS              reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
     PRINTLN         reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
     LET             reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
     ID              reduce using rule 60 (expresion -> expresion MENOR_IGUAL expresion .)
@@ -2818,9 +3027,10 @@ state 62
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 63
+state 64
 
     (61) expresion -> expresion AND expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2838,10 +3048,15 @@ state 63
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     AND             reduce using rule 61 (expresion -> expresion AND expresion .)
     OR              reduce using rule 61 (expresion -> expresion AND expresion .)
     PUNTO           reduce using rule 61 (expresion -> expresion AND expresion .)
+    AS              reduce using rule 61 (expresion -> expresion AND expresion .)
     PRINTLN         reduce using rule 61 (expresion -> expresion AND expresion .)
     LET             reduce using rule 61 (expresion -> expresion AND expresion .)
     ID              reduce using rule 61 (expresion -> expresion AND expresion .)
@@ -2890,9 +3105,10 @@ state 63
   ! AND             [ shift and go to state 38 ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
+  ! AS              [ shift and go to state 41 ]
 
 
-state 64
+state 65
 
     (62) expresion -> expresion OR expresion .
     (48) expresion -> expresion . MAS expresion
@@ -2910,9 +3126,14 @@ state 64
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     OR              reduce using rule 62 (expresion -> expresion OR expresion .)
     PUNTO           reduce using rule 62 (expresion -> expresion OR expresion .)
+    AS              reduce using rule 62 (expresion -> expresion OR expresion .)
     PRINTLN         reduce using rule 62 (expresion -> expresion OR expresion .)
     LET             reduce using rule 62 (expresion -> expresion OR expresion .)
     ID              reduce using rule 62 (expresion -> expresion OR expresion .)
@@ -2962,31 +3183,132 @@ state 64
   ! AND             [ reduce using rule 62 (expresion -> expresion OR expresion .) ]
   ! OR              [ shift and go to state 39 ]
   ! PUNTO           [ shift and go to state 40 ]
-
-
-state 65
-
-    (71) expresion -> expresion PUNTO TO_OWNED . PARA PARC
-
-    PARA            shift and go to state 81
+  ! AS              [ shift and go to state 41 ]
 
 
 state 66
 
-    (72) expresion -> expresion PUNTO TO_STRING . PARA PARC
+    (71) expresion -> expresion PUNTO TO_OWNED . PARA PARC
 
-    PARA            shift and go to state 82
+    PARA            shift and go to state 86
 
 
 state 67
 
-    (9) prints -> PRINTLN NOT PARA . CADENA COMA list_exp PARC
-    (10) prints -> PRINTLN NOT PARA . CADENA PARC
+    (72) expresion -> expresion PUNTO TO_STRING . PARA PARC
 
-    CADENA          shift and go to state 83
+    PARA            shift and go to state 87
 
 
 state 68
+
+    (73) expresion -> expresion PUNTO ABSOLUTO . PARA PARC
+
+    PARA            shift and go to state 88
+
+
+state 69
+
+    (74) expresion -> expresion PUNTO RAIZ . PARA PARC
+
+    PARA            shift and go to state 89
+
+
+state 70
+
+    (75) expresion -> expresion AS F64 .
+
+    MAS             reduce using rule 75 (expresion -> expresion AS F64 .)
+    MENOS           reduce using rule 75 (expresion -> expresion AS F64 .)
+    MULTI           reduce using rule 75 (expresion -> expresion AS F64 .)
+    DIV             reduce using rule 75 (expresion -> expresion AS F64 .)
+    MODULO          reduce using rule 75 (expresion -> expresion AS F64 .)
+    IGUAL_IGUAL     reduce using rule 75 (expresion -> expresion AS F64 .)
+    NO_IGUAL        reduce using rule 75 (expresion -> expresion AS F64 .)
+    MAYOR           reduce using rule 75 (expresion -> expresion AS F64 .)
+    MENOR           reduce using rule 75 (expresion -> expresion AS F64 .)
+    MAYOR_IGUAL     reduce using rule 75 (expresion -> expresion AS F64 .)
+    MENOR_IGUAL     reduce using rule 75 (expresion -> expresion AS F64 .)
+    AND             reduce using rule 75 (expresion -> expresion AS F64 .)
+    OR              reduce using rule 75 (expresion -> expresion AS F64 .)
+    PUNTO           reduce using rule 75 (expresion -> expresion AS F64 .)
+    AS              reduce using rule 75 (expresion -> expresion AS F64 .)
+    PRINTLN         reduce using rule 75 (expresion -> expresion AS F64 .)
+    LET             reduce using rule 75 (expresion -> expresion AS F64 .)
+    ID              reduce using rule 75 (expresion -> expresion AS F64 .)
+    IF              reduce using rule 75 (expresion -> expresion AS F64 .)
+    MATCH           reduce using rule 75 (expresion -> expresion AS F64 .)
+    I64             reduce using rule 75 (expresion -> expresion AS F64 .)
+    PARA            reduce using rule 75 (expresion -> expresion AS F64 .)
+    NOT             reduce using rule 75 (expresion -> expresion AS F64 .)
+    ENTERO          reduce using rule 75 (expresion -> expresion AS F64 .)
+    DECIMAL         reduce using rule 75 (expresion -> expresion AS F64 .)
+    CADENA          reduce using rule 75 (expresion -> expresion AS F64 .)
+    CARACTER        reduce using rule 75 (expresion -> expresion AS F64 .)
+    TRUE            reduce using rule 75 (expresion -> expresion AS F64 .)
+    FALSE           reduce using rule 75 (expresion -> expresion AS F64 .)
+    $end            reduce using rule 75 (expresion -> expresion AS F64 .)
+    PARC            reduce using rule 75 (expresion -> expresion AS F64 .)
+    LLAVA           reduce using rule 75 (expresion -> expresion AS F64 .)
+    PT_COMA         reduce using rule 75 (expresion -> expresion AS F64 .)
+    LLAVC           reduce using rule 75 (expresion -> expresion AS F64 .)
+    ARROW           reduce using rule 75 (expresion -> expresion AS F64 .)
+    SEP_MATCH       reduce using rule 75 (expresion -> expresion AS F64 .)
+    COMA            reduce using rule 75 (expresion -> expresion AS F64 .)
+
+
+state 71
+
+    (76) expresion -> expresion AS I64 .
+
+    MAS             reduce using rule 76 (expresion -> expresion AS I64 .)
+    MENOS           reduce using rule 76 (expresion -> expresion AS I64 .)
+    MULTI           reduce using rule 76 (expresion -> expresion AS I64 .)
+    DIV             reduce using rule 76 (expresion -> expresion AS I64 .)
+    MODULO          reduce using rule 76 (expresion -> expresion AS I64 .)
+    IGUAL_IGUAL     reduce using rule 76 (expresion -> expresion AS I64 .)
+    NO_IGUAL        reduce using rule 76 (expresion -> expresion AS I64 .)
+    MAYOR           reduce using rule 76 (expresion -> expresion AS I64 .)
+    MENOR           reduce using rule 76 (expresion -> expresion AS I64 .)
+    MAYOR_IGUAL     reduce using rule 76 (expresion -> expresion AS I64 .)
+    MENOR_IGUAL     reduce using rule 76 (expresion -> expresion AS I64 .)
+    AND             reduce using rule 76 (expresion -> expresion AS I64 .)
+    OR              reduce using rule 76 (expresion -> expresion AS I64 .)
+    PUNTO           reduce using rule 76 (expresion -> expresion AS I64 .)
+    AS              reduce using rule 76 (expresion -> expresion AS I64 .)
+    PRINTLN         reduce using rule 76 (expresion -> expresion AS I64 .)
+    LET             reduce using rule 76 (expresion -> expresion AS I64 .)
+    ID              reduce using rule 76 (expresion -> expresion AS I64 .)
+    IF              reduce using rule 76 (expresion -> expresion AS I64 .)
+    MATCH           reduce using rule 76 (expresion -> expresion AS I64 .)
+    I64             reduce using rule 76 (expresion -> expresion AS I64 .)
+    PARA            reduce using rule 76 (expresion -> expresion AS I64 .)
+    NOT             reduce using rule 76 (expresion -> expresion AS I64 .)
+    ENTERO          reduce using rule 76 (expresion -> expresion AS I64 .)
+    DECIMAL         reduce using rule 76 (expresion -> expresion AS I64 .)
+    CADENA          reduce using rule 76 (expresion -> expresion AS I64 .)
+    CARACTER        reduce using rule 76 (expresion -> expresion AS I64 .)
+    TRUE            reduce using rule 76 (expresion -> expresion AS I64 .)
+    FALSE           reduce using rule 76 (expresion -> expresion AS I64 .)
+    $end            reduce using rule 76 (expresion -> expresion AS I64 .)
+    PARC            reduce using rule 76 (expresion -> expresion AS I64 .)
+    LLAVA           reduce using rule 76 (expresion -> expresion AS I64 .)
+    PT_COMA         reduce using rule 76 (expresion -> expresion AS I64 .)
+    LLAVC           reduce using rule 76 (expresion -> expresion AS I64 .)
+    ARROW           reduce using rule 76 (expresion -> expresion AS I64 .)
+    SEP_MATCH       reduce using rule 76 (expresion -> expresion AS I64 .)
+    COMA            reduce using rule 76 (expresion -> expresion AS I64 .)
+
+
+state 72
+
+    (9) prints -> PRINTLN NOT PARA . CADENA COMA list_exp PARC
+    (10) prints -> PRINTLN NOT PARA . CADENA PARC
+
+    CADENA          shift and go to state 90
+
+
+state 73
 
     (54) expresion -> PARA expresion PARC .
 
@@ -3004,6 +3326,7 @@ state 68
     AND             reduce using rule 54 (expresion -> PARA expresion PARC .)
     OR              reduce using rule 54 (expresion -> PARA expresion PARC .)
     PUNTO           reduce using rule 54 (expresion -> PARA expresion PARC .)
+    AS              reduce using rule 54 (expresion -> PARA expresion PARC .)
     PRINTLN         reduce using rule 54 (expresion -> PARA expresion PARC .)
     LET             reduce using rule 54 (expresion -> PARA expresion PARC .)
     ID              reduce using rule 54 (expresion -> PARA expresion PARC .)
@@ -3028,19 +3351,19 @@ state 68
     COMA            reduce using rule 54 (expresion -> PARA expresion PARC .)
 
 
-state 69
+state 74
 
     (13) declaracion -> LET MUT ID . DOS_PT tipo IGUAL valores
     (14) declaracion -> LET MUT ID . DOS_PT tipo
     (15) declaracion -> LET MUT ID . IGUAL valores
     (16) declaracion -> LET MUT ID .
 
-    DOS_PT          shift and go to state 84
-    IGUAL           shift and go to state 85
+    DOS_PT          shift and go to state 91
+    IGUAL           shift and go to state 92
     PT_COMA         reduce using rule 16 (declaracion -> LET MUT ID .)
 
 
-state 70
+state 75
 
     (17) declaracion -> LET ID DOS_PT . tipo IGUAL valores
     (18) declaracion -> LET ID DOS_PT . tipo
@@ -3051,16 +3374,16 @@ state 70
     (45) tipo -> . STR
     (46) tipo -> . CHAR
 
-    I64             shift and go to state 87
-    F64             shift and go to state 88
-    BOOL            shift and go to state 89
-    STRING          shift and go to state 90
-    STR             shift and go to state 91
-    CHAR            shift and go to state 92
+    I64             shift and go to state 94
+    F64             shift and go to state 95
+    BOOL            shift and go to state 96
+    STRING          shift and go to state 97
+    STR             shift and go to state 98
+    CHAR            shift and go to state 99
 
-    tipo                           shift and go to state 86
+    tipo                           shift and go to state 93
 
-state 71
+state 76
 
     (19) declaracion -> LET ID IGUAL . valores
     (22) valores -> . expresion
@@ -3092,6 +3415,10 @@ state 71
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
     (25) sent_if -> . IF expresion statement sent_else
     (29) match -> . MATCH expresion casos_match
 
@@ -3101,7 +3428,7 @@ state 71
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
@@ -3109,19 +3436,19 @@ state 71
     IF              shift and go to state 15
     MATCH           shift and go to state 16
 
-    valores                        shift and go to state 93
-    expresion                      shift and go to state 73
-    sent_if                        shift and go to state 74
-    match                          shift and go to state 75
+    valores                        shift and go to state 100
+    expresion                      shift and go to state 78
+    sent_if                        shift and go to state 79
+    match                          shift and go to state 80
 
-state 72
+state 77
 
     (21) declaracion -> ID IGUAL valores .
 
     PT_COMA         reduce using rule 21 (declaracion -> ID IGUAL valores .)
 
 
-state 73
+state 78
 
     (22) valores -> expresion .
     (48) expresion -> expresion . MAS expresion
@@ -3139,6 +3466,10 @@ state 73
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     PT_COMA         reduce using rule 22 (valores -> expresion .)
     MAS             shift and go to state 27
@@ -3155,30 +3486,31 @@ state 73
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
 
-state 74
+state 79
 
     (23) valores -> sent_if .
 
     PT_COMA         reduce using rule 23 (valores -> sent_if .)
 
 
-state 75
+state 80
 
     (24) valores -> match .
 
     PT_COMA         reduce using rule 24 (valores -> match .)
 
 
-state 76
+state 81
 
     (25) sent_if -> IF expresion statement . sent_else
     (26) sent_else -> . ELSE statement
     (27) sent_else -> . ELSE sent_if
     (28) sent_else -> .
 
-    ELSE            shift and go to state 95
+    ELSE            shift and go to state 102
     PRINTLN         reduce using rule 28 (sent_else -> .)
     LET             reduce using rule 28 (sent_else -> .)
     ID              reduce using rule 28 (sent_else -> .)
@@ -3199,9 +3531,9 @@ state 76
     LLAVC           reduce using rule 28 (sent_else -> .)
     COMA            reduce using rule 28 (sent_else -> .)
 
-    sent_else                      shift and go to state 94
+    sent_else                      shift and go to state 101
 
-state 77
+state 82
 
     (39) statement -> LLAVA . instrucciones LLAVC
     (40) statement -> LLAVA . LLAVC
@@ -3251,8 +3583,12 @@ state 77
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
-    LLAVC           shift and go to state 97
+    LLAVC           shift and go to state 104
     PRINTLN         shift and go to state 9
     LET             shift and go to state 13
     ID              shift and go to state 14
@@ -3269,7 +3605,7 @@ state 77
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    instrucciones                  shift and go to state 96
+    instrucciones                  shift and go to state 103
     instruccion                    shift and go to state 3
     prints                         shift and go to state 4
     declaracion                    shift and go to state 5
@@ -3277,7 +3613,7 @@ state 77
     match                          shift and go to state 7
     expresion                      shift and go to state 8
 
-state 78
+state 83
 
     (29) match -> MATCH expresion casos_match .
 
@@ -3302,7 +3638,7 @@ state 78
     COMA            reduce using rule 29 (match -> MATCH expresion casos_match .)
 
 
-state 79
+state 84
 
     (30) casos_match -> LLAVA . lista_casos default LLAVC
     (31) lista_casos -> . lista_casos lista_expresiones ARROW statement COMA
@@ -3337,6 +3673,10 @@ state 79
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -3344,47 +3684,61 @@ state 79
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    lista_casos                    shift and go to state 98
-    lista_expresiones              shift and go to state 99
-    expresion                      shift and go to state 100
+    lista_casos                    shift and go to state 105
+    lista_expresiones              shift and go to state 106
+    expresion                      shift and go to state 107
 
-state 80
+state 85
 
     (53) expresion -> I64 DOS_PT DOS_PT . POW PARA expresion COMA expresion PARC
 
-    POW             shift and go to state 101
+    POW             shift and go to state 108
 
 
-state 81
+state 86
 
     (71) expresion -> expresion PUNTO TO_OWNED PARA . PARC
 
-    PARC            shift and go to state 102
+    PARC            shift and go to state 109
 
 
-state 82
+state 87
 
     (72) expresion -> expresion PUNTO TO_STRING PARA . PARC
 
-    PARC            shift and go to state 103
+    PARC            shift and go to state 110
 
 
-state 83
+state 88
+
+    (73) expresion -> expresion PUNTO ABSOLUTO PARA . PARC
+
+    PARC            shift and go to state 111
+
+
+state 89
+
+    (74) expresion -> expresion PUNTO RAIZ PARA . PARC
+
+    PARC            shift and go to state 112
+
+
+state 90
 
     (9) prints -> PRINTLN NOT PARA CADENA . COMA list_exp PARC
     (10) prints -> PRINTLN NOT PARA CADENA . PARC
 
-    COMA            shift and go to state 104
-    PARC            shift and go to state 105
+    COMA            shift and go to state 113
+    PARC            shift and go to state 114
 
 
-state 84
+state 91
 
     (13) declaracion -> LET MUT ID DOS_PT . tipo IGUAL valores
     (14) declaracion -> LET MUT ID DOS_PT . tipo
@@ -3395,16 +3749,16 @@ state 84
     (45) tipo -> . STR
     (46) tipo -> . CHAR
 
-    I64             shift and go to state 87
-    F64             shift and go to state 88
-    BOOL            shift and go to state 89
-    STRING          shift and go to state 90
-    STR             shift and go to state 91
-    CHAR            shift and go to state 92
+    I64             shift and go to state 94
+    F64             shift and go to state 95
+    BOOL            shift and go to state 96
+    STRING          shift and go to state 97
+    STR             shift and go to state 98
+    CHAR            shift and go to state 99
 
-    tipo                           shift and go to state 106
+    tipo                           shift and go to state 115
 
-state 85
+state 92
 
     (15) declaracion -> LET MUT ID IGUAL . valores
     (22) valores -> . expresion
@@ -3436,6 +3790,10 @@ state 85
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
     (25) sent_if -> . IF expresion statement sent_else
     (29) match -> . MATCH expresion casos_match
 
@@ -3445,7 +3803,7 @@ state 85
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
@@ -3453,21 +3811,21 @@ state 85
     IF              shift and go to state 15
     MATCH           shift and go to state 16
 
-    valores                        shift and go to state 107
-    expresion                      shift and go to state 73
-    sent_if                        shift and go to state 74
-    match                          shift and go to state 75
+    valores                        shift and go to state 116
+    expresion                      shift and go to state 78
+    sent_if                        shift and go to state 79
+    match                          shift and go to state 80
 
-state 86
+state 93
 
     (17) declaracion -> LET ID DOS_PT tipo . IGUAL valores
     (18) declaracion -> LET ID DOS_PT tipo .
 
-    IGUAL           shift and go to state 108
+    IGUAL           shift and go to state 117
     PT_COMA         reduce using rule 18 (declaracion -> LET ID DOS_PT tipo .)
 
 
-state 87
+state 94
 
     (41) tipo -> I64 .
 
@@ -3475,7 +3833,7 @@ state 87
     PT_COMA         reduce using rule 41 (tipo -> I64 .)
 
 
-state 88
+state 95
 
     (42) tipo -> F64 .
 
@@ -3483,7 +3841,7 @@ state 88
     PT_COMA         reduce using rule 42 (tipo -> F64 .)
 
 
-state 89
+state 96
 
     (43) tipo -> BOOL .
 
@@ -3491,7 +3849,7 @@ state 89
     PT_COMA         reduce using rule 43 (tipo -> BOOL .)
 
 
-state 90
+state 97
 
     (44) tipo -> STRING .
 
@@ -3499,7 +3857,7 @@ state 90
     PT_COMA         reduce using rule 44 (tipo -> STRING .)
 
 
-state 91
+state 98
 
     (45) tipo -> STR .
 
@@ -3507,7 +3865,7 @@ state 91
     PT_COMA         reduce using rule 45 (tipo -> STR .)
 
 
-state 92
+state 99
 
     (46) tipo -> CHAR .
 
@@ -3515,14 +3873,14 @@ state 92
     PT_COMA         reduce using rule 46 (tipo -> CHAR .)
 
 
-state 93
+state 100
 
     (19) declaracion -> LET ID IGUAL valores .
 
     PT_COMA         reduce using rule 19 (declaracion -> LET ID IGUAL valores .)
 
 
-state 94
+state 101
 
     (25) sent_if -> IF expresion statement sent_else .
 
@@ -3547,7 +3905,7 @@ state 94
     COMA            reduce using rule 25 (sent_if -> IF expresion statement sent_else .)
 
 
-state 95
+state 102
 
     (26) sent_else -> ELSE . statement
     (27) sent_else -> ELSE . sent_if
@@ -3555,13 +3913,13 @@ state 95
     (40) statement -> . LLAVA LLAVC
     (25) sent_if -> . IF expresion statement sent_else
 
-    LLAVA           shift and go to state 77
+    LLAVA           shift and go to state 82
     IF              shift and go to state 15
 
-    statement                      shift and go to state 109
-    sent_if                        shift and go to state 110
+    statement                      shift and go to state 118
+    sent_if                        shift and go to state 119
 
-state 96
+state 103
 
     (39) statement -> LLAVA instrucciones . LLAVC
     (2) instrucciones -> instrucciones . instruccion
@@ -3609,8 +3967,12 @@ state 96
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
-    LLAVC           shift and go to state 111
+    LLAVC           shift and go to state 120
     PRINTLN         shift and go to state 9
     LET             shift and go to state 13
     ID              shift and go to state 14
@@ -3634,7 +3996,7 @@ state 96
     match                          shift and go to state 7
     expresion                      shift and go to state 8
 
-state 97
+state 104
 
     (40) statement -> LLAVA LLAVC .
 
@@ -3660,7 +4022,7 @@ state 97
     COMA            reduce using rule 40 (statement -> LLAVA LLAVC .)
 
 
-state 98
+state 105
 
     (30) casos_match -> LLAVA lista_casos . default LLAVC
     (31) lista_casos -> lista_casos . lista_expresiones ARROW statement COMA
@@ -3695,35 +4057,39 @@ state 98
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
-    GUION_B         shift and go to state 114
+    GUION_B         shift and go to state 123
     MENOS           shift and go to state 17
     I64             shift and go to state 18
     PARA            shift and go to state 11
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    default                        shift and go to state 112
-    lista_expresiones              shift and go to state 113
-    expresion                      shift and go to state 100
+    default                        shift and go to state 121
+    lista_expresiones              shift and go to state 122
+    expresion                      shift and go to state 107
 
-state 99
+state 106
 
     (33) lista_casos -> lista_expresiones . ARROW statement COMA
     (34) lista_casos -> lista_expresiones . ARROW instruccion COMA
     (35) lista_expresiones -> lista_expresiones . SEP_MATCH expresion
 
-    ARROW           shift and go to state 115
-    SEP_MATCH       shift and go to state 116
+    ARROW           shift and go to state 124
+    SEP_MATCH       shift and go to state 125
 
 
-state 100
+state 107
 
     (36) lista_expresiones -> expresion .
     (48) expresion -> expresion . MAS expresion
@@ -3741,6 +4107,10 @@ state 100
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     ARROW           reduce using rule 36 (lista_expresiones -> expresion .)
     SEP_MATCH       reduce using rule 36 (lista_expresiones -> expresion .)
@@ -3758,16 +4128,17 @@ state 100
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
 
-state 101
+state 108
 
     (53) expresion -> I64 DOS_PT DOS_PT POW . PARA expresion COMA expresion PARC
 
-    PARA            shift and go to state 117
+    PARA            shift and go to state 126
 
 
-state 102
+state 109
 
     (71) expresion -> expresion PUNTO TO_OWNED PARA PARC .
 
@@ -3785,6 +4156,7 @@ state 102
     AND             reduce using rule 71 (expresion -> expresion PUNTO TO_OWNED PARA PARC .)
     OR              reduce using rule 71 (expresion -> expresion PUNTO TO_OWNED PARA PARC .)
     PUNTO           reduce using rule 71 (expresion -> expresion PUNTO TO_OWNED PARA PARC .)
+    AS              reduce using rule 71 (expresion -> expresion PUNTO TO_OWNED PARA PARC .)
     PRINTLN         reduce using rule 71 (expresion -> expresion PUNTO TO_OWNED PARA PARC .)
     LET             reduce using rule 71 (expresion -> expresion PUNTO TO_OWNED PARA PARC .)
     ID              reduce using rule 71 (expresion -> expresion PUNTO TO_OWNED PARA PARC .)
@@ -3809,7 +4181,7 @@ state 102
     COMA            reduce using rule 71 (expresion -> expresion PUNTO TO_OWNED PARA PARC .)
 
 
-state 103
+state 110
 
     (72) expresion -> expresion PUNTO TO_STRING PARA PARC .
 
@@ -3827,6 +4199,7 @@ state 103
     AND             reduce using rule 72 (expresion -> expresion PUNTO TO_STRING PARA PARC .)
     OR              reduce using rule 72 (expresion -> expresion PUNTO TO_STRING PARA PARC .)
     PUNTO           reduce using rule 72 (expresion -> expresion PUNTO TO_STRING PARA PARC .)
+    AS              reduce using rule 72 (expresion -> expresion PUNTO TO_STRING PARA PARC .)
     PRINTLN         reduce using rule 72 (expresion -> expresion PUNTO TO_STRING PARA PARC .)
     LET             reduce using rule 72 (expresion -> expresion PUNTO TO_STRING PARA PARC .)
     ID              reduce using rule 72 (expresion -> expresion PUNTO TO_STRING PARA PARC .)
@@ -3851,7 +4224,93 @@ state 103
     COMA            reduce using rule 72 (expresion -> expresion PUNTO TO_STRING PARA PARC .)
 
 
-state 104
+state 111
+
+    (73) expresion -> expresion PUNTO ABSOLUTO PARA PARC .
+
+    MAS             reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    MENOS           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    MULTI           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    DIV             reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    MODULO          reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    IGUAL_IGUAL     reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    NO_IGUAL        reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    MAYOR           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    MENOR           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    MAYOR_IGUAL     reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    MENOR_IGUAL     reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    AND             reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    OR              reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    PUNTO           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    AS              reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    PRINTLN         reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    LET             reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    ID              reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    IF              reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    MATCH           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    I64             reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    PARA            reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    NOT             reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    ENTERO          reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    DECIMAL         reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    CADENA          reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    CARACTER        reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    TRUE            reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    FALSE           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    $end            reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    PARC            reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    LLAVA           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    PT_COMA         reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    LLAVC           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    ARROW           reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    SEP_MATCH       reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+    COMA            reduce using rule 73 (expresion -> expresion PUNTO ABSOLUTO PARA PARC .)
+
+
+state 112
+
+    (74) expresion -> expresion PUNTO RAIZ PARA PARC .
+
+    MAS             reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    MENOS           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    MULTI           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    DIV             reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    MODULO          reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    IGUAL_IGUAL     reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    NO_IGUAL        reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    MAYOR           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    MENOR           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    MAYOR_IGUAL     reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    MENOR_IGUAL     reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    AND             reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    OR              reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    PUNTO           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    AS              reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    PRINTLN         reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    LET             reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    ID              reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    IF              reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    MATCH           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    I64             reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    PARA            reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    NOT             reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    ENTERO          reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    DECIMAL         reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    CADENA          reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    CARACTER        reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    TRUE            reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    FALSE           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    $end            reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    PARC            reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    LLAVA           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    PT_COMA         reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    LLAVC           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    ARROW           reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    SEP_MATCH       reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+    COMA            reduce using rule 74 (expresion -> expresion PUNTO RAIZ PARA PARC .)
+
+
+state 113
 
     (9) prints -> PRINTLN NOT PARA CADENA COMA . list_exp PARC
     (11) list_exp -> . list_exp COMA expresion
@@ -3882,6 +4341,10 @@ state 104
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -3889,39 +4352,39 @@ state 104
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    list_exp                       shift and go to state 118
-    expresion                      shift and go to state 119
+    list_exp                       shift and go to state 127
+    expresion                      shift and go to state 128
 
-state 105
+state 114
 
     (10) prints -> PRINTLN NOT PARA CADENA PARC .
 
     PT_COMA         reduce using rule 10 (prints -> PRINTLN NOT PARA CADENA PARC .)
 
 
-state 106
+state 115
 
     (13) declaracion -> LET MUT ID DOS_PT tipo . IGUAL valores
     (14) declaracion -> LET MUT ID DOS_PT tipo .
 
-    IGUAL           shift and go to state 120
+    IGUAL           shift and go to state 129
     PT_COMA         reduce using rule 14 (declaracion -> LET MUT ID DOS_PT tipo .)
 
 
-state 107
+state 116
 
     (15) declaracion -> LET MUT ID IGUAL valores .
 
     PT_COMA         reduce using rule 15 (declaracion -> LET MUT ID IGUAL valores .)
 
 
-state 108
+state 117
 
     (17) declaracion -> LET ID DOS_PT tipo IGUAL . valores
     (22) valores -> . expresion
@@ -3953,6 +4416,10 @@ state 108
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
     (25) sent_if -> . IF expresion statement sent_else
     (29) match -> . MATCH expresion casos_match
 
@@ -3962,7 +4429,7 @@ state 108
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
@@ -3970,12 +4437,12 @@ state 108
     IF              shift and go to state 15
     MATCH           shift and go to state 16
 
-    valores                        shift and go to state 121
-    expresion                      shift and go to state 73
-    sent_if                        shift and go to state 74
-    match                          shift and go to state 75
+    valores                        shift and go to state 130
+    expresion                      shift and go to state 78
+    sent_if                        shift and go to state 79
+    match                          shift and go to state 80
 
-state 109
+state 118
 
     (26) sent_else -> ELSE statement .
 
@@ -4000,7 +4467,7 @@ state 109
     COMA            reduce using rule 26 (sent_else -> ELSE statement .)
 
 
-state 110
+state 119
 
     (27) sent_else -> ELSE sent_if .
 
@@ -4025,7 +4492,7 @@ state 110
     COMA            reduce using rule 27 (sent_else -> ELSE sent_if .)
 
 
-state 111
+state 120
 
     (39) statement -> LLAVA instrucciones LLAVC .
 
@@ -4051,32 +4518,32 @@ state 111
     COMA            reduce using rule 39 (statement -> LLAVA instrucciones LLAVC .)
 
 
-state 112
+state 121
 
     (30) casos_match -> LLAVA lista_casos default . LLAVC
 
-    LLAVC           shift and go to state 122
+    LLAVC           shift and go to state 131
 
 
-state 113
+state 122
 
     (31) lista_casos -> lista_casos lista_expresiones . ARROW statement COMA
     (32) lista_casos -> lista_casos lista_expresiones . ARROW instruccion COMA
     (35) lista_expresiones -> lista_expresiones . SEP_MATCH expresion
 
-    ARROW           shift and go to state 123
-    SEP_MATCH       shift and go to state 116
+    ARROW           shift and go to state 132
+    SEP_MATCH       shift and go to state 125
 
 
-state 114
+state 123
 
     (37) default -> GUION_B . ARROW statement COMA
     (38) default -> GUION_B . ARROW instruccion COMA
 
-    ARROW           shift and go to state 124
+    ARROW           shift and go to state 133
 
 
-state 115
+state 124
 
     (33) lista_casos -> lista_expresiones ARROW . statement COMA
     (34) lista_casos -> lista_expresiones ARROW . instruccion COMA
@@ -4126,8 +4593,12 @@ state 115
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
-    LLAVA           shift and go to state 77
+    LLAVA           shift and go to state 82
     PRINTLN         shift and go to state 9
     LET             shift and go to state 13
     ID              shift and go to state 14
@@ -4144,15 +4615,15 @@ state 115
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    statement                      shift and go to state 125
-    instruccion                    shift and go to state 126
+    statement                      shift and go to state 134
+    instruccion                    shift and go to state 135
     prints                         shift and go to state 4
     declaracion                    shift and go to state 5
     sent_if                        shift and go to state 6
     match                          shift and go to state 7
     expresion                      shift and go to state 8
 
-state 116
+state 125
 
     (35) lista_expresiones -> lista_expresiones SEP_MATCH . expresion
     (47) expresion -> . MENOS expresion
@@ -4181,6 +4652,10 @@ state 116
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -4188,15 +4663,15 @@ state 116
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 127
+    expresion                      shift and go to state 136
 
-state 117
+state 126
 
     (53) expresion -> I64 DOS_PT DOS_PT POW PARA . expresion COMA expresion PARC
     (47) expresion -> . MENOS expresion
@@ -4225,6 +4700,10 @@ state 117
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -4232,24 +4711,24 @@ state 117
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 128
+    expresion                      shift and go to state 137
 
-state 118
+state 127
 
     (9) prints -> PRINTLN NOT PARA CADENA COMA list_exp . PARC
     (11) list_exp -> list_exp . COMA expresion
 
-    PARC            shift and go to state 130
-    COMA            shift and go to state 129
+    PARC            shift and go to state 139
+    COMA            shift and go to state 138
 
 
-state 119
+state 128
 
     (12) list_exp -> expresion .
     (48) expresion -> expresion . MAS expresion
@@ -4267,6 +4746,10 @@ state 119
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     PARC            reduce using rule 12 (list_exp -> expresion .)
     COMA            reduce using rule 12 (list_exp -> expresion .)
@@ -4284,9 +4767,10 @@ state 119
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
 
-state 120
+state 129
 
     (13) declaracion -> LET MUT ID DOS_PT tipo IGUAL . valores
     (22) valores -> . expresion
@@ -4318,6 +4802,10 @@ state 120
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
     (25) sent_if -> . IF expresion statement sent_else
     (29) match -> . MATCH expresion casos_match
 
@@ -4327,7 +4815,7 @@ state 120
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
@@ -4335,19 +4823,19 @@ state 120
     IF              shift and go to state 15
     MATCH           shift and go to state 16
 
-    valores                        shift and go to state 131
-    expresion                      shift and go to state 73
-    sent_if                        shift and go to state 74
-    match                          shift and go to state 75
+    valores                        shift and go to state 140
+    expresion                      shift and go to state 78
+    sent_if                        shift and go to state 79
+    match                          shift and go to state 80
 
-state 121
+state 130
 
     (17) declaracion -> LET ID DOS_PT tipo IGUAL valores .
 
     PT_COMA         reduce using rule 17 (declaracion -> LET ID DOS_PT tipo IGUAL valores .)
 
 
-state 122
+state 131
 
     (30) casos_match -> LLAVA lista_casos default LLAVC .
 
@@ -4372,7 +4860,7 @@ state 122
     COMA            reduce using rule 30 (casos_match -> LLAVA lista_casos default LLAVC .)
 
 
-state 123
+state 132
 
     (31) lista_casos -> lista_casos lista_expresiones ARROW . statement COMA
     (32) lista_casos -> lista_casos lista_expresiones ARROW . instruccion COMA
@@ -4422,8 +4910,12 @@ state 123
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
-    LLAVA           shift and go to state 77
+    LLAVA           shift and go to state 82
     PRINTLN         shift and go to state 9
     LET             shift and go to state 13
     ID              shift and go to state 14
@@ -4440,15 +4932,15 @@ state 123
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    statement                      shift and go to state 132
-    instruccion                    shift and go to state 133
+    statement                      shift and go to state 141
+    instruccion                    shift and go to state 142
     prints                         shift and go to state 4
     declaracion                    shift and go to state 5
     sent_if                        shift and go to state 6
     match                          shift and go to state 7
     expresion                      shift and go to state 8
 
-state 124
+state 133
 
     (37) default -> GUION_B ARROW . statement COMA
     (38) default -> GUION_B ARROW . instruccion COMA
@@ -4498,8 +4990,12 @@ state 124
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
-    LLAVA           shift and go to state 77
+    LLAVA           shift and go to state 82
     PRINTLN         shift and go to state 9
     LET             shift and go to state 13
     ID              shift and go to state 14
@@ -4516,29 +5012,29 @@ state 124
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    statement                      shift and go to state 134
-    instruccion                    shift and go to state 135
+    statement                      shift and go to state 143
+    instruccion                    shift and go to state 144
     prints                         shift and go to state 4
     declaracion                    shift and go to state 5
     sent_if                        shift and go to state 6
     match                          shift and go to state 7
     expresion                      shift and go to state 8
 
-state 125
+state 134
 
     (33) lista_casos -> lista_expresiones ARROW statement . COMA
 
-    COMA            shift and go to state 136
+    COMA            shift and go to state 145
 
 
-state 126
+state 135
 
     (34) lista_casos -> lista_expresiones ARROW instruccion . COMA
 
-    COMA            shift and go to state 137
+    COMA            shift and go to state 146
 
 
-state 127
+state 136
 
     (35) lista_expresiones -> lista_expresiones SEP_MATCH expresion .
     (48) expresion -> expresion . MAS expresion
@@ -4556,6 +5052,10 @@ state 127
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     ARROW           reduce using rule 35 (lista_expresiones -> lista_expresiones SEP_MATCH expresion .)
     SEP_MATCH       reduce using rule 35 (lista_expresiones -> lista_expresiones SEP_MATCH expresion .)
@@ -4573,9 +5073,10 @@ state 127
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
 
-state 128
+state 137
 
     (53) expresion -> I64 DOS_PT DOS_PT POW PARA expresion . COMA expresion PARC
     (48) expresion -> expresion . MAS expresion
@@ -4593,8 +5094,12 @@ state 128
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
-    COMA            shift and go to state 138
+    COMA            shift and go to state 147
     MAS             shift and go to state 27
     MENOS           shift and go to state 28
     MULTI           shift and go to state 29
@@ -4609,9 +5114,10 @@ state 128
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
 
-state 129
+state 138
 
     (11) list_exp -> list_exp COMA . expresion
     (47) expresion -> . MENOS expresion
@@ -4640,6 +5146,10 @@ state 129
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -4647,57 +5157,57 @@ state 129
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 139
+    expresion                      shift and go to state 148
 
-state 130
+state 139
 
     (9) prints -> PRINTLN NOT PARA CADENA COMA list_exp PARC .
 
     PT_COMA         reduce using rule 9 (prints -> PRINTLN NOT PARA CADENA COMA list_exp PARC .)
 
 
-state 131
+state 140
 
     (13) declaracion -> LET MUT ID DOS_PT tipo IGUAL valores .
 
     PT_COMA         reduce using rule 13 (declaracion -> LET MUT ID DOS_PT tipo IGUAL valores .)
 
 
-state 132
+state 141
 
     (31) lista_casos -> lista_casos lista_expresiones ARROW statement . COMA
 
-    COMA            shift and go to state 140
+    COMA            shift and go to state 149
 
 
-state 133
+state 142
 
     (32) lista_casos -> lista_casos lista_expresiones ARROW instruccion . COMA
 
-    COMA            shift and go to state 141
+    COMA            shift and go to state 150
 
 
-state 134
+state 143
 
     (37) default -> GUION_B ARROW statement . COMA
 
-    COMA            shift and go to state 142
+    COMA            shift and go to state 151
 
 
-state 135
+state 144
 
     (38) default -> GUION_B ARROW instruccion . COMA
 
-    COMA            shift and go to state 143
+    COMA            shift and go to state 152
 
 
-state 136
+state 145
 
     (33) lista_casos -> lista_expresiones ARROW statement COMA .
 
@@ -4715,7 +5225,7 @@ state 136
     FALSE           reduce using rule 33 (lista_casos -> lista_expresiones ARROW statement COMA .)
 
 
-state 137
+state 146
 
     (34) lista_casos -> lista_expresiones ARROW instruccion COMA .
 
@@ -4733,7 +5243,7 @@ state 137
     FALSE           reduce using rule 34 (lista_casos -> lista_expresiones ARROW instruccion COMA .)
 
 
-state 138
+state 147
 
     (53) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA . expresion PARC
     (47) expresion -> . MENOS expresion
@@ -4762,6 +5272,10 @@ state 138
     (70) expresion -> . FALSE
     (71) expresion -> . expresion PUNTO TO_OWNED PARA PARC
     (72) expresion -> . expresion PUNTO TO_STRING PARA PARC
+    (73) expresion -> . expresion PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> . expresion PUNTO RAIZ PARA PARC
+    (75) expresion -> . expresion AS F64
+    (76) expresion -> . expresion AS I64
 
     MENOS           shift and go to state 17
     I64             shift and go to state 18
@@ -4769,15 +5283,15 @@ state 138
     NOT             shift and go to state 10
     ENTERO          shift and go to state 19
     DECIMAL         shift and go to state 20
-    ID              shift and go to state 43
+    ID              shift and go to state 44
     CADENA          shift and go to state 12
     CARACTER        shift and go to state 21
     TRUE            shift and go to state 22
     FALSE           shift and go to state 23
 
-    expresion                      shift and go to state 144
+    expresion                      shift and go to state 153
 
-state 139
+state 148
 
     (11) list_exp -> list_exp COMA expresion .
     (48) expresion -> expresion . MAS expresion
@@ -4795,6 +5309,10 @@ state 139
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
     PARC            reduce using rule 11 (list_exp -> list_exp COMA expresion .)
     COMA            reduce using rule 11 (list_exp -> list_exp COMA expresion .)
@@ -4812,9 +5330,10 @@ state 139
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
 
-state 140
+state 149
 
     (31) lista_casos -> lista_casos lista_expresiones ARROW statement COMA .
 
@@ -4832,7 +5351,7 @@ state 140
     FALSE           reduce using rule 31 (lista_casos -> lista_casos lista_expresiones ARROW statement COMA .)
 
 
-state 141
+state 150
 
     (32) lista_casos -> lista_casos lista_expresiones ARROW instruccion COMA .
 
@@ -4850,21 +5369,21 @@ state 141
     FALSE           reduce using rule 32 (lista_casos -> lista_casos lista_expresiones ARROW instruccion COMA .)
 
 
-state 142
+state 151
 
     (37) default -> GUION_B ARROW statement COMA .
 
     LLAVC           reduce using rule 37 (default -> GUION_B ARROW statement COMA .)
 
 
-state 143
+state 152
 
     (38) default -> GUION_B ARROW instruccion COMA .
 
     LLAVC           reduce using rule 38 (default -> GUION_B ARROW instruccion COMA .)
 
 
-state 144
+state 153
 
     (53) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion . PARC
     (48) expresion -> expresion . MAS expresion
@@ -4882,8 +5401,12 @@ state 144
     (62) expresion -> expresion . OR expresion
     (71) expresion -> expresion . PUNTO TO_OWNED PARA PARC
     (72) expresion -> expresion . PUNTO TO_STRING PARA PARC
+    (73) expresion -> expresion . PUNTO ABSOLUTO PARA PARC
+    (74) expresion -> expresion . PUNTO RAIZ PARA PARC
+    (75) expresion -> expresion . AS F64
+    (76) expresion -> expresion . AS I64
 
-    PARC            shift and go to state 145
+    PARC            shift and go to state 154
     MAS             shift and go to state 27
     MENOS           shift and go to state 28
     MULTI           shift and go to state 29
@@ -4898,9 +5421,10 @@ state 144
     AND             shift and go to state 38
     OR              shift and go to state 39
     PUNTO           shift and go to state 40
+    AS              shift and go to state 41
 
 
-state 145
+state 154
 
     (53) expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .
 
@@ -4918,6 +5442,7 @@ state 145
     AND             reduce using rule 53 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
     OR              reduce using rule 53 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
     PUNTO           reduce using rule 53 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
+    AS              reduce using rule 53 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
     PRINTLN         reduce using rule 53 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
     LET             reduce using rule 53 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)
     ID              reduce using rule 53 (expresion -> I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC .)

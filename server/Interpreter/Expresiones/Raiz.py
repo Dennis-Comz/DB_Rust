@@ -1,7 +1,8 @@
+import math
 from Interpreter.Expresiones.Expresion import Expresion
 from Interpreter.TablaSimbolos.Tipos import definirTipo
 
-class ToString(Expresion):
+class Raiz(Expresion):
 
     def __init__(self, exp: Expresion, tipo, linea, columna):
         self.exp = exp
@@ -18,7 +19,10 @@ class ToString(Expresion):
 
     def getValor(self, driver, ts):
         value = self.exp.getValor(driver, ts)
-        if type(value) != str:
-            driver.append("tipo no valido \n")
+        if type(value) != float:
+            driver.append("tipo no valido")
             return
-        return value
+        if value < 0:
+            driver.append("No se pueden obtener raices negativas")
+            return
+        return math.sqrt(value)

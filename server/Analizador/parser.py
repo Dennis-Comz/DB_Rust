@@ -16,6 +16,9 @@ from Interpreter.Instrucciones.Condicionales.Match import Match
 from Interpreter.Instrucciones.Condicionales.ClaseIf import ClaseIf
 from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
+from Interpreter.Expresiones.Absoluto import Absoluto
+from Interpreter.Expresiones.Raiz import Raiz
+from Interpreter.Expresiones.Casteo import Casteo
 
 tokens = lexer.tokens
 
@@ -480,6 +483,28 @@ def p_exp_cadena_tostring(p):
     expresion : expresion PUNTO TO_STRING PARA PARC
     """
     p[0] = ToString(p[1], Tipos.STR_BUFFER, p.lineno(1), p.lexpos(1))
+
+def p_exp_absoluto(p):
+    """
+    expresion : expresion PUNTO ABSOLUTO PARA PARC
+    """
+    p[0] = Absoluto(p[1], p.lineno(1), p.lexpos(1))
+
+def p_exp_raiz(p):
+    """
+    expresion : expresion PUNTO RAIZ PARA PARC
+    """
+    p[0] = Raiz(p[1], Tipos.FLOAT64, p.lineno(1), p.lexpos(1))
+
+def p_exp_casteo(p):
+    """
+    expresion : expresion AS F64
+            | expresion AS I64
+    """
+    if p[3] == 'f64':
+        p[0] = Casteo(p[1], Tipos.FLOAT64, p.lineno(1), p.lexpos(1))
+    elif p[3] == 'i64':
+        p[0] = Casteo(p[1], Tipos.INT64, p.lineno(1), p.lexpos(1))
 
 # === FIN TIPOS DE DATO ===
 
