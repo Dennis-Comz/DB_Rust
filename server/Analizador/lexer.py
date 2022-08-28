@@ -53,8 +53,7 @@ tokens = [
             'LLAVA',
             'LLAVC',
             'ARROW',
-            'SEP_MATCH',
-            'ADMIRACION'
+            'SEP_MATCH'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
@@ -74,7 +73,6 @@ t_COMA = r'\,'
 t_DOS_PT = r'\:'
 t_ARROW = r'\=\>'
 t_IGUAL_IGUAL = r'\=\='
-t_ADMIRACION = r'\!'
 t_NO_IGUAL = r'\!\='
 t_MAYOR = r'\>'
 t_MENOR = r'\<'

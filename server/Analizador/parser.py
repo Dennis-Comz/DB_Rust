@@ -23,11 +23,10 @@ tokens = lexer.tokens
 precedence = (
     ('left', 'OR'),
     ('left', 'AND'),
-    ('right', 'NOT'),
-    ('left', 'IGUAL_IGUAL', 'NO_IGUAL', 'MENOR', 'MAYOR', 'MENOR_IGUAL', 'MAYOR_IGUAL'),
+    ('nonassoc', 'IGUAL_IGUAL', 'NO_IGUAL', 'MENOR', 'MAYOR', 'MENOR_IGUAL', 'MAYOR_IGUAL'),
     ('left', 'MAS', 'MENOS'),
     ('left', 'MULTI', 'DIV', 'MODULO'),
-    ('right', 'UNARIO')
+    ('right', 'NOT', 'UNARIO')
 )
 
 # DEFINICION INICIO GRAMATICA
@@ -124,13 +123,13 @@ def p_instruccion(p):
 #=== INICIO INSTRUCCION PRINTLN ===
 def p_instruccion_println(p):
     """
-    prints : PRINTLN ADMIRACION PARA CADENA COMA list_exp PARC
+    prints : PRINTLN NOT PARA CADENA COMA list_exp PARC
     """
     p[0] = PrintLn(Primitivo(p[4], Tipos.STR_POINTER, p.lineno(1), p.lexpos(1)), p[6], p.lineno(1), p.lexpos(1))
 
 def p_instruccion_println_cads(p):
     """
-    prints : PRINTLN ADMIRACION PARA CADENA PARC
+    prints : PRINTLN NOT PARA CADENA PARC
     """
     p[0] = PrintLn(Primitivo(p[4], Tipos.STR_POINTER, p.lineno(1), p.lexpos(1)), [], p.lineno(1), p.lexpos(1))
 
@@ -152,7 +151,7 @@ def p_println_listexp_exit(p):
 # === INICIO DIFERENTES DECLARACIONES ===
 def p_instruccion_declaracion(p):
     """
-    declaracion : LET MUT ID DOS_PT tipo IGUAL expresion
+    declaracion : LET MUT ID DOS_PT tipo IGUAL valores
     """
     p[0] = Declaracion(
         True,
@@ -178,7 +177,7 @@ def p_declaracion_2(p):
 
 def p_declaracion_3(p):
     """
-    declaracion : LET MUT ID IGUAL expresion
+    declaracion : LET MUT ID IGUAL valores
     """
     p[0] = Declaracion(
         True,
@@ -204,7 +203,7 @@ def p_declaracion_4(p):
 
 def p_declaracion_5(p):
     """
-    declaracion : LET ID DOS_PT tipo IGUAL expresion
+    declaracion : LET ID DOS_PT tipo IGUAL valores
     """
     p[0] = Declaracion(
         False,
@@ -230,7 +229,7 @@ def p_declaracion_6(p):
 
 def p_declaracion_7(p):
     """
-    declaracion : LET ID IGUAL expresion
+    declaracion : LET ID IGUAL valores
     """
     p[0] = Declaracion(
         False,
@@ -256,7 +255,7 @@ def p_declaracion_8(p):
 
 def p__declaracion_asignacion(p):
     """
-    declaracion : ID IGUAL expresion
+    declaracion : ID IGUAL valores
     """
     p[0] = Declaracion(
         False,
@@ -266,6 +265,14 @@ def p__declaracion_asignacion(p):
         p.lineno(1),
         p.lexpos(1)
     )
+
+def p_declaracion_valores(p):
+    """
+    valores : expresion
+            | sent_if
+            | match
+    """
+    p[0] = p[1]
 # === FIN DIFERENTES DECLARACIONES ===
 
 # === INICIO INSTRUCCION IF-ELSE ===
@@ -289,28 +296,6 @@ def p_sent_else_vacio(p):
     p[0] = None
 
 # === FIN INSTRUCCION IF-ELSE
-
-# === INICIO EXPRESION IF-ELSE ===
-def p_exp_if(p):
-    """
-    exp_if : IF expresion exp_statement exp_else
-    """
-    p[0] = ClaseIf(p[2], p[3], p[4], p.lineno(1), p.lexpos(1))
-
-def p_if_exp_else(p):
-    """
-    exp_else : ELSE exp_statement
-            | ELSE exp_if
-    """
-    p[0] = p[2]
-
-def p_exp_if_statement(p):
-    """
-    exp_statement : LLAVA instrucciones LLAVC
-    """
-    p[0] = Statement(p[2], p.lineno(1), p.lexpos(1))
-
-# === FIN EXPRESION IF-ELSE ===
 
 # === INICIO INSTRUCCION MATCH ===
 def p_instruccion_match(p):
@@ -363,44 +348,6 @@ def p_match_default(p):
 
 # === FIN INSTRUCCION MATCH ===
 
-# === INICIO EXPRESION MATCH ===
-def p_expresion_match(p):
-    """
-    exp_match : MATCH expresion exp_casos_match
-    """
-    p[0] = Match(p[2], p[3], p.lineno(1), p.lexpos(1))
-
-def p_match_expcasos(p):
-    """
-    exp_casos_match : LLAVA exp_lista_casos exp_default LLAVC
-    """
-    p[2].append(p[3])
-    p[0] = p[2]
-
-def p_match_explista_casos(p):
-    """
-    exp_lista_casos : exp_lista_casos lista_expresiones ARROW statement COMA
-                | exp_lista_casos lista_expresiones ARROW expresion COMA
-    """
-    p[1].append(Coincidencia(p[2], p[4], p.lineno(1), p.lexpos(1)))
-    p[0] = p[1]
-
-def p_match_explista_casos_salida(p):
-    """
-    exp_lista_casos : lista_expresiones ARROW statement COMA
-                | lista_expresiones ARROW expresion COMA
-    """
-    p[0] = [Coincidencia(p[1], p[3], p.lineno(1), p.lexpos(1))]
-
-def p_match_expdefault(p):
-    """
-    exp_default : GUION_B ARROW statement COMA
-            | GUION_B ARROW expresion COMA
-    """
-    p[0] = Coincidencia([], p[3], p.lineno(1), p.lexpos(1))
-
-# === FIN EXPRESION MATCH
-
 # === INICIO STATEMENT ===
 def p_statement(p):
     """
@@ -441,13 +388,17 @@ def p_tipo(p):
 # === INICIO ARITMETICAS
 def p_exp_aritmeticas(p):
     """
-    expresion : expresion MAS expresion
-           | expresion MENOS expresion
-           | expresion MULTI expresion
-           | expresion DIV expresion
-           | expresion MODULO expresion
+    expresion : MENOS expresion %prec UNARIO
+            | expresion MAS expresion
+            | expresion MENOS expresion
+            | expresion MULTI expresion
+            | expresion DIV expresion
+            | expresion MODULO expresion
     """
-    p[0] = Aritmeticas(exp1 = p[1], operador = p[2], exp2 = p[3], expU = False, linea = p.lineno(1), columna = p.lexpos(1))
+    if len(p) == 3:
+        p[0] = Aritmeticas(exp1=p[2], operador='UNARIO', exp2=None, expU=True, linea=p.lineno(1), columna = p.lexpos(1))
+    else:
+        p[0] = Aritmeticas(exp1 = p[1], operador = p[2], exp2 = p[3], expU = False, linea = p.lineno(1), columna = p.lexpos(1))
 
 def p_exp_potencia(p):
     """
@@ -460,13 +411,6 @@ def p_exp_parentesis(p):
     expresion : PARA expresion PARC
     """
     p[0] = p[2]
-
-
-def p_exp_unario(p):
-    """
-    expresion : MENOS expresion %prec UNARIO
-    """
-    p[0] = Aritmeticas(exp1=p[2], operador='UNARIO', exp2=None, expU=True, linea=p.lineno(1), columna = p.lexpos(1))
 
 # === FIN ARITMETICAS ===
 
@@ -493,25 +437,38 @@ def p_exp_logicas(p):
 
 def p_exp_not(p):
     """
-    expresion : NOT expresion
+    expresion : NOT expresion %prec NOT
     """
     p[0] = Logicas(exp1 = None, operador = p[1], exp2 = p[2], linea = p.lineno(1), columna = p.lexpos(1))
 
 # === FIN LOGICAS ===
 
-def p_exp_if_exp(p):
-    """
-    expresion : exp_if
-    """
-    p[0] = p[1]
-
-def p_exp_match_exp(p):
-    """
-    expresion : exp_match
-    """
-    p[0] = p[1]
-
 # === INICIO TIPOS DE DATO ===
+def p_exp_primtivos(p):
+    """
+    expresion : ENTERO
+            | DECIMAL
+            | ID
+            | CADENA 
+            | CARACTER
+            | TRUE
+            | FALSE
+    """
+    if p.slice[1].type == 'ENTERO':
+        p[0] = Primitivo(p[1], Tipos.INT64, p.lineno(1), p.lexpos(1))
+    elif p.slice[1].type == 'DECIMAL':
+        p[0] = Primitivo(p[1], Tipos.FLOAT64, p.lineno(1), p.lexpos(1))
+    elif p.slice[1].type == 'ID':
+        p[0] = Identificador(p[1], p.lineno(1), p.lexpos(1))
+    elif p.slice[1].type == 'CADENA':
+        p[0] = Primitivo(p[1], Tipos.STR_POINTER, p.lineno(1), p.lexpos(1))
+    elif p.slice[1].type == 'CARACTER':
+        p[0] = Primitivo(p[1], Tipos.CARACTER, p.lineno(1), p.lexpos(1))
+    elif p.slice[1].type == 'TRUE':
+        p[0] = Primitivo(True, Tipos.BOOLEAN, p.lineno(1), p.lexpos(1))
+    elif p.slice[1].type == 'FALSE':
+        p[0] = Primitivo(False, Tipos.BOOLEAN, p.lineno(1), p.lexpos(1))
+
 def p_exp_cadena_toowned(p):
     """
     expresion : expresion PUNTO TO_OWNED PARA PARC
@@ -523,47 +480,6 @@ def p_exp_cadena_tostring(p):
     expresion : expresion PUNTO TO_STRING PARA PARC
     """
     p[0] = ToString(p[1], Tipos.STR_BUFFER, p.lineno(1), p.lexpos(1))
-
-def p_exp_cadena_pointer(p):
-    """
-    expresion : CADENA
-    """
-    p[0] = Primitivo(p[1], Tipos.STR_POINTER, p.lineno(1), p.lexpos(1))
-
-def p_exp_entero(p):
-    """
-    expresion :  ENTERO
-    """
-    p[0] = Primitivo(p[1], Tipos.INT64, p.lineno(1), p.lexpos(1))
-
-def p_exp_decimal(p):
-    """
-    expresion : DECIMAL
-    """
-    p[0] = Primitivo(p[1], Tipos.FLOAT64, p.lineno(1), p.lexpos(1))
-
-def p_exp_caracter(p):
-    """
-    expresion : CARACTER
-    """
-    p[0] = Primitivo(p[1], Tipos.CARACTER, p.lineno(1), p.lexpos(1))
-    
-def p_exp_booleano(p):
-    """
-    expresion : TRUE
-            | FALSE
-    """
-    if p[1] == 'true':
-        p[0] = Primitivo(True, Tipos.BOOLEAN, p.lineno(1), p.lexpos(1))
-    elif p[1] == 'false':
-        p[0] = Primitivo(False, Tipos.BOOLEAN, p.lineno(1), p.lexpos(1))
-
-def p_exp_identificador(p):
-    """
-    expresion : ID
-    """
-    p[0] = Identificador(p[1], p.lineno(1), p.lexpos(1))
-
 
 # === FIN TIPOS DE DATO ===
 
