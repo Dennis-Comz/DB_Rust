@@ -1,9 +1,12 @@
 from Analizador import lexer
 from plyFiles.ply.yacc import yacc
 from Interpreter.AST.ast import Ast
-from Interpreter.Instrucciones.PrintLn import PrintLn
+from Interpreter.Expresiones.Raiz import Raiz
+from Interpreter.Expresiones.Casteo import Casteo
 from Interpreter.TablaSimbolos.Tipos import Tipos
 from Interpreter.Expresiones.ToOwned import ToOwned
+from Interpreter.Expresiones.Absoluto import Absoluto
+from Interpreter.Instrucciones.PrintLn import PrintLn
 from Interpreter.Expresiones.ToString import ToString
 from Interpreter.Expresiones.Primitivo import Primitivo
 from Interpreter.Instrucciones.Statement import Statement
@@ -13,12 +16,12 @@ from Interpreter.Expresiones.Operaciones.Logicas import Logicas
 from Interpreter.TablaSimbolos.Simbolo import Simbolo, Simbolos
 from Interpreter.Instrucciones.Coincidencia import Coincidencia
 from Interpreter.Instrucciones.Condicionales.Match import Match
+from Interpreter.Instrucciones.Transferencia.Break import Break
+from Interpreter.Instrucciones.Transferencia.Return import Return
 from Interpreter.Instrucciones.Condicionales.ClaseIf import ClaseIf
+from Interpreter.Instrucciones.Transferencia.Continue import Continue
 from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
-from Interpreter.Expresiones.Absoluto import Absoluto
-from Interpreter.Expresiones.Raiz import Raiz
-from Interpreter.Expresiones.Casteo import Casteo
 
 tokens = lexer.tokens
 
@@ -31,68 +34,6 @@ precedence = (
     ('left', 'MULTI', 'DIV', 'MODULO'),
     ('right', 'NOT', 'UNARIO')
 )
-
-# DEFINICION INICIO GRAMATICA
-# inicio : instrucciones
-# instrucciones: instrucciones instruccion
-#            | instruccion
-# instruccion : print PT_COMA
-#           | declaracion PT_COMA
-#           | sent_if
-#           | match
-#           | expresion
-# print : PRINT PARA expresion PARC
-# declaracion : LET MUT ID DOS_PT tipo IGUAL expresion
-#           | LET MUT ID DOS_PT tipo
-#           | LET MUT ID IGUAL expresion
-#           | LET MUT ID
-#           | LET ID DOS_PT tipo IGUAL expresion
-#           | LET ID DOS_PT tipo
-#           | LET ID IGUAL expresion
-#           | LET ID
-#           | ID IGUAL expresion
-# sent_if : IF expresion statement sent_else
-# sent_else : ELSE statement
-#           | ELSE if
-#           |
-# match : MATCH expresion LLAVA coincidencias LLAVC
-# coincidencias : lista_coincidencias default
-# 		| default
-# lista_coincidencias : lista_coincidencias COMA coincidencia
-# 		| coincidencia COMA
-# coincidencia : lista_valores ARROW statement
-# 		| lista_valores ARROW instruccion
-# lista_valores : lista_valores SEP_MATCH expresion
-# 		| expresion
-# default : GUION_B ARROW instruccion
-# statement : LLAVA instrucciones LLAVC
-#           | LLAVA LLAVC
-# expresion : expresion MAS expresion
-#           | expresion MENOS expresion
-#           | expresion MULTI expresion
-#           | expresion DIV expresion
-#           | expresion MODULO expresion
-#           | I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
-#           | expresion IGUAL_IGUAL expresion
-#           | expresion NO_IGUAL expresion
-#           | expresion MAYOR expresion
-#           | expresion MENOR expresion
-#           | expresion MAYOR_IGUAL expresion
-#           | expresion MENOR_IGUAL expresion
-#           | PARA expresion PARC
-#           | MENOS expresion
-#           | expresion AND expresion
-#           | expresion OR expresion
-#           | NOT expresion
-#           | expresion TO_OWNED PARA PARC
-#           | expresion TO_STRING PARA PARC
-#           | CADENA
-#           | CARACTER
-#           | TRUE
-#           | FALSE
-#           | ENTERO
-#           | DECIMAL
-#           | ID
 
 def p_inicio(p):
     """
@@ -120,6 +61,9 @@ def p_instruccion(p):
                 | sent_if
                 | match
                 | expresion
+                | return PT_COMA
+                | break PT_COMA
+                | continue PT_COMA
     """
     p[0] = p[1]
 
@@ -350,6 +294,37 @@ def p_match_default(p):
     p[0] = Coincidencia([], p[3], p.lineno(1), p.lexpos(1))
 
 # === FIN INSTRUCCION MATCH ===
+
+# === INICIO INSTRUCCION RETURN ===
+def p_instruccion_return(p):
+    """
+    return : RETURN
+            | RETURN expresion
+    """
+    if len(p) == 2:
+        p[0] = Return(None, p.lineno(1), p.lexpos(1))
+    else:
+        p[0] = Return(p[2], p.lineno(1), p.lexpos(1))
+
+# === FIN INSTRUCCION RETURN ===
+
+# === INICIO INSTRUCCION BREAK ===
+def p_instruccion_break(p):
+    """
+    break : BREAK
+    """
+    p[0] = Break(p.lineno(1), p.lexpos(1))
+
+# === FIN INSTRUCCION BREAK ===
+
+# === INICIO INSTRUCCION CONTINUE ===
+def p_instruccion_continue(p):
+    """
+    continue : CONTINUE
+    """
+    p[0] = Continue(p.lineno(1), p.lexpos(1))
+
+# === FIN INSTRUCCION CONTINUE ===
 
 # === INICIO STATEMENT ===
 def p_statement(p):

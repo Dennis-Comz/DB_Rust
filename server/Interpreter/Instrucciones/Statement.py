@@ -12,8 +12,22 @@ class Statement(Instruccion, Expresion):
         self.columna = columna
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+        result = {"return":False, "break":False, "continue":False, "valRetorno":None}
+
         for ins in self.code:
-            ins.ejecutar(driver, ts)
+            retorno = ins.ejecutar(driver, ts)
+            if retorno != None:
+                result["valRetorno"] = retorno["valRetorno"]
+                if retorno["break"]:
+                    result["break"] = True
+                    return result
+                elif retorno["continue"]:
+                    result["continue"] = True
+                    return result
+                elif retorno["return"]:
+                    result["return"] = True
+                    return result
+
 
     def getTipo(self, driver, ts):
         for ins in self.code:

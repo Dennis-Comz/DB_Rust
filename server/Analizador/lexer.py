@@ -1,5 +1,4 @@
 # Declaracion de tokens
-from dataclasses import replace
 from plyFiles.ply import lex
 
 reservadas = {
@@ -21,7 +20,10 @@ reservadas = {
     'match' : 'MATCH',
     'abs' : 'ABSOLUTO',
     'sqrt' : 'RAIZ',
-    'as' : 'AS'
+    'as' : 'AS',
+    'return' : 'RETURN',
+    'break' : 'BREAK',
+    'continue' : 'CONTINUE'
 }
 
 tokens = [

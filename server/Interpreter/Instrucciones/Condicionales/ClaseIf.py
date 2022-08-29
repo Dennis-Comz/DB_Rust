@@ -1,4 +1,3 @@
-import traceback
 from Interpreter.Expresiones.Expresion import Expresion
 from Interpreter.Instrucciones.Instruccion import Instruccion
 from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
@@ -24,9 +23,13 @@ class ClaseIf(Instruccion, Expresion):
                 raise Exception(f"Error Semantico, la condicion a evaluar no es booleana, linea {self.linea} columna {self.columna}")
             
             if condicion:
-                self.cuerpo.ejecutar(driver, ts_local)
+                retorno = self.cuerpo.ejecutar(driver, ts_local)
+                if retorno != None:
+                    return retorno
             elif self.Else != None:
-                self.Else.ejecutar(driver, ts_local)
+                retorno = self.Else.ejecutar(driver, ts_local)
+                if retorno != None:
+                    return retorno
         except:
             pass
 

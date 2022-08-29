@@ -1,0 +1,61 @@
+# DEFINICION INICIO GRAMATICA
+# inicio : instrucciones
+# instrucciones: instrucciones instruccion
+#            | instruccion
+# instruccion : print PT_COMA
+#           | declaracion PT_COMA
+#           | sent_if
+#           | match
+#           | expresion
+# print : PRINT PARA expresion PARC
+# declaracion : LET MUT ID DOS_PT tipo IGUAL expresion
+#           | LET MUT ID DOS_PT tipo
+#           | LET MUT ID IGUAL expresion
+#           | LET MUT ID
+#           | LET ID DOS_PT tipo IGUAL expresion
+#           | LET ID DOS_PT tipo
+#           | LET ID IGUAL expresion
+#           | LET ID
+#           | ID IGUAL expresion
+# sent_if : IF expresion statement sent_else
+# sent_else : ELSE statement
+#           | ELSE if
+#           |
+# match : MATCH expresion LLAVA coincidencias LLAVC
+# coincidencias : lista_coincidencias default
+# 		| default
+# lista_coincidencias : lista_coincidencias COMA coincidencia
+# 		| coincidencia COMA
+# coincidencia : lista_valores ARROW statement
+# 		| lista_valores ARROW instruccion
+# lista_valores : lista_valores SEP_MATCH expresion
+# 		| expresion
+# default : GUION_B ARROW instruccion
+# statement : LLAVA instrucciones LLAVC
+#           | LLAVA LLAVC
+# expresion : expresion MAS expresion
+#           | expresion MENOS expresion
+#           | expresion MULTI expresion
+#           | expresion DIV expresion
+#           | expresion MODULO expresion
+#           | I64 DOS_PT DOS_PT POW PARA expresion COMA expresion PARC
+#           | expresion IGUAL_IGUAL expresion
+#           | expresion NO_IGUAL expresion
+#           | expresion MAYOR expresion
+#           | expresion MENOR expresion
+#           | expresion MAYOR_IGUAL expresion
+#           | expresion MENOR_IGUAL expresion
+#           | PARA expresion PARC
+#           | MENOS expresion
+#           | expresion AND expresion
+#           | expresion OR expresion
+#           | NOT expresion
+#           | expresion TO_OWNED PARA PARC
+#           | expresion TO_STRING PARA PARC
+#           | CADENA
+#           | CARACTER
+#           | TRUE
+#           | FALSE
+#           | ENTERO
+#           | DECIMAL
+#           | ID
