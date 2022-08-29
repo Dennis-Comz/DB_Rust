@@ -11,7 +11,7 @@ class Statement(Instruccion, Expresion):
         self.code = code
         self.linea = linea
         self.columna = columna
-        self.result = {"return":False, "break":False, "continue":False, "expRetorno":None}
+        self.result1 = {"return":False, "break":False, "continue":False, "expRetorno":None}
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
         result = {"return":False, "break":False, "continue":False, "expRetorno":None}
@@ -36,20 +36,20 @@ class Statement(Instruccion, Expresion):
             if getattr(ins, "ejecutar", None) != None:
                 retorno = ins.ejecutar(driver, ts)
                 if retorno != None:
-                    self.result["expRetorno"] = retorno["expRetorno"]
+                    self.result1["expRetorno"] = retorno["expRetorno"]
                     if retorno["break"]:
-                        self.result["break"] = True
-                        return self.result["expRetorno"].getTipo(driver, ts)
+                        self.result1["break"] = True
+                        return self.result1["expRetorno"].getTipo(driver, ts)
                     elif retorno["continue"]:
-                        self.result["continue"] = True
-                        return self.result
+                        self.result1["continue"] = True
+                        return self.result1
                     elif retorno["return"]:
-                        self.result["return"] = True
-                        return self.result["expRetorno"].getTipo(driver, ts)
+                        self.result1["return"] = True
+                        return self.result1["expRetorno"].getTipo(driver, ts)
         if getattr(self.code[(len(self.code)-1)], "getTipo", None) != None:
             return self.code[(len(self.code)-1)].getTipo(driver, ts)
 
     def getValor(self, driver, ts):
-        if self.result["expRetorno"] != None:
-            return self.result["expRetorno"].getValor(driver, ts)
+        if self.result1["expRetorno"] != None:
+            return self.result1["expRetorno"].getValor(driver, ts)
         return self.code[(len(self.code)-1)].getValor(driver, ts)

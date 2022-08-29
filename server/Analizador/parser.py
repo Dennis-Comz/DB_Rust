@@ -10,6 +10,7 @@ from Interpreter.Instrucciones.PrintLn import PrintLn
 from Interpreter.Expresiones.ToString import ToString
 from Interpreter.Instrucciones.Ciclos.Loop import Loop
 from Interpreter.Expresiones.Primitivo import Primitivo
+from Interpreter.Instrucciones.Ciclos.While import While
 from Interpreter.Instrucciones.Statement import Statement
 from Interpreter.Instrucciones.Declaracion import Declaracion
 from Interpreter.Expresiones.Identificador import Identificador
@@ -66,6 +67,7 @@ def p_instruccion(p):
                 | break PT_COMA
                 | continue PT_COMA
                 | loop
+                | while
     """
     p[0] = p[1]
 
@@ -341,6 +343,15 @@ def p_instruccion_loop(p):
     p[0] = Loop(p[2], p.lineno(1), p.lexpos(1))
 
 # === FIN INSTRUCCION LOOP ===
+
+# === INICIO INSTRUCCION WHILE ===
+def p_instruccion_while(p):
+    """
+    while : WHILE expresion statement
+    """
+    p[0] = While(p[2], p[3], p.lineno(1), p.lexpos(1))
+
+# === FIN INSTRUCCION WHILE ===
 
 # === INICIO STATEMENT ===
 def p_statement(p):

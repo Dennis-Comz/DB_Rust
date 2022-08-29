@@ -19,15 +19,15 @@ class Coincidencia(Instruccion, Expresion):
             retorno = self.cuerpo.ejecutar(driver, ts)
             if retorno != None:
                 result["expRetorno"] = retorno["expRetorno"]
-            if retorno["break"]:
-                result["break"] = True
-                return result
-            elif retorno["continue"]:
-                result["continue"] = True
-                return result
-            elif retorno["return"]:
-                result["return"] = True
-                return result
+                if retorno["break"]:
+                    result["break"] = True
+                    return result
+                elif retorno["continue"]:
+                    result["continue"] = True
+                    return result
+                elif retorno["return"]:
+                    result["return"] = True
+                    return result
     
     def getTipo(self, driver, ts):
         if getattr(self.cuerpo, "ejecutar", None) != None:

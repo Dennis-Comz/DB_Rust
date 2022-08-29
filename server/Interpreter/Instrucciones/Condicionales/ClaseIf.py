@@ -24,12 +24,12 @@ class ClaseIf(Instruccion, Expresion):
             
             if condicion:
                 retorno = self.cuerpo.ejecutar(driver, ts_local)
-                if retorno != None:
-                    return retorno
+#                if retorno != None:
+                return retorno
             elif self.Else != None:
                 retorno = self.Else.ejecutar(driver, ts_local)
-                if retorno != None:
-                    return retorno
+ #               if retorno != None:
+                return retorno
         except:
             pass
 

@@ -24,7 +24,8 @@ reservadas = {
     'return' : 'RETURN',
     'break' : 'BREAK',
     'continue' : 'CONTINUE',
-    'loop' : 'LOOP'
+    'loop' : 'LOOP',
+    'while' : 'WHILE'
 }
 
 tokens = [
