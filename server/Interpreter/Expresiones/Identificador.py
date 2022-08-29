@@ -11,7 +11,8 @@ class Identificador(Expresion):
         self.identificador = identificador
 
     def getTipo(self, driver: Driver, ts: TablaSimbolos):
-        return ts.buscar(self.identificador).tipo
+        val = ts.buscar(self.identificador).tipo
+        return val
 
     def getValor(self, driver: Driver, ts: TablaSimbolos):
         simbolo = ts.buscar(self.identificador)

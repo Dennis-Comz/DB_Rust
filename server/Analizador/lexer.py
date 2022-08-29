@@ -23,7 +23,8 @@ reservadas = {
     'as' : 'AS',
     'return' : 'RETURN',
     'break' : 'BREAK',
-    'continue' : 'CONTINUE'
+    'continue' : 'CONTINUE',
+    'loop' : 'LOOP'
 }
 
 tokens = [

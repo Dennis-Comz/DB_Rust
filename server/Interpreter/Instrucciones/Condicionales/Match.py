@@ -23,7 +23,9 @@ class Match(Instruccion, Expresion):
             tipos = coin.getTipos(driver, ts_local)
             for i in range(0, len(valores)):
                 if expValor == valores[i] and expTipo == tipos[i]:
-                    coin.ejecutar(driver, ts_local)
+                    retorno = coin.ejecutar(driver, ts_local)
+                    if retorno != None:
+                        return retorno
                     salir = False
                     break
                 elif expTipo != tipos[i]:
@@ -31,7 +33,9 @@ class Match(Instruccion, Expresion):
                     salir = False
                     break
             if len(valores) == 0:
-                coin.ejecutar(driver, ts_local)
+                retorno = coin.ejecutar(driver, ts_local)
+                if retorno != None:
+                    return retorno
                 salir = False
             if not salir:
                 break

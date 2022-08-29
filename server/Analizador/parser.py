@@ -8,6 +8,7 @@ from Interpreter.Expresiones.ToOwned import ToOwned
 from Interpreter.Expresiones.Absoluto import Absoluto
 from Interpreter.Instrucciones.PrintLn import PrintLn
 from Interpreter.Expresiones.ToString import ToString
+from Interpreter.Instrucciones.Ciclos.Loop import Loop
 from Interpreter.Expresiones.Primitivo import Primitivo
 from Interpreter.Instrucciones.Statement import Statement
 from Interpreter.Instrucciones.Declaracion import Declaracion
@@ -64,6 +65,7 @@ def p_instruccion(p):
                 | return PT_COMA
                 | break PT_COMA
                 | continue PT_COMA
+                | loop
     """
     p[0] = p[1]
 
@@ -218,6 +220,7 @@ def p_declaracion_valores(p):
     valores : expresion
             | sent_if
             | match
+            | loop
     """
     p[0] = p[1]
 # === FIN DIFERENTES DECLARACIONES ===
@@ -312,8 +315,12 @@ def p_instruccion_return(p):
 def p_instruccion_break(p):
     """
     break : BREAK
+        | BREAK expresion
     """
-    p[0] = Break(p.lineno(1), p.lexpos(1))
+    if len(p) == 2:
+        p[0] = Break(None, p.lineno(1), p.lexpos(1))
+    else:
+        p[0] = Break(p[2], p.lineno(1), p.lexpos(1))
 
 # === FIN INSTRUCCION BREAK ===
 
@@ -325,6 +332,15 @@ def p_instruccion_continue(p):
     p[0] = Continue(p.lineno(1), p.lexpos(1))
 
 # === FIN INSTRUCCION CONTINUE ===
+
+# === INICIO INSTRUCCION LOOP ===
+def p_instruccion_loop(p):
+    """
+    loop : LOOP statement
+    """
+    p[0] = Loop(p[2], p.lineno(1), p.lexpos(1))
+
+# === FIN INSTRUCCION LOOP ===
 
 # === INICIO STATEMENT ===
 def p_statement(p):

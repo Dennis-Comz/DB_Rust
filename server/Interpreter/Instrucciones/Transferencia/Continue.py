@@ -6,5 +6,4 @@ class Continue(Instruccion):
         self.columna = columna
 
     def ejecutar(self, driver, ts):
-#       return break continue valorReturn 
-        return {"return":False, "break":False, "continue":True, "valRetorno":None}
+        return {"return":False, "break":False, "continue":True, "expRetorno":None}

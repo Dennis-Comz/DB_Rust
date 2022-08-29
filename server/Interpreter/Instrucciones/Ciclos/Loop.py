@@ -1,0 +1,43 @@
+from Interpreter.Expresiones.Expresion import Expresion
+from Interpreter.Instrucciones.Instruccion import Instruccion
+from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
+from Interpreter.Driver.Driver import Driver
+
+class Loop(Instruccion, Expresion):
+    def __init__(self, cuerpo, linea, columna):
+        self.cuerpo = cuerpo
+        self.linea = linea
+        self.columna = columna
+
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+        try:
+            ts_local = TablaSimbolos(ts, 'LOOP')
+            while True:
+                retorno = self.cuerpo.ejecutar(driver, ts_local)
+                if retorno != None:
+                    if retorno["continue"]:
+                        continue;
+                    else:
+                        return retorno
+        except:
+            pass
+
+    def getTipo(self, driver, ts):
+        ts_local = TablaSimbolos(ts, 'LOOP')
+        while True:
+            tipo = self.cuerpo.getTipo(driver, ts_local)
+            if tipo != None:
+                if type(tipo) == dict and tipo["continue"]:
+                        continue;
+                else:
+                    return tipo
+
+    def getValor(self, driver, ts):
+        ts_local = TablaSimbolos(ts, 'LOOP')
+        while True:
+            valor = self.cuerpo.getValor(driver, ts_local)
+            if valor != None:
+                if type(valor) == dict and valor["continue"]:
+                        continue;
+                else:
+                    return valor
