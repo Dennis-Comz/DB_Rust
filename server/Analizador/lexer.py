@@ -25,7 +25,8 @@ reservadas = {
     'break' : 'BREAK',
     'continue' : 'CONTINUE',
     'loop' : 'LOOP',
-    'while' : 'WHILE'
+    'while' : 'WHILE',
+    'fn' : 'FN'
 }
 
 tokens = [
@@ -60,6 +61,7 @@ tokens = [
             'LLAVA',
             'LLAVC',
             'ARROW',
+            'ARRFUNC',
             'SEP_MATCH'
 ] + list(reservadas.values())
 
@@ -68,6 +70,7 @@ t_ignore = '[\r\t ]'
 
 # Tokens con Regex
 t_MAS = r'\+'
+t_ARRFUNC = r'\-\>'
 t_MENOS = r'-'
 t_MULTI = r'\*'
 t_DIV = r'/'

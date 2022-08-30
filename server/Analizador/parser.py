@@ -24,6 +24,10 @@ from Interpreter.Instrucciones.Condicionales.ClaseIf import ClaseIf
 from Interpreter.Instrucciones.Transferencia.Continue import Continue
 from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
+from Interpreter.TablaSimbolos.SimbFuncion import SimbFuncion
+from Interpreter.Instrucciones.Metodo import Metodo
+from Interpreter.Instrucciones.Parametro import Parametro
+from Interpreter.Expresiones.LlamadaFuncion import LlamadaFuncion
 
 tokens = lexer.tokens
 
@@ -68,6 +72,7 @@ def p_instruccion(p):
                 | continue PT_COMA
                 | loop
                 | while
+                | funcion
     """
     p[0] = p[1]
 
@@ -353,6 +358,61 @@ def p_instruccion_while(p):
 
 # === FIN INSTRUCCION WHILE ===
 
+# === INICIO INSTRUCCION FUNCION ===
+def p_instruccion_funcion(p):
+    """
+    funcion : FN ID PARA lista_parametros PARC statement
+            | FN ID PARA lista_parametros PARC ARRFUNC tipo statement
+            | FN ID PARA PARC statement
+    """
+    if len(p) == 7:
+        p[0] = Metodo(p[2], p[4], Tipos.VOID, p[6], 
+        SimbFuncion(Simbolos.FUNCION, p[2], p[4], Tipos.VOID, p[6]), p.lineno(1), p.lexpos(1))
+    elif len(p) == 9:
+        p[0] = Metodo(p[2], p[4], p[7], p[8], 
+        SimbFuncion(Simbolos.FUNCION, p[2], p[4], p[7], p[8]), p.lineno(1), p.lexpos(1))
+    elif len(p) == 6:
+        p[0] = Metodo(p[2], [], Tipos.VOID, p[6], 
+        SimbFuncion(Simbolos.FUNCION, p[2], p[4], Tipos.VOID, p[6]), p.lineno(1), p.lexpos(1))
+
+def p_funcion_diferente(p):
+    """
+    funcion : FN ID PARA PARC ARRFUNC statement
+    """
+    p[0] = Metodo(p[2], [], Tipos.VOID, p[7], 
+    SimbFuncion(Simbolos.FUNCION, p[2], [], Tipos.VOID, p[7]), p.lineno(1), p.lexpos(1))
+
+def p_funcion_params(p):
+    """
+    lista_parametros : lista_parametros COMA ID DOS_PT tipo
+    """
+    p[1].append(Parametro(p[5], p[3]))
+    p[0] = p[1]
+
+def p_funcion_params2(p):
+    """
+    lista_parametros : ID DOS_PT tipo
+    """
+    p[0] = [Parametro(p[3], p[1])]
+
+# === FIN INSTRUCCION FUNCION ===
+
+# === INICIO INSTRUCCION LLAMADO_FUNCION ===
+def p_instruccion_llamado(p):
+    """
+    llamado : ID PARA list_exp PARC
+    """
+    p[0] = LlamadaFuncion(p[1], p[3], p.lineno(1), p.lexpos(1))
+
+def p_llamado2(p):
+    """
+    llamado : ID PARA PARC
+    """
+    p[0] = LlamadaFuncion(p[1], [], p.lineno(1), p.lexpos(1))
+
+
+# === FIN INSTRUCCION LLAMADO FUNCION ===
+
 # === INICIO STATEMENT ===
 def p_statement(p):
     """
@@ -418,6 +478,12 @@ def p_exp_parentesis(p):
     p[0] = p[2]
 
 # === FIN ARITMETICAS ===
+
+def p_exp_func(p):
+    """
+    expresion : llamado
+    """
+    p[0] = p[1]
 
 # === INICIO RELACIONALES ===
 def p_exp_relacionales(p):

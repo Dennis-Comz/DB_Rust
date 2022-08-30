@@ -13,6 +13,7 @@ class PrintLn(Instruccion):
         cadena = str(self.exp.getValor(driver, ts))
         exps = []
         for e in self.expresiones:
+            e.getTipo(driver, ts)
             exps.append(e.getValor(driver, ts))
         
         cadena = self.obtenerCadenaFinal(cadena, exps)

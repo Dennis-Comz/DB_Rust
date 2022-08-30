@@ -1,4 +1,3 @@
-from Interpreter.TablaSimbolos.Tipos import Tipo
 from enum import Enum
 
 class Simbolo:
@@ -12,7 +11,10 @@ class Simbolo:
 
 class Simbolos(Enum):
     VARIABLE = 1
+    FUNCION = 2
 
 def getSimbolo(s):
     if s == 1:
         return Simbolos.VARIABLE
+    elif s == 2:
+        return Simbolos.FUNCION
