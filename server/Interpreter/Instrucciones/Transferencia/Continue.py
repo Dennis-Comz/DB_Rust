@@ -6,4 +6,4 @@ class Continue(Instruccion):
         self.columna = columna
 
     def ejecutar(self, driver, ts):
-        return {"return":False, "break":False, "continue":True, "expRetorno":None}
+        return {"return":False, "break":False, "continue":True, "expTipo":"", "expValor":""}

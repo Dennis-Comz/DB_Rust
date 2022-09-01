@@ -10,15 +10,16 @@ class Coincidencia(Instruccion, Expresion):
         self.cuerpo = cuerpo
         self.linea = linea
         self.columna = columna
-        self.result = {"return":False, "break":False, "continue":False, "expRetorno":None}
+        self.result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
-        result = {"return":False, "break":False, "continue":False, "expRetorno":None}
+        result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
 
         if getattr(self.cuerpo, "ejecutar", None) != None:
             retorno = self.cuerpo.ejecutar(driver, ts)
             if retorno != None:
-                result["expRetorno"] = retorno["expRetorno"]
+                result["expTipo"] = retorno["expTipo"]
+                result["expValor"] = result["expValor"] + retorno["expValor"]
                 if retorno["break"]:
                     result["break"] = True
                     return result
@@ -30,25 +31,38 @@ class Coincidencia(Instruccion, Expresion):
                     return result
     
     def getTipo(self, driver, ts):
-        if getattr(self.cuerpo, "ejecutar", None) != None:
-            retorno = self.cuerpo.ejecutar(driver, ts)
-            if retorno != None:
-                self.result["expRetorno"] = retorno["expRetorno"]
-            if retorno["break"]:
-                self.result["break"] = True
-                return self.result["expRetorno"].getTipo(driver, ts)
-            elif retorno["continue"]:
-                self.result["continue"] = True
-                return self.result
-            elif retorno["return"]:
-                self.result["return"] = True
-                return self.result["expRetorno"].getTipo(driver, ts)
-        else:
+        if getattr(self.cuerpo, "getTipo", None) != None:
             return self.cuerpo.getTipo(driver, ts)
+        retorno = self.cuerpo.ejecutar(driver, ts)
+        if self.result["expTipo"] == "":
+            self.result = retorno
+        else:
+            if not retorno["continue"]:
+                self.result["expTipo"] = retorno["expTipo"]
+                self.result["expValor"] = retorno["expValor"]
+                return self.result["expTipo"]
+            else:
+                return self.result
+        return self.result["expTipo"]
+
+            # if retorno != None:
+            #     self.result["expRetorno"] = retorno["expRetorno"]
+            # if retorno["break"]:
+            #     self.result["break"] = True
+            #     return self.result["expRetorno"].getTipo(driver, ts)
+            # elif retorno["continue"]:
+            #     self.result["continue"] = True
+            #     return self.result
+            # elif retorno["return"]:
+            #     self.result["return"] = True
+            #     return self.result["expRetorno"].getTipo(driver, ts)
+            
 
     def getValor(self, driver, ts):
-        if getattr(self.cuerpo, "ejecutar", None) != None:
-            return self.result
+        if self.result["expTipo"] != "":
+            return self.result["expValor"]
+        # if getattr(self.cuerpo, "ejecutar", None) != None:
+        #     return self.result["valor"]
         return self.cuerpo.getValor(driver, ts)
 
 
@@ -68,5 +82,3 @@ class Coincidencia(Instruccion, Expresion):
                 types.append(val.getTipo(driver, ts))
         
         return types
-        
-

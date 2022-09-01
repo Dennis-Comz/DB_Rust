@@ -11,7 +11,7 @@ class LlamadaFuncion(Instruccion, Expresion):
         self.parametros = parametros
         self.linea = linea
         self.columna = columna
-        self.salida = {"tipo": None, "valor":None}
+        self.salida = {"tipo": None, "valor":""}
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
         funcion = ts.buscarFuncion(self.id)
@@ -22,7 +22,7 @@ class LlamadaFuncion(Instruccion, Expresion):
                 for i in range(0, len(self.parametros)):
                     tipoParam = self.parametros[i].getTipo(driver, ts)
                     if tipoParam != funcion.parametros[i].type:
-                        driver.console(f"Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}")
+                        driver.append(f"Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}")
                 for i in range(0, len(self.parametros)):
                     valorParam = self.parametros[i].getValor(driver, ts)
                     ts_local.add(funcion.parametros[i].id, Simbolo(
@@ -32,13 +32,13 @@ class LlamadaFuncion(Instruccion, Expresion):
                     return funcion.cuerpo.ejecutar(driver, ts_local)
                 else:
                     result = funcion.cuerpo.ejecutar(driver, ts_local)
-                    if result["return"]:
-                        tipoExp = result["expRetorno"].getTipo(driver, ts_local)
-                        valExp = result["expRetorno"].getValor(driver, ts_local)
+                    if result != None and result["return"]:
+                        tipoExp = result["expTipo"]
+                        valExp = result["expValor"]
                         if tipoExp == funcion.tipo:
                             return {"tipo": tipoExp, "valor":valExp}
                         else:
-                            driver.console(f"Error Semantico, se esperaba retorno {funcion.tipo} se obtuvo {tipoExp}")
+                            driver.append(f"Error Semantico, se esperaba retorno {funcion.tipo} se obtuvo {tipoExp}")
 
 
     def getTipo(self, driver, ts):
@@ -46,10 +46,12 @@ class LlamadaFuncion(Instruccion, Expresion):
         if tipo != None:
             if self.salida["tipo"] != None:
                 self.salida["tipo"] = tipo["tipo"]
-                self.salida["valor"] += tipo["valor"]
+                self.salida["valor"] = tipo["valor"]
+                return self.salida["tipo"]
             else:
                 self.salida = tipo
-            return tipo["tipo"]
+                return self.salida["tipo"]
+        return
 
     def getValor(self, driver, ts):
         if self.salida["valor"] is not None:

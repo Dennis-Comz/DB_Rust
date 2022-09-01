@@ -8,5 +8,7 @@ class Break(Instruccion):
 
     def ejecutar(self, driver, ts):
         if self.exp == None:
-            return {"return":False, "break":True, "continue":False, "expRetorno":None}
-        return {"return":False, "break":True, "continue":False, "expRetorno":self.exp}
+            return {"return":False, "break":True, "continue":False, "expTipo":"", "expValor":""}
+        expTipo = self.exp.getTipo(driver,ts)
+        expValor = self.exp.getValor(driver, ts)
+        return {"return":False, "break":True, "continue":False, "expTipo": expTipo, "expValor": expValor}
