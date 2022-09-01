@@ -1,5 +1,5 @@
 from Interpreter.Expresiones.Expresion import Expresion
-from Interpreter.TablaSimbolos.Tipos import definirTipo
+from Interpreter.TablaSimbolos.Tipos import Tipos
 
 class Absoluto(Expresion):
 
@@ -12,10 +12,11 @@ class Absoluto(Expresion):
         return self.exp.getTipo(driver, ts)
 
     def getValor(self, driver, ts):
+        tipo = self.exp.getTipo(driver, ts)
         value = self.exp.getValor(driver, ts)
-        if type(value) != int and type(value) != float:
-            driver.append("tipo no valido")
-            return
+        if tipo != Tipos.INT64 and tipo != Tipos.FLOAT64:
+            driver.append(f'Error Semantico, no se puede obtener valor absoluto de tipo {tipo}, linea {self.exp.linea}, columna {self.exp.columna}')
+            raise Exception(f'Error Semantico, no se puede obtener valor absoluto de tipo {tipo}, linea {self.exp.linea}, columna {self.exp.columna}')
         if value < 0:
             value = value * (-1)
         return value

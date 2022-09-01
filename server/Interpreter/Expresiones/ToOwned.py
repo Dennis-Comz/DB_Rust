@@ -1,5 +1,5 @@
 from Interpreter.Expresiones.Expresion import Expresion
-from Interpreter.TablaSimbolos.Tipos import definirTipo
+from Interpreter.TablaSimbolos.Tipos import definirTipo, Tipos
 
 class ToOwned(Expresion):
 
@@ -17,8 +17,9 @@ class ToOwned(Expresion):
             return self.tipo
 
     def getValor(self, driver, ts):
+        tipo = self.exp.getTipo(driver, ts)
         value = self.exp.getValor(driver, ts)
-        if type(value) != str:
-            driver.append("tipo no valido \n")
-            return;
+        if tipo != Tipos.STR_POINTER and tipo != Tipos.STR_BUFFER:
+            driver.append(f'Error Semantico, tipo de dato no valido {tipo} se esperaba Tipos.STR_POINTER o Tipos.STR_BUFFER, linea {self.exp.linea}, columna {self.exp.columna}')
+            raise Exception(f'Error Semantico, tipo de dato no valido {tipo} se esperaba Tipos.STR_POINTER o Tipos.STR_BUFFER, linea {self.exp.linea}, columna {self.exp.columna}')
         return value

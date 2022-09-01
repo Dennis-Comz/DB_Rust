@@ -14,32 +14,36 @@ class LlamadaFuncion(Instruccion, Expresion):
         self.salida = {"tipo": None, "valor":""}
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
-        funcion = ts.buscarFuncion(self.id)
-        
-        if funcion != None:
-            if len(self.parametros) == len(funcion.parametros):
-                ts_local = TablaSimbolos(ts, "FUNCION")
-                for i in range(0, len(self.parametros)):
-                    tipoParam = self.parametros[i].getTipo(driver, ts)
-                    if tipoParam != funcion.parametros[i].type:
-                        driver.append(f"Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}")
-                for i in range(0, len(self.parametros)):
-                    valorParam = self.parametros[i].getValor(driver, ts)
-                    ts_local.add(funcion.parametros[i].id, Simbolo(
-                        Simbolos.VARIABLE, True, funcion.parametros[i].id, 
-                        funcion.parametros[i].type, valorParam))
-                if funcion.tipo == Tipos.VOID:
-                    return funcion.cuerpo.ejecutar(driver, ts_local)
-                else:
-                    result = funcion.cuerpo.ejecutar(driver, ts_local)
-                    if result != None and result["return"]:
-                        tipoExp = result["expTipo"]
-                        valExp = result["expValor"]
-                        if tipoExp == funcion.tipo:
-                            return {"tipo": tipoExp, "valor":valExp}
-                        else:
-                            driver.append(f"Error Semantico, se esperaba retorno {funcion.tipo} se obtuvo {tipoExp}")
-
+        try:
+            funcion = ts.buscarFuncion(self.id)
+            
+            if funcion != None:
+                if len(self.parametros) == len(funcion.parametros):
+                    ts_local = TablaSimbolos(ts, "FUNCION")
+                    for i in range(0, len(self.parametros)):
+                        tipoParam = self.parametros[i].getTipo(driver, ts)
+                        if tipoParam != funcion.parametros[i].type:
+                            driver.append(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
+                            raise Exception(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
+                    for i in range(0, len(self.parametros)):
+                        valorParam = self.parametros[i].getValor(driver, ts)
+                        ts_local.add(funcion.parametros[i].id, Simbolo(
+                            Simbolos.VARIABLE, True, funcion.parametros[i].id, 
+                            funcion.parametros[i].type, valorParam))
+                    if funcion.tipo == Tipos.VOID:
+                        return funcion.cuerpo.ejecutar(driver, ts_local)
+                    else:
+                        result = funcion.cuerpo.ejecutar(driver, ts_local)
+                        if result != None and result["return"]:
+                            tipoExp = result["expTipo"]
+                            valExp = result["expValor"]
+                            if tipoExp == funcion.tipo:
+                                return {"tipo": tipoExp, "valor":valExp}
+                            else:
+                                driver.append(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
+                                raise Exception(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
+        except:
+            pass
 
     def getTipo(self, driver, ts):
         tipo = self.ejecutar(driver, ts)
@@ -51,7 +55,8 @@ class LlamadaFuncion(Instruccion, Expresion):
             else:
                 self.salida = tipo
                 return self.salida["tipo"]
-        return
+        driver.append(f'Error Semantico, la variable no tiene retorno, linea {self.linea}, columna {self.columna}')
+        raise Exception(f'Error Semantico, la variable no tiene retorno, linea {self.linea}, columna {self.columna}')
 
     def getValor(self, driver, ts):
         if self.salida["valor"] is not None:

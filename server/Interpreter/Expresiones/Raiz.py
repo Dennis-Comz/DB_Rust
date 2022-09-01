@@ -1,6 +1,6 @@
 import math
 from Interpreter.Expresiones.Expresion import Expresion
-from Interpreter.TablaSimbolos.Tipos import definirTipo
+from Interpreter.TablaSimbolos.Tipos import definirTipo, Tipos
 
 class Raiz(Expresion):
 
@@ -18,11 +18,12 @@ class Raiz(Expresion):
             return self.tipo
 
     def getValor(self, driver, ts):
+        tipo = self.exp.getTipo(driver, ts)
         value = self.exp.getValor(driver, ts)
-        if type(value) != float:
-            driver.append("tipo no valido")
-            return
+        if tipo != Tipos.FLOAT64:
+            driver.append(f'Error Semantico, no se puede obtener raiz de {tipo}, linea {self.exp.linea}, columna {self.exp.columna}')
+            raise Exception(f'Error Semantico, no se puede obtener raiz de {tipo}, linea {self.exp.linea}, columna {self.exp.columna}')
         if value < 0:
-            driver.append("No se pueden obtener raices negativas")
-            return
+            driver.append(f'Error Semantico, RESULTADO INDEFINIDO, no se pueden obtener raices negativas, linea {self.exp.linea}, columna {self.exp.columna}')
+            raise Exception(f'Error Semantico, RESULTADO INDEFINIDO, no se pueden obtener raices negativas, linea {self.exp.linea}, columna {self.exp.columna}')
         return math.sqrt(value)

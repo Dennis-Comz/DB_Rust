@@ -10,22 +10,24 @@ class PrintLn(Instruccion):
         self.linea = linea
 
     def ejecutar(self, driver, ts):
-        cadena = str(self.exp.getValor(driver, ts))
-        exps = []
-        for e in self.expresiones:
-            e.getTipo(driver, ts)
-            exps.append(e.getValor(driver, ts))
-        
-        cadena = self.obtenerCadenaFinal(cadena, exps)
-        cadena = cadena.replace("\\n", '\n')
-        cadena = cadena.replace("\\\\", '\\')
-        cadena = cadena.replace("\\\"", '\"')
-        cadena = cadena.replace("\\t", '\t')
-        cadena = cadena.replace("\\'", '\'')
-        if cadena != 'None':
-            driver.append(cadena)
-    
-    def obtenerCadenaFinal(self, cadena, arrayVals):
+        try:
+            cadena = str(self.exp.getValor(driver, ts))
+            exps = []
+            for e in self.expresiones:
+                e.getTipo(driver, ts)
+                exps.append(e.getValor(driver, ts))
+            
+            cadena = self.obtenerCadenaFinal(cadena, exps, driver)
+            cadena = cadena.replace("\\n", '\n')
+            cadena = cadena.replace("\\\\", '\\')
+            cadena = cadena.replace("\\\"", '\"')
+            cadena = cadena.replace("\\t", '\t')
+            cadena = cadena.replace("\\'", '\'')
+            if cadena != 'None':
+                driver.append(cadena)
+        except:
+            pass    
+    def obtenerCadenaFinal(self, cadena, arrayVals, driver):
         cadena += " "
         cads = []
         cad = ""
@@ -45,8 +47,8 @@ class PrintLn(Instruccion):
                         cads.append(llava+llavc + cadena[i])
                     else:
                         if len(arrayVals) == 0:
-                            print("Error pocos argumentos para cantidad de lugares")
-                            break
+                            driver.append(f'Error Semantico, se esperaba mas valores que los dados, linea {self.linea}, columna {self.columna}')
+                            raise Exception(f'Error Semantico, se esperaba mas valores que los dados, linea {self.linea}, columna {self.columna}')
                         if contadorAbre > 1:
                             llava = int(contadorAbre/2)*"{"
                             llavc = int(contadorAbre/2)*"}"
@@ -57,13 +59,14 @@ class PrintLn(Instruccion):
                     contadorAbre = 0
                     contadorCierra = 0
                 else:
-                    print("Error, falto un cierre o abre")
-                    break
+                    driver.append(f'Error Semantico, falto una llave de apertura o de cierre, linea {self.linea}, columna {self.columna}')
+                    raise Exception(f'Error Semantico, falto una llave de apertura o de cierre, linea {self.linea}, columna {self.columna}')
             elif contadorAbre == 0 and contadorCierra == 0:
                 cad += cadena[i]
         
         if len(arrayVals) != 0:
-            print("Error, se pasaron mas argumentos de los esperados")
+            driver.append(f'Error Semantico, se pasaron mas argumentos de los esperados, linea {self.linea}, columna {self.columna}')
+            raise Exception(f'Error Semantico, se pasaron mas argumentos de los esperados, linea {self.linea}, columna {self.columna}')
         salida = ""
         for v in cads:
             salida += v
