@@ -1,13 +1,24 @@
-#from Interpreter.Instrucciones import Instruccion
+from Interpreter.Instrucciones.Metodo import Metodo
+from Interpreter.Expresiones.LlamadaFuncion import LlamadaFuncion
+
 
 class Ast:
 
     def __init__(self, instrucciones=None):
         if instrucciones is None:
             instrucciones = []
-
         self.instrucciones = instrucciones
 
     def ejecutar(self, driver, ts):
+        lineaMain = 0
+        columnaMain = 0
         for instruccion in self.instrucciones:
-            instruccion.ejecutar(driver, ts)
+            if isinstance(instruccion, Metodo):
+                if instruccion.nombre == "main":
+                    lineaMain = instruccion.linea
+                    columnaMain = instruccion.columna
+                instruccion.ejecutar(driver, ts)
+        main = ts.buscarFuncion("main")
+        if main is not None:
+            LlamadaFuncion(main.nombre, main.parametros, lineaMain, columnaMain).ejecutar(driver, ts)
+

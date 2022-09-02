@@ -19,7 +19,7 @@ class Coincidencia(Instruccion, Expresion):
             retorno = self.cuerpo.ejecutar(driver, ts)
             if retorno != None:
                 result["expTipo"] = retorno["expTipo"]
-                result["expValor"] = result["expValor"] + retorno["expValor"]
+                result["expValor"] = retorno["expValor"]
                 if retorno["break"]:
                     result["break"] = True
                     return result

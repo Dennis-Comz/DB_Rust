@@ -65,6 +65,8 @@ tokens = [
             'SEP_MATCH'
 ] + list(reservadas.values())
 
+errores = []
+
 # Caracteres ignorados
 t_ignore = '[\r\t ]'
 
@@ -150,8 +152,7 @@ def find_column(input, token):
 
 # Manejo de errores lexicos
 def t_error(t):
-    print(f'Error lexico {t.value[0]!r} en la linea {t.lexer.lineno} columna {find_column(t.value, t)}')
+    errores.append({"tipo":"Lexico", "token":t.value, "descripcion":"valor no reconocido", "linea":t.lexer.lineno, "columna":find_column(t.value, t)})
     t.lexer.skip(1)
-
 
 lex.lex()

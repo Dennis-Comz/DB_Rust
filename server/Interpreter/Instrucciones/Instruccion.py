@@ -1,5 +1,5 @@
 from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
-from Interpreter.Driver import Driver
+from Interpreter.Driver.Driver import Driver
 
 
 class Instruccion:

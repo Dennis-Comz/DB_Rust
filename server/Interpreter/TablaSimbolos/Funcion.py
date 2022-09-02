@@ -1,7 +1,7 @@
 from Interpreter.TablaSimbolos.Simbolo import getSimbolo
 from Interpreter.TablaSimbolos.Tipos import Tipos
 
-class SimbFuncion:
+class Funcion:
                                           #Array de objetos tipo parametro
                                                     # |
     def __init__(self, simbolo: int, nombre:str, parametros, tipo:Tipos, cuerpo):

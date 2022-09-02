@@ -10,6 +10,7 @@ class Tipos(Enum):
     STR_BUFFER = 5
     STR_POINTER = 6
     VOID = 7
+    OBJETO = 8
 
 def getTipo(s: str):
     if s == "INT64":

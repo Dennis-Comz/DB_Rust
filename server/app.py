@@ -5,6 +5,8 @@ from Analizador.parser import parser
 from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
 from Interpreter.Driver.Driver import Driver
 from Interpreter.AST.ast import Ast
+from Interpreter.Instrucciones.Metodo import Metodo
+from Interpreter.Expresiones.LlamadaFuncion import LlamadaFuncion
 
 app = Flask(__name__)
 CORS(app)
@@ -20,10 +22,13 @@ def interpretar():
     if request.method == 'POST':
         data = request.json
         print(data)
-        ast: Ast = parser.parse(data.get('instrucciones'))
 
         ts = TablaSimbolos(None, 'Global')
         driver = Driver()
+
+        ast: Ast = parser.parse(data.get('instrucciones'))
+        # errores = parser.getErrores()
+        # print(errores)
 
         try:
             ast.ejecutar(driver, ts)

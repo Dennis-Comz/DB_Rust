@@ -21,7 +21,8 @@ class Aritmeticas(Operacion):
                 
         if self.operador == Operador.SUMA:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
-                    return self.exp1.getValor(driver, ts) + self.exp2.getValor(driver, ts)
+                valor = self.exp1.getValor(driver, ts) + self.exp2.getValor(driver, ts)
+                return valor
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts) + self.exp2.getValor(driver, ts)
             elif tipo_exp1 == Tipos.STR_BUFFER and tipo_exp2 == Tipos.STR_POINTER:
@@ -41,7 +42,8 @@ class Aritmeticas(Operacion):
 
         elif self.operador == Operador.MULTI:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
-                    return self.exp1.getValor(driver, ts) * self.exp2.getValor(driver, ts)
+                valor = self.exp1.getValor(driver, ts) * self.exp2.getValor(driver, ts)
+                return valor
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts) * self.exp2.getValor(driver, ts)
             else:

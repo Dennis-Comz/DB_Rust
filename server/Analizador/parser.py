@@ -5,12 +5,15 @@ from Interpreter.Expresiones.Raiz import Raiz
 from Interpreter.Expresiones.Casteo import Casteo
 from Interpreter.TablaSimbolos.Tipos import Tipos
 from Interpreter.Expresiones.ToOwned import ToOwned
+from Interpreter.Instrucciones.Metodo import Metodo
+from Interpreter.TablaSimbolos.Funcion import Funcion
 from Interpreter.Expresiones.Absoluto import Absoluto
 from Interpreter.Instrucciones.PrintLn import PrintLn
 from Interpreter.Expresiones.ToString import ToString
 from Interpreter.Instrucciones.Ciclos.Loop import Loop
 from Interpreter.Expresiones.Primitivo import Primitivo
 from Interpreter.Instrucciones.Ciclos.While import While
+from Interpreter.Instrucciones.Parametro import Parametro
 from Interpreter.Instrucciones.Statement import Statement
 from Interpreter.Instrucciones.Declaracion import Declaracion
 from Interpreter.Expresiones.Identificador import Identificador
@@ -20,16 +23,14 @@ from Interpreter.Instrucciones.Coincidencia import Coincidencia
 from Interpreter.Instrucciones.Condicionales.Match import Match
 from Interpreter.Instrucciones.Transferencia.Break import Break
 from Interpreter.Instrucciones.Transferencia.Return import Return
+from Interpreter.Expresiones.LlamadaFuncion import LlamadaFuncion
 from Interpreter.Instrucciones.Condicionales.ClaseIf import ClaseIf
 from Interpreter.Instrucciones.Transferencia.Continue import Continue
 from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
-from Interpreter.TablaSimbolos.SimbFuncion import SimbFuncion
-from Interpreter.Instrucciones.Metodo import Metodo
-from Interpreter.Instrucciones.Parametro import Parametro
-from Interpreter.Expresiones.LlamadaFuncion import LlamadaFuncion
 
 tokens = lexer.tokens
+errores = lexer.errores
 
 # PRECEDENCIA
 precedence = (
@@ -43,9 +44,28 @@ precedence = (
 
 def p_inicio(p):
     """
-    inicio : instrucciones
+    inicio : clases_funciones
     """
     p[0] = Ast(p[1])
+
+def p_clases_funciones(p):
+    """
+    clases_funciones : clases_funciones clase_funcion
+    """
+    p[1].append(p[2])
+    p[0] = p[1]
+
+def p_clases_funciones_corte(p):
+    """
+    clases_funciones : clase_funcion
+    """
+    p[0] = [p[1]]
+
+def p_clase_funcion(p):
+    """
+    clase_funcion : funcion
+    """
+    p[0] = p[1]
 
 def p_lista_instrucciones(p):
     """
@@ -72,7 +92,6 @@ def p_instruccion(p):
                 | continue PT_COMA
                 | loop
                 | while
-                | funcion
     """
     p[0] = p[1]
 
@@ -367,20 +386,20 @@ def p_instruccion_funcion(p):
     """
     if len(p) == 7:
         p[0] = Metodo(p[2], p[4], Tipos.VOID, p[6], 
-        SimbFuncion(Simbolos.FUNCION, p[2], p[4], Tipos.VOID, p[6]), p.lineno(1), p.lexpos(1))
+        Funcion(Simbolos.FUNCION, p[2], p[4], Tipos.VOID, p[6]), p.lineno(1), p.lexpos(1))
     elif len(p) == 9:
         p[0] = Metodo(p[2], p[4], p[7], p[8], 
-        SimbFuncion(Simbolos.FUNCION, p[2], p[4], p[7], p[8]), p.lineno(1), p.lexpos(1))
+        Funcion(Simbolos.FUNCION, p[2], p[4], p[7], p[8]), p.lineno(1), p.lexpos(1))
     elif len(p) == 6:
-        p[0] = Metodo(p[2], [], Tipos.VOID, p[6], 
-        SimbFuncion(Simbolos.FUNCION, p[2], p[4], Tipos.VOID, p[6]), p.lineno(1), p.lexpos(1))
+        p[0] = Metodo(p[2], [], Tipos.VOID, p[5], 
+        Funcion(Simbolos.FUNCION, p[2], [], Tipos.VOID, p[5]), p.lineno(1), p.lexpos(1))
 
 def p_funcion_diferente(p):
     """
-    funcion : FN ID PARA PARC ARRFUNC statement
+    funcion : FN ID PARA PARC ARRFUNC tipo statement
     """
-    p[0] = Metodo(p[2], [], Tipos.VOID, p[7], 
-    SimbFuncion(Simbolos.FUNCION, p[2], [], Tipos.VOID, p[7]), p.lineno(1), p.lexpos(1))
+    p[0] = Metodo(p[2], [], p[6], p[7], 
+    Funcion(Simbolos.FUNCION, p[2], [], p[6], p[7]), p.lineno(1), p.lexpos(1))
 
 def p_funcion_params(p):
     """
@@ -578,7 +597,11 @@ def p_exp_casteo(p):
 
 # Error sintactico
 def p_error(p):
-    print(f'Error de sintaxis {p.value!r} en la linea {p.lineno} columna {p.lexpos}')
+    errores.append({"tipo":"Sintaxis", "token":p.value, "descripcion":"No se esperaba este caracter", "linea": str(p.lineno), "columna":str(p.lexpos)})
+    print(errores)
+
+def getErrores():
+    return errores
 
 # Build the parser
 parser = yacc(debug=True)

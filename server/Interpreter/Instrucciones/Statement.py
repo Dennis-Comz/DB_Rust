@@ -6,53 +6,53 @@ from Interpreter.Driver.Driver import Driver
 
 class Statement(Instruccion, Expresion):
     array = []
-    result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
+    
 
     def __init__(self, code, linea: int, columna: int):
         self.code = code
         self.linea = linea
         self.columna = columna
-        #self.result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
 
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+        result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
+
         try:
             for ins in self.code:
                 retorno = ins.ejecutar(driver, ts)
                 if retorno is not None:
-                    self.result["expTipo"] = retorno["expTipo"]
-                    if len(self.array) == 0:
-                        self.array.append(retorno["expValor"])
-                    else:
-                        self.array.append(self.array[len(self.array)-1] + retorno["expValor"])
-                    self.result["expValor"] = self.array[len(self.array)-1]
+                    result["expTipo"] = retorno["expTipo"]
+                    result["expValor"] = retorno["expValor"]
                     if retorno["break"]:
-                        self.result["break"] = True
-                        return self.result
+                        result["break"] = True
+                        return result
                     elif retorno["continue"]:
-                        self.result["continue"] = True
-                        return self.result
+                        result["continue"] = True
+                        return result
                     elif retorno["return"]:
-                        self.result["return"] = True
-                        return self.result
+                        result["return"] = True
+                        return result
         except:
             pass
 
     def getTipo(self, driver, ts):
+        result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
+
         if getattr(self.code[(len(self.code)-1)], "getTipo", None) != None:
             return self.code[(len(self.code)-1)].getTipo(driver, ts)
         retorno = self.ejecutar(driver, ts)
-        if self.result["expTipo"] == "":
-            self.result = retorno
+        if result["expTipo"] == "":
+            result = retorno
         else:
             if not retorno["continue"]:
-                self.result["expTipo"] = retorno["expTipo"]
-                self.result["expValor"] = retorno["expValor"]
-                return self.result["expTipo"]
+                result["expTipo"] = retorno["expTipo"]
+                result["expValor"] = retorno["expValor"]
+                return result["expTipo"]
             else:
-                return self.result
+                return result
         return
 
     def getValor(self, driver, ts):
-        if self.result["expTipo"] != "":
-            return self.result["expValor"]
+        result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
+        if result["expTipo"] != "":
+            return result["expValor"]
         return self.code[(len(self.code)-1)].getValor(driver, ts)

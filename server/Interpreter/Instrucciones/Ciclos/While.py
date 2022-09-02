@@ -24,7 +24,7 @@ class While(Instruccion):
 
             while valorCondicion:
                 retorno = self.cuerpo.ejecutar(driver, ts_local)
-                if retorno != None:
+                if retorno is not None:
                     if retorno["continue"]:
                         continue
                     elif retorno["break"]:

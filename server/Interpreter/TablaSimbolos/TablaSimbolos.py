@@ -1,5 +1,5 @@
 from Interpreter.TablaSimbolos.Simbolo import Simbolo
-from Interpreter.TablaSimbolos.SimbFuncion import SimbFuncion
+from Interpreter.TablaSimbolos.Funcion import Funcion
 
 class TablaSimbolos:
 
@@ -8,6 +8,7 @@ class TablaSimbolos:
         self.anterior = anterior
         self.tabla = {}
         self.tablaFunciones = {}
+        self.tablaClases = {}
 
 #    ====    METODOS PARA VARIABLES     ====
     def add(self, id: str, simbolo: Simbolo):
@@ -32,10 +33,10 @@ class TablaSimbolos:
 #  ====     FIN METODOS VARIABLES   =====
 
 # ==== INICIO METODOS FUNCIONES ====
-    def addFuncion(self, id:str, simbolo:SimbFuncion):
+    def addFuncion(self, id:str, simbolo:Funcion):
         self.tablaFunciones[id] = simbolo
 
-    def buscarFuncion(self, id:str) -> SimbFuncion:
+    def buscarFuncion(self, id:str) -> Funcion:
         tsFunc = self
         while tsFunc is not None:
             exist = tsFunc.tablaFunciones.get(id)
@@ -44,7 +45,7 @@ class TablaSimbolos:
             tsFunc = tsFunc.anterior
         return None
 
-    def buscarFuncionActual(self, id:str) -> SimbFuncion:
+    def buscarFuncionActual(self, id:str) -> Funcion:
         return self.tablaFunciones.get(id) 
 
 #  ====    FIN METODOS FUNCIONES   =====

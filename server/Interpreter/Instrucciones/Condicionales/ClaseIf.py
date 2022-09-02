@@ -15,6 +15,7 @@ class ClaseIf(Instruccion, Expresion):
     def ejecutar(self, driver: Driver, ts: TablaSimbolos):
         try:
             ts_local = TablaSimbolos(ts, 'IF')
+
             condicion = self.condicion.getValor(driver, ts)
             tipo_condicion = self.condicion.getTipo(driver, ts)
 
@@ -53,8 +54,8 @@ class ClaseIf(Instruccion, Expresion):
 
     def getValor(self, driver, ts):
         ts_local = TablaSimbolos(ts, 'IF')
-        condicion = self.condicion.getValor(driver, ts)
         tipo_condicion = self.condicion.getTipo(driver, ts)
+        condicion = self.condicion.getValor(driver, ts)
 
         if tipo_condicion != Tipos.BOOLEAN:
             driver.append(f"Error Semantico, la condicion a evaluar no es booleana, linea {self.linea} columna {self.columna}")

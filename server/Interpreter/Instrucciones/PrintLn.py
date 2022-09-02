@@ -1,9 +1,8 @@
-from array import ArrayType
 from Interpreter.Instrucciones.Instruccion import Instruccion
 from Interpreter.Expresiones.Expresion import Expresion
 
 class PrintLn(Instruccion):
-    def __init__(self, exp: Expresion, expresiones: ArrayType, linea, columna):
+    def __init__(self, exp: Expresion, expresiones, linea, columna):
         self.exp = exp
         self.expresiones = expresiones
         self.columna = columna

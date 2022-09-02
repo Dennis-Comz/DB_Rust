@@ -1,4 +1,3 @@
-from fileinput import filename
 from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
 from Interpreter.TablaSimbolos.Simbolo import Simbolo, Simbolos
 from Interpreter.Instrucciones.Instruccion import Instruccion
