@@ -10,13 +10,13 @@ class Primitivo(Expresion):
         self.linea = linea
         self.columna = columna
 
-    def getTipo(self, driver, ts):
+    def getTipo(self, driver, ts, errores):
         if self.tipo is None:
-            value = self.getValor(driver, ts)
+            value = self.getValor(driver, ts, errores)
             return definirTipo(value)
         else:
             return self.tipo
 
-    def getValor(self, driver, ts):
+    def getValor(self, driver, ts, errores):
         value = self.primitivo
         return value

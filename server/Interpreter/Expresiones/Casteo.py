@@ -8,12 +8,12 @@ class Casteo(Expresion):
         self.linea = linea
         self.columna = columna
 
-    def getTipo(self, driver, ts):
+    def getTipo(self, driver, ts, errores):
         return self.tipo
 
-    def getValor(self, driver, ts):
-        tipo = self.exp.getTipo(driver, ts)
-        value = self.exp.getValor(driver, ts)
+    def getValor(self, driver, ts, errores):
+        tipo = self.exp.getTipo(driver, ts, errores)
+        value = self.exp.getValor(driver, ts, errores)
         #CONVERSIONES DE INT A TIPOS VALIDOS
         if self.tipo == Tipos.INT64 and tipo == Tipos.INT64:
             return int(value)
@@ -39,4 +39,4 @@ class Casteo(Expresion):
             return value
         else:
             driver.append(f'Error Semantico, No se puede castear {tipo} a {self.tipo}, linea {self.exp.linea}, columna {self.exp.columna}')
-            raise Exception(f'Error Semantico, No se puede castear {tipo} a {self.tipo}, linea {self.exp.linea}, columna {self.exp.columna}')
+            raise Exception({"tipo":"Semantico", "descripcion":f"No se puede castear {tipo} a {self.tipo}", "linea": str(self.exp.linea), "columna":str(self.exp.columna)})

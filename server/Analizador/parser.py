@@ -67,6 +67,13 @@ def p_clase_funcion(p):
     """
     p[0] = p[1]
 
+def p_clase_funcion_error(p):
+    """
+    clase_funcion : error LLAVC
+    """
+    errores.append({"tipo":"Sintaxis", "token":"", "descripcion":"No se esperaba este caracter", "linea": str(p.lineno(1)), "columna":str(p.lexpos(1))})
+    p[0] = ""
+
 def p_lista_instrucciones(p):
     """
     instrucciones : instrucciones instruccion
@@ -600,8 +607,8 @@ def p_error(p):
     errores.append({"tipo":"Sintaxis", "token":p.value, "descripcion":"No se esperaba este caracter", "linea": str(p.lineno), "columna":str(p.lexpos)})
     print(errores)
 
+# Build the parser
+parser = yacc()
+
 def getErrores():
     return errores
-
-# Build the parser
-parser = yacc(debug=True)

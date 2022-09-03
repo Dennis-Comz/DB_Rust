@@ -14,15 +14,15 @@ class Declaracion(Instruccion):
         self.linea = linea
         self.columna = columna
 
-    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos, errores):
         try:
             #Validacion de si la variable enviada existe
             simbolo = ts.buscar(self.identificador)
             #Validacion si la declaracion trae un valor
             if self.variable.valor != None:
                 #Obteniendo tipo y valor de la variable
-                tipo_var = self.variable.valor.getTipo(driver, ts)
-                valor_var = self.variable.valor.getValor(driver, ts)
+                tipo_var = self.variable.valor.getTipo(driver, ts, errores)
+                valor_var = self.variable.valor.getValor(driver, ts, errores)
 
                 if simbolo is None:
                     #si aun no existe la variable se crea una
@@ -33,7 +33,7 @@ class Declaracion(Instruccion):
                 else:
                     if simbolo.tipo != None and simbolo.tipo != tipo_var:
                         driver.append(f'Error Semantico, el tipo de la expresion {tipo_var} no coincide con el tipo de la declaracion {simbolo.tipo}, linea {self.linea}, columna {self.columna}')
-                        raise Exception(f'Error Semantico, el tipo de la expresion {tipo_var} no coincide con el tipo de la declaracion {simbolo.tipo}, linea {self.linea}, columna {self.columna}')
+                        raise Exception({"tipo":"Semantico", "descripcion":f"el tipo de la expresion {tipo_var} no coincide con el tipo de la declaracion {simbolo.tipo}", "linea": str(self.linea), "columna":str(self.columna)})
                     #si ya existe la variable se valida si esta puede cambiar su valor
                     if simbolo.valor == None and simbolo.mutable is False:
                             simbolo.valor = valor_var
@@ -45,7 +45,7 @@ class Declaracion(Instruccion):
                             ts.add(self.identificador, simbolo)
                         else:
                             driver.append(f'Error semantico, no se le puede cambiar su valor a una variable no mutable, linea {self.linea}, columna {self.columna}')
-                            raise Exception(f'Error semantico, no se le puede cambiar su valor a una variable no mutable, linea {self.linea}, columna {self.columna}')
+                            raise Exception({"tipo":"Semantico", "descripcion":f"no se le puede cambiar su valor a una variable no mutable", "linea": str(self.linea), "columna":str(self.columna)})
             else:
                 if simbolo is None:
                     #si aun no existe la variable se crea una
@@ -53,6 +53,8 @@ class Declaracion(Instruccion):
                     ts.add(self.identificador, simbolo_nuevo)
                 else:
                     driver.append(f'Error semantico, la variable ya ha sido declarada, linea {self.linea}, columna {self.columna}')
-                    raise Exception(f'Error semantico, la variable ya ha sido declarada, linea {self.linea}, columna {self.columna}')
-        except:
+                    raise Exception({"tipo":"Semantico", "descripcion":f"la variable ya ha sido declarada", "linea": str(self.linea), "columna":str(self.columna)})
+        except Exception as d:
+            if type(d.args[0]) == dict:
+                errores.append(d.args[0])
             pass

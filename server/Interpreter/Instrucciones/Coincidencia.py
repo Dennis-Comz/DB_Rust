@@ -10,60 +10,68 @@ class Coincidencia(Instruccion, Expresion):
         self.cuerpo = cuerpo
         self.linea = linea
         self.columna = columna
-        self.result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
 
-    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos, errores):
         result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
 
-        if getattr(self.cuerpo, "ejecutar", None) != None:
-            retorno = self.cuerpo.ejecutar(driver, ts)
-            if retorno != None:
-                result["expTipo"] = retorno["expTipo"]
-                result["expValor"] = retorno["expValor"]
-                if retorno["break"]:
-                    result["break"] = True
-                    return result
-                elif retorno["continue"]:
-                    result["continue"] = True
-                    return result
-                elif retorno["return"]:
-                    result["return"] = True
-                    return result
+        try:
+            if getattr(self.cuerpo, "ejecutar", None) != None:
+                retorno = self.cuerpo.ejecutar(driver, ts, errores)
+                if retorno != None:
+                    result["expTipo"] = retorno["expTipo"]
+                    result["expValor"] = retorno["expValor"]
+                    if retorno["break"]:
+                        result["break"] = True
+                        return result
+                    elif retorno["continue"]:
+                        result["continue"] = True
+                        return result
+                    elif retorno["return"]:
+                        result["return"] = True
+                        return result
+        except Exception as d:
+            if type(d.args[0]) == dict:
+                errores.append(d.args[0])
+            pass
     
-    def getTipo(self, driver, ts):
+    def getTipo(self, driver, ts, errores):
+        result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
+
         if getattr(self.cuerpo, "getTipo", None) != None:
-            return self.cuerpo.getTipo(driver, ts)
-        retorno = self.cuerpo.ejecutar(driver, ts)
-        if self.result["expTipo"] == "":
-            self.result = retorno
+            return self.cuerpo.getTipo(driver, ts, errores)
+
+        retorno = self.ejecutar(driver, ts, errores)
+        if result["expTipo"] == "":
+            result = retorno
         else:
             if not retorno["continue"]:
-                self.result["expTipo"] = retorno["expTipo"]
-                self.result["expValor"] = retorno["expValor"]
-                return self.result["expTipo"]
+                result["expTipo"] = retorno["expTipo"]
+                result["expValor"] = retorno["expValor"]
+                return result["expTipo"]
             else:
-                return self.result
-        return self.result["expTipo"]
+                return result
+        return
 
-    def getValor(self, driver, ts):
-        if self.result["expTipo"] != "":
-            return self.result["expValor"]
-        return self.cuerpo.getValor(driver, ts)
+    def getValor(self, driver, ts, errores):
+        result = {"return":False, "break":False, "continue":False, "expTipo":"", "expValor": ""}
+        if result["expTipo"] != "":
+            return result["expValor"]
+        return self.cuerpo.getValor(driver, ts, errores)
 
 
-    def getValores(self, driver, ts):
+    def getValores(self, driver, ts, errores):
         vals = []
         
         if self.valores != []:
             for val in self.valores:
-                vals.append(val.getValor(driver, ts))
+                vals.append(val.getValor(driver, ts, errores))
         
         return vals
 
-    def getTipos(self, driver, ts):
+    def getTipos(self, driver, ts, errores):
         types = []
         if self.valores != []:
             for val in self.valores:
-                types.append(val.getTipo(driver, ts))
+                types.append(val.getTipo(driver, ts, errores))
         
         return types

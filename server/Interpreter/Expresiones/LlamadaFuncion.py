@@ -13,27 +13,29 @@ class LlamadaFuncion(Instruccion, Expresion):
         self.columna = columna
         self.salida = None
 
-    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos, errores):
         try:
             funcion = ts.buscarFuncion(self.id)
             
             if funcion != None:
                 if len(self.parametros) == len(funcion.parametros):
                     ts_local = TablaSimbolos(ts, "FUNCION")
+                    if funcion.nombre == "main":
+                        ts_local = TablaSimbolos(ts, "MAIN")
                     for i in range(0, len(self.parametros)):
-                        tipoParam = self.parametros[i].getTipo(driver, ts)
+                        tipoParam = self.parametros[i].getTipo(driver, ts, errores)
                         if tipoParam != funcion.parametros[i].type:
                             driver.append(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
-                            raise Exception(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
+                            raise Exception({"tipo":"Semantico", "descripcion":f"Se obtuvo parametro tipo {tipoParam}, se esperaba {funcion.parametros[i].type}", "linea": str(self.linea), "columna":str(self.columna)})
                     for i in range(0, len(self.parametros)):
-                        valorParam = self.parametros[i].getValor(driver, ts)
+                        valorParam = self.parametros[i].getValor(driver, ts, errores)
                         ts_local.add(funcion.parametros[i].id, Simbolo(
                             Simbolos.VARIABLE, True, funcion.parametros[i].id, 
                             funcion.parametros[i].type, valorParam))
                     if funcion.tipo == Tipos.VOID:
-                        return funcion.cuerpo.ejecutar(driver, ts_local)
+                        funcion.cuerpo.ejecutar(driver, ts_local, errores)
                     else:
-                        result = funcion.cuerpo.ejecutar(driver, ts_local)
+                        result = funcion.cuerpo.ejecutar(driver, ts_local, errores)
                         if result != None and result["return"]:
                             tipoExp = result["expTipo"]
                             valExp = result["expValor"]
@@ -41,15 +43,20 @@ class LlamadaFuncion(Instruccion, Expresion):
                                 return {"tipo": tipoExp, "valor":valExp}
                             else:
                                 driver.append(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
-                                raise Exception(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
+                                raise Exception({"tipo":"Semantico", "descripcion":f"Se obtuvo retorno tipo {tipoExp}, se esperaba {funcion.tipo}", "linea": str(self.linea), "columna":str(self.columna)})
                 else:
                     driver.append(f'Error Semantico, La cantidad de parametros no es correcta, linea {self.linea}, columna {self.columna}')
-                    raise Exception(f'Error Semantico, La cantidad de parametros no es correcta, linea {self.linea}, columna {self.columna}')
+                    raise Exception({"tipo":"Semantico", "descripcion":f"La cantidad de parametros proporcionada no es correcta", "linea": str(self.linea), "columna":str(self.columna)})
+            else:
+                    driver.append(f'Error Semantico, La funcion a llamar no existe, linea {self.linea}, columna {self.columna}')
+                    raise Exception({"tipo":"Semantico", "descripcion":f"La funcion a llamar no existe", "linea": str(self.linea), "columna":str(self.columna)})
 
-        except:
+        except Exception as d:
+            if type(d.args[0]) == dict:
+                errores.append(d.args[0])
             pass
 
-    def getTipo(self, driver, ts):
+    def getTipo(self, driver, ts, errores):
         funcion = ts.buscarFuncion(self.id)
 #        ts_local = ts
         ts_local = TablaSimbolos(ts, "FUNCION")
@@ -57,55 +64,28 @@ class LlamadaFuncion(Instruccion, Expresion):
         if funcion != None:
             if len(self.parametros) == len(funcion.parametros):
                 for i in range(0, len(self.parametros)):
-                    tipoParam = self.parametros[i].getTipo(driver, ts)
+                    tipoParam = self.parametros[i].getTipo(driver, ts, errores)
                     if tipoParam != funcion.parametros[i].type:
                         driver.append(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
-                        raise Exception(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
+                        raise Exception({"tipo":"Semantico", "descripcion":f"Se obtuvo parametro tipo {tipoParam}, se esperaba {funcion.parametros[i].type}", "linea": str(self.linea), "columna":str(self.columna)})
                     else:
-                        valorParam = self.parametros[i].getValor(driver, ts)
+                        valorParam = self.parametros[i].getValor(driver, ts, errores)
                         ts_local.add(funcion.parametros[i].id, Simbolo(
                             Simbolos.VARIABLE, True, funcion.parametros[i].id, 
                             funcion.parametros[i].type, valorParam))
                 if funcion.tipo == Tipos.VOID:
-                    return funcion.cuerpo.ejecutar(driver, ts_local)
+                    return funcion.cuerpo.ejecutar(driver, ts_local, errores)
                 else:
-                    result = funcion.cuerpo.ejecutar(driver, ts_local)
+                    result = funcion.cuerpo.ejecutar(driver, ts_local, errores)
                     if result != None:
                         self.salida = result
                         return result["expTipo"]
-                    # else:
-                    #     driver.append(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
-                    #     raise Exception(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
             else:
                 driver.append(f'Error Semantico, La cantidad de parametros no es correcta, linea {self.linea}, columna {self.columna}')
-                raise Exception(f'Error Semantico, La cantidad de parametros no es correcta, linea {self.linea}, columna {self.columna}')
+                raise Exception({"tipo":"Semantico", "descripcion":f"La cantidad de parametros proporcionada no es correcta", "linea": str(self.linea), "columna":str(self.columna)})
+        else:
+                driver.append(f'Error Semantico, La funcion a llamar no existe, linea {self.linea}, columna {self.columna}')
+                raise Exception({"tipo":"Semantico", "descripcion":f"La funcion a llamar no existe", "linea": str(self.linea), "columna":str(self.columna)})
 
-    def getValor(self, driver, ts):
+    def getValor(self, driver, ts, errores):
         return self.salida["expValor"]
-        # funcion = ts.buscarFuncion(self.id)
-        # ts_local = TablaSimbolos(ts, "FUNCION")
-
-        # if funcion != None:
-        #     if len(self.parametros) == len(funcion.parametros):
-        #         for i in range(0, len(self.parametros)):
-        #             tipoParam = self.parametros[i].getTipo(driver, ts)
-        #             if tipoParam != funcion.parametros[i].type:
-        #                 driver.append(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
-        #                 raise Exception(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
-        #             else:
-        #                 valorParam = self.parametros[i].getValor(driver, ts)
-        #                 ts_local.add(funcion.parametros[i].id, Simbolo(
-        #                     Simbolos.VARIABLE, True, funcion.parametros[i].id, 
-        #                     funcion.parametros[i].type, valorParam))
-        #         if funcion.tipo == Tipos.VOID:
-        #             return funcion.cuerpo.ejecutar(driver, ts_local)
-        #         else:
-        #             result = funcion.cuerpo.ejecutar(driver, ts_local)
-        #             if result != None:
-        #                 return result["expValor"]
-        #             # else:
-        #             #     driver.append(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
-        #             #     raise Exception(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
-        #     else:
-        #         driver.append(f'Error Semantico, La cantidad de parametros no es correcta, linea {self.linea}, columna {self.columna}')
-        #         raise Exception(f'Error Semantico, La cantidad de parametros no es correcta, linea {self.linea}, columna {self.columna}')

@@ -8,13 +8,13 @@ class PrintLn(Instruccion):
         self.columna = columna
         self.linea = linea
 
-    def ejecutar(self, driver, ts):
+    def ejecutar(self, driver, ts, errores):
         try:
-            cadena = str(self.exp.getValor(driver, ts))
+            cadena = str(self.exp.getValor(driver, ts, errores))
             exps = []
             for e in self.expresiones:
-                e.getTipo(driver, ts)
-                exps.append(e.getValor(driver, ts))
+                e.getTipo(driver, ts, errores)
+                exps.append(e.getValor(driver, ts, errores))
             
             cadena = self.obtenerCadenaFinal(cadena, exps, driver)
             cadena = cadena.replace("\\n", '\n')
@@ -24,8 +24,11 @@ class PrintLn(Instruccion):
             cadena = cadena.replace("\\'", '\'')
             if cadena != 'None':
                 driver.append(cadena)
-        except:
-            pass    
+        except Exception as d:
+            if type(d.args[0]) == dict:
+                errores.append(d.args[0])
+            pass
+    
     def obtenerCadenaFinal(self, cadena, arrayVals, driver):
         cadena += " "
         cads = []
@@ -70,6 +73,7 @@ class PrintLn(Instruccion):
         for v in cads:
             salida += v
         
+        salida += cad
         if salida != "":
             return salida
         else:

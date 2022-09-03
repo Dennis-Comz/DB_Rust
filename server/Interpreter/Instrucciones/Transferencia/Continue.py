@@ -6,11 +6,11 @@ class Continue(Instruccion, Expresion):
         self.linea = linea
         self.columna = columna
 
-    def ejecutar(self, driver, ts):
+    def ejecutar(self, driver, ts, errores):
         return {"return":False, "break":False, "continue":True, "expTipo":"", "expValor":""}
 
-    def getTipo(self, driver, ts):
+    def getTipo(self, driver, ts, errores):
         return {"return":False, "break":False, "continue":True, "expTipo":"", "expValor":""}
 
-    def getValor(self, driver, ts):
+    def getValor(self, driver, ts, errores):
         return {"return":False, "break":False, "continue":True, "expTipo":"", "expValor":""}

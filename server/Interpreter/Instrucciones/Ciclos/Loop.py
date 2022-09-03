@@ -9,33 +9,35 @@ class Loop(Instruccion, Expresion):
         self.linea = linea
         self.columna = columna
 
-    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos, errores):
         try:
             ts_local = TablaSimbolos(ts, 'LOOP')
             while True:
-                retorno = self.cuerpo.ejecutar(driver, ts_local)
+                retorno = self.cuerpo.ejecutar(driver, ts_local, errores)
                 if retorno != None:
                     if retorno["continue"]:
                         continue;
                     else:
                         return retorno
-        except:
+        except Exception as d:
+            if type(d.args[0]) == dict:
+                errores.append(d.args[0])
             pass
 
-    def getTipo(self, driver, ts):
+    def getTipo(self, driver, ts, errores):
         ts_local = TablaSimbolos(ts, 'LOOP')
         while True:
-            tipo = self.cuerpo.getTipo(driver, ts_local)
+            tipo = self.cuerpo.getTipo(driver, ts_local, errores)
             if tipo != None:
                 if type(tipo) == dict and tipo["continue"]:
                         continue;
                 else:
                     return tipo
 
-    def getValor(self, driver, ts):
+    def getValor(self, driver, ts, errores):
         ts_local = TablaSimbolos(ts, 'LOOP')
         while True:
-            valor = self.cuerpo.getValor(driver, ts_local)
+            valor = self.cuerpo.getValor(driver, ts_local, errores)
             if valor != None:
                 if type(valor) == dict and valor["continue"]:
                         continue;

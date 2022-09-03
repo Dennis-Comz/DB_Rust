@@ -9,7 +9,7 @@ class Ast:
             instrucciones = []
         self.instrucciones = instrucciones
 
-    def ejecutar(self, driver, ts):
+    def ejecutar(self, driver, ts, errores):
         lineaMain = 0
         columnaMain = 0
         for instruccion in self.instrucciones:
@@ -17,8 +17,9 @@ class Ast:
                 if instruccion.nombre == "main":
                     lineaMain = instruccion.linea
                     columnaMain = instruccion.columna
-                instruccion.ejecutar(driver, ts)
+                instruccion.ejecutar(driver, ts, errores)
         main = ts.buscarFuncion("main")
         if main is not None:
-            LlamadaFuncion(main.nombre, main.parametros, lineaMain, columnaMain).ejecutar(driver, ts)
+            LlamadaFuncion(main.nombre, main.parametros, lineaMain, columnaMain).ejecutar(driver, ts, errores)
+            print()
 

@@ -15,7 +15,15 @@ class Metodo(Instruccion):
         self.linea = linea
         self.columna = columna
     
-    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
-        existe = ts.buscarFuncion(self.nombre)
-        if existe is None:
-            ts.addFuncion(self.nombre, self.simbolo)
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos, errores):
+        try:
+            existe = ts.buscarFuncion(self.nombre)
+            if existe is None:
+                ts.addFuncion(self.nombre, self.simbolo)
+            else:
+                driver.append(f'Error semantico, la funcion {self.nombre} ya ha sido declarada, linea {self.linea}, columna {self.columna}')
+                raise Exception({"tipo":"Semantico", "descripcion":f"la funcion {self.nombre} ya ha sido declarada", "linea": str(self.linea), "columna":str(self.columna)})
+        except Exception as d:
+            if type(d.args[0]) == dict:
+                errores.append(d.args[0])
+            pass

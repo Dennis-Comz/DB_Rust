@@ -11,19 +11,18 @@ class While(Instruccion):
         self.linea = linea
         self.columna = columna
     
-    def ejecutar(self, driver: Driver, ts: TablaSimbolos):
+    def ejecutar(self, driver: Driver, ts: TablaSimbolos, errores):
         try:
-            result = {"return":False, "break":False, "continue":False, "expRetorno":None}
             ts_local = TablaSimbolos(ts, 'WHILE')
-            tipoCondicion = self.condicion.getTipo(driver, ts)
-            valorCondicion = self.condicion.getValor(driver, ts)
+            tipoCondicion = self.condicion.getTipo(driver, ts, errores)
+            valorCondicion = self.condicion.getValor(driver, ts, errores)
 
             if tipoCondicion != Tipos.BOOLEAN:
                 driver.append(f"Error Semantico, la condicion a evaluar no es booleana, linea {self.linea} columna {self.columna}")
-                raise Exception(f"Error Semantico, la condicion a evaluar no es booleana, linea {self.linea} columna {self.columna}")
+                raise Exception({"tipo":"Semantico", "descripcion":f"la condicion a evaluar no es booleana", "linea": str(self.linea), "columna":str(self.columna)})
 
             while valorCondicion:
-                retorno = self.cuerpo.ejecutar(driver, ts_local)
+                retorno = self.cuerpo.ejecutar(driver, ts_local, errores)
                 if retorno is not None:
                     if retorno["continue"]:
                         continue
@@ -31,7 +30,9 @@ class While(Instruccion):
                         break
                     elif retorno["return"]:
                         return retorno
-                valorCondicion = self.condicion.getValor(driver, ts)
+                valorCondicion = self.condicion.getValor(driver, ts, errores)
 
-        except:
+        except Exception as d:
+            if type(d.args[0]) == dict:
+                errores.append(d.args[0])
             pass
