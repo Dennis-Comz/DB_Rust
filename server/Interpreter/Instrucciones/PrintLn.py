@@ -16,7 +16,7 @@ class PrintLn(Instruccion):
                 e.getTipo(driver, ts, errores)
                 exps.append(e.getValor(driver, ts, errores))
             
-            cadena = self.obtenerCadenaFinal(cadena, exps, driver)
+            cadena = self.obtenerCadenaFinal(cadena, exps, driver, ts)
             cadena = cadena.replace("\\n", '\n')
             cadena = cadena.replace("\\\\", '\\')
             cadena = cadena.replace("\\\"", '\"')
@@ -29,7 +29,7 @@ class PrintLn(Instruccion):
                 errores.append(d.args[0])
             pass
     
-    def obtenerCadenaFinal(self, cadena, arrayVals, driver):
+    def obtenerCadenaFinal(self, cadena, arrayVals, driver, ts):
         cadena += " "
         cads = []
         cad = ""
@@ -50,7 +50,7 @@ class PrintLn(Instruccion):
                     else:
                         if len(arrayVals) == 0:
                             driver.append(f'Error Semantico, se esperaba mas valores que los dados, linea {self.linea}, columna {self.columna}')
-                            raise Exception(f'Error Semantico, se esperaba mas valores que los dados, linea {self.linea}, columna {self.columna}')
+                            raise Exception({"tipo":"Semantico", "descripcion":f"se esperaba mas valores que los dados", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})
                         if contadorAbre > 1:
                             llava = int(contadorAbre/2)*"{"
                             llavc = int(contadorAbre/2)*"}"
@@ -62,13 +62,13 @@ class PrintLn(Instruccion):
                     contadorCierra = 0
                 else:
                     driver.append(f'Error Semantico, falto una llave de apertura o de cierre, linea {self.linea}, columna {self.columna}')
-                    raise Exception(f'Error Semantico, falto una llave de apertura o de cierre, linea {self.linea}, columna {self.columna}')
+                    raise Exception({"tipo":"Semantico", "descripcion":f"falto una llave de apertura o de cierre", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})
             elif contadorAbre == 0 and contadorCierra == 0:
                 cad += cadena[i]
         
         if len(arrayVals) != 0:
             driver.append(f'Error Semantico, se pasaron mas argumentos de los esperados, linea {self.linea}, columna {self.columna}')
-            raise Exception(f'Error Semantico, se pasaron mas argumentos de los esperados, linea {self.linea}, columna {self.columna}')
+            raise Exception({"tipo":"Semantico", "descripcion":f"se pasaron mas argumentos de los esperados", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})
         salida = ""
         for v in cads:
             salida += v

@@ -22,7 +22,7 @@ class Metodo(Instruccion):
                 ts.addFuncion(self.nombre, self.simbolo)
             else:
                 driver.append(f'Error semantico, la funcion {self.nombre} ya ha sido declarada, linea {self.linea}, columna {self.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"la funcion {self.nombre} ya ha sido declarada", "linea": str(self.linea), "columna":str(self.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"la funcion {self.nombre} ya ha sido declarada", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})
         except Exception as d:
             if type(d.args[0]) == dict:
                 errores.append(d.args[0])

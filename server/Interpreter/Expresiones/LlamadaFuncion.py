@@ -4,6 +4,7 @@ from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
 from Interpreter.Driver.Driver import Driver
 from Interpreter.TablaSimbolos.Tipos import Tipos
 from Interpreter.TablaSimbolos.Simbolo import Simbolo, Simbolos
+from static import simbs
 
 class LlamadaFuncion(Instruccion, Expresion):
     def __init__(self, id:str, parametros, linea:int, columna: int):
@@ -26,7 +27,7 @@ class LlamadaFuncion(Instruccion, Expresion):
                         tipoParam = self.parametros[i].getTipo(driver, ts, errores)
                         if tipoParam != funcion.parametros[i].type:
                             driver.append(f'Error Semantico, se esperaba parametro {funcion.parametros[i].type} se obtuvo {tipoParam}, linea {self.linea}, columna {self.columna}')
-                            raise Exception({"tipo":"Semantico", "descripcion":f"Se obtuvo parametro tipo {tipoParam}, se esperaba {funcion.parametros[i].type}", "linea": str(self.linea), "columna":str(self.columna)})
+                            raise Exception({"tipo":"Semantico", "descripcion":f"Se obtuvo parametro tipo {tipoParam}, se esperaba {funcion.parametros[i].type}", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts_local.env})
                     for i in range(0, len(self.parametros)):
                         valorParam = self.parametros[i].getValor(driver, ts, errores)
                         ts_local.add(funcion.parametros[i].id, Simbolo(
@@ -43,13 +44,14 @@ class LlamadaFuncion(Instruccion, Expresion):
                                 return {"tipo": tipoExp, "valor":valExp}
                             else:
                                 driver.append(f'Error Semantico, se esperaba tipo de retorno {funcion.tipo} se obtuvo {tipoExp}, linea {self.linea}, columna {self.columna}')
-                                raise Exception({"tipo":"Semantico", "descripcion":f"Se obtuvo retorno tipo {tipoExp}, se esperaba {funcion.tipo}", "linea": str(self.linea), "columna":str(self.columna)})
+                                raise Exception({"tipo":"Semantico", "descripcion":f"Se obtuvo retorno tipo {tipoExp}, se esperaba {funcion.tipo}", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts_local.env})
+                    simbs.append(ts_local)
                 else:
                     driver.append(f'Error Semantico, La cantidad de parametros no es correcta, linea {self.linea}, columna {self.columna}')
-                    raise Exception({"tipo":"Semantico", "descripcion":f"La cantidad de parametros proporcionada no es correcta", "linea": str(self.linea), "columna":str(self.columna)})
+                    raise Exception({"tipo":"Semantico", "descripcion":f"La cantidad de parametros proporcionada no es correcta", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts_local.env})
             else:
                     driver.append(f'Error Semantico, La funcion a llamar no existe, linea {self.linea}, columna {self.columna}')
-                    raise Exception({"tipo":"Semantico", "descripcion":f"La funcion a llamar no existe", "linea": str(self.linea), "columna":str(self.columna)})
+                    raise Exception({"tipo":"Semantico", "descripcion":f"La funcion a llamar no existe", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts_local.env})
 
         except Exception as d:
             if type(d.args[0]) == dict:

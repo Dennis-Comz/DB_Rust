@@ -28,7 +28,7 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts, errores) == self.exp2.getValor(driver,ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
         elif self.operador == Operador.NO_IGUAL:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
                 return self.exp1.getValor(driver, ts, errores) != self.exp2.getValor(driver,ts, errores)
@@ -46,7 +46,7 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts, errores) != self.exp2.getValor(driver,ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.MAYOR:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -65,7 +65,7 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts, errores) > self.exp2.getValor(driver,ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.MENOR:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -84,7 +84,7 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts, errores) < self.exp2.getValor(driver,ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.MAYOR_IGUAL:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -103,7 +103,7 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts, errores) >= self.exp2.getValor(driver,ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.MENOR_IGUAL:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -122,8 +122,8 @@ class Relacionales(OperacionRelacional):
                 return self.exp1.getValor(driver, ts, errores) <= self.exp2.getValor(driver,ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         else:
             driver.append(f'Error Semantico, La operacion {self.operador} no es soportado, linea {self.exp2.linea}, columna {self.exp2.columna}')
-            raise Exception({"tipo":"Semantico", "descripcion":f"La operacion {self.operador} no es soportado", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+            raise Exception({"tipo":"Semantico", "descripcion":f"La operacion {self.operador} no es soportado", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})

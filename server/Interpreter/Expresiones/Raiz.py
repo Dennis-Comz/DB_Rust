@@ -22,8 +22,8 @@ class Raiz(Expresion):
         value = self.exp.getValor(driver, ts, errores)
         if tipo != Tipos.FLOAT64:
             driver.append(f'Error Semantico, no se puede obtener raiz de {tipo}, linea {self.exp.linea}, columna {self.exp.columna}')
-            raise Exception({"tipo":"Semantico", "descripcion":f"no se puede obtener raiz de {tipo}", "linea": str(self.exp.linea), "columna":str(self.exp.columna)})
+            raise Exception({"tipo":"Semantico", "descripcion":f"no se puede obtener raiz de {tipo}", "linea": str(self.exp.linea), "columna":str(self.exp.columna), "ambito": ts.env})
         if value < 0:
             driver.append(f'Error Semantico, RESULTADO INDEFINIDO, no se pueden obtener raices negativas, linea {self.exp.linea}, columna {self.exp.columna}')
-            raise Exception({"tipo":"Semantico", "descripcion":f"RESULTADO INDEFINIDO, no se pueden obtener raices negativas", "linea": str(self.exp.linea), "columna":str(self.exp.columna)})
+            raise Exception({"tipo":"Semantico", "descripcion":f"RESULTADO INDEFINIDO, no se pueden obtener raices negativas", "linea": str(self.exp.linea), "columna":str(self.exp.columna), "ambito": ts.env})
         return math.sqrt(value)

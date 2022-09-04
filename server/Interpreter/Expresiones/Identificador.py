@@ -16,7 +16,7 @@ class Identificador(Expresion):
             return val.tipo
         else:
             driver.append(f'Error Semantico, No se encontró el símbolo, linea {self.linea}, columna {self.columna}')
-            raise Exception({"tipo":"Semantico", "descripcion":f"No se encontró el símbolo", "linea": str(self.linea), "columna":str(self.columna)})
+            raise Exception({"tipo":"Semantico", "descripcion":f"No se encontró el símbolo", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})
 
     def getValor(self, driver: Driver, ts: TablaSimbolos, errores):
         simbolo = ts.buscar(self.identificador)
@@ -26,7 +26,7 @@ class Identificador(Expresion):
                 return simbolo.valor
             else:
                 driver.append(f'Error Semantico, variable no inicializada, linea {self.linea}, columna {self.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"variable no inicializada", "linea": str(self.linea), "columna":str(self.columna)})            
+                raise Exception({"tipo":"Semantico", "descripcion":f"variable no inicializada", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})            
         else:
             driver.append(f'Error Semantico, No se encontró el símbolo, linea {self.linea}, columna {self.columna}')
-            raise Exception({"tipo":"Semantico", "descripcion":f"No se encontró el símbolo", "linea": str(self.linea), "columna":str(self.columna)})
+            raise Exception({"tipo":"Semantico", "descripcion":f"No se encontró el símbolo", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})

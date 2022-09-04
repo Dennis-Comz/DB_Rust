@@ -39,4 +39,4 @@ class Casteo(Expresion):
             return value
         else:
             driver.append(f'Error Semantico, No se puede castear {tipo} a {self.tipo}, linea {self.exp.linea}, columna {self.exp.columna}')
-            raise Exception({"tipo":"Semantico", "descripcion":f"No se puede castear {tipo} a {self.tipo}", "linea": str(self.exp.linea), "columna":str(self.exp.columna)})
+            raise Exception({"tipo":"Semantico", "descripcion":f"No se puede castear {tipo} a {self.tipo}", "linea": str(self.exp.linea), "columna":str(self.exp.columna), "ambito": ts.env})

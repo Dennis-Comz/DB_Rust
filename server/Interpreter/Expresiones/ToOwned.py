@@ -21,5 +21,5 @@ class ToOwned(Expresion):
         value = self.exp.getValor(driver, ts, errores)
         if tipo != Tipos.STR_POINTER and tipo != Tipos.STR_BUFFER:
             driver.append(f'Error Semantico, tipo de dato no valido {tipo} se esperaba Tipos.STR_POINTER o Tipos.STR_BUFFER, linea {self.exp.linea}, columna {self.exp.columna}')
-            raise Exception({"tipo":"Semantico", "descripcion":f"tipo de dato no valido {tipo} se esperaba Tipos.STR_POINTER o Tipos.STR_BUFFER", "linea": str(self.exp.linea), "columna":str(self.exp.columna)})
+            raise Exception({"tipo":"Semantico", "descripcion":f"tipo de dato no valido {tipo} se esperaba Tipos.STR_POINTER o Tipos.STR_BUFFER", "linea": str(self.exp.linea), "columna":str(self.exp.columna), "ambito": ts.env})
         return value

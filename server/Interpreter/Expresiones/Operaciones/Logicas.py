@@ -22,11 +22,11 @@ class Logicas(OperacionLogica):
                     return self.exp1.getValor(driver, ts, errores) or self.exp2.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden comparar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden comparar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
         else:
             if tipo_exp2 == Tipos.BOOLEAN:
                 if self.operador == Operador.NOT:
                     return not self.exp2.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, No se puede negar {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se puede negar {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se puede negar {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})

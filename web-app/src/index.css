@@ -8,3 +8,12 @@ body {
     height: 100%;
     min-height: 85vh;
 }
+
+table, th, td{
+    border: 1px solid white;
+}
+
+table{
+    width: 100%;
+    text-align: center;
+}

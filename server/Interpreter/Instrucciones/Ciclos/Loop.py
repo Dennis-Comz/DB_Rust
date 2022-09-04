@@ -2,6 +2,7 @@ from Interpreter.Expresiones.Expresion import Expresion
 from Interpreter.Instrucciones.Instruccion import Instruccion
 from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
 from Interpreter.Driver.Driver import Driver
+from static import simbs
 
 class Loop(Instruccion, Expresion):
     def __init__(self, cuerpo, linea, columna):
@@ -15,6 +16,7 @@ class Loop(Instruccion, Expresion):
             while True:
                 retorno = self.cuerpo.ejecutar(driver, ts_local, errores)
                 if retorno != None:
+                    simbs.append(ts_local)
                     if retorno["continue"]:
                         continue;
                     else:
@@ -32,6 +34,7 @@ class Loop(Instruccion, Expresion):
                 if type(tipo) == dict and tipo["continue"]:
                         continue;
                 else:
+                    simbs.append(ts_local)
                     return tipo
 
     def getValor(self, driver, ts, errores):

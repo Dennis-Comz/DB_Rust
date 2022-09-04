@@ -33,7 +33,7 @@ class Declaracion(Instruccion):
                 else:
                     if simbolo.tipo != None and simbolo.tipo != tipo_var:
                         driver.append(f'Error Semantico, el tipo de la expresion {tipo_var} no coincide con el tipo de la declaracion {simbolo.tipo}, linea {self.linea}, columna {self.columna}')
-                        raise Exception({"tipo":"Semantico", "descripcion":f"el tipo de la expresion {tipo_var} no coincide con el tipo de la declaracion {simbolo.tipo}", "linea": str(self.linea), "columna":str(self.columna)})
+                        raise Exception({"tipo":"Semantico", "descripcion":f"el tipo de la expresion {tipo_var} no coincide con el tipo de la declaracion {simbolo.tipo}", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})
                     #si ya existe la variable se valida si esta puede cambiar su valor
                     if simbolo.valor == None and simbolo.mutable is False:
                             simbolo.valor = valor_var
@@ -45,7 +45,7 @@ class Declaracion(Instruccion):
                             ts.add(self.identificador, simbolo)
                         else:
                             driver.append(f'Error semantico, no se le puede cambiar su valor a una variable no mutable, linea {self.linea}, columna {self.columna}')
-                            raise Exception({"tipo":"Semantico", "descripcion":f"no se le puede cambiar su valor a una variable no mutable", "linea": str(self.linea), "columna":str(self.columna)})
+                            raise Exception({"tipo":"Semantico", "descripcion":f"no se le puede cambiar su valor a una variable no mutable", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})
             else:
                 if simbolo is None:
                     #si aun no existe la variable se crea una
@@ -53,7 +53,7 @@ class Declaracion(Instruccion):
                     ts.add(self.identificador, simbolo_nuevo)
                 else:
                     driver.append(f'Error semantico, la variable ya ha sido declarada, linea {self.linea}, columna {self.columna}')
-                    raise Exception({"tipo":"Semantico", "descripcion":f"la variable ya ha sido declarada", "linea": str(self.linea), "columna":str(self.columna)})
+                    raise Exception({"tipo":"Semantico", "descripcion":f"la variable ya ha sido declarada", "linea": str(self.linea), "columna":str(self.columna), "ambito": ts.env})
         except Exception as d:
             if type(d.args[0]) == dict:
                 errores.append(d.args[0])

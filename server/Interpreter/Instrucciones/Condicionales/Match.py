@@ -4,6 +4,7 @@ from Interpreter.TablaSimbolos.TablaSimbolos import TablaSimbolos
 from Interpreter.TablaSimbolos.Tipos import Tipos
 from Interpreter.Driver.Driver import Driver
 from Interpreter.Instrucciones.Coincidencia import Coincidencia
+from static import simbs
 
 class Match(Instruccion, Expresion):
     def __init__(self, valor:Expresion, coincidencias, linea: int, columna: int):
@@ -26,19 +27,23 @@ class Match(Instruccion, Expresion):
                     if expValor == valores[i] and expTipo == tipos[i]:
                         retorno = coin.ejecutar(driver, ts_local, errores)
                         if retorno != None:
+                            simbs.append(ts_local)
                             return retorno
                         salir = False
                         break
                     elif expTipo != tipos[i]:
                         driver.append(f'Error Semantico, no se puede comparar {expTipo} con {tipos[i]}, linea {self.valor.linea}, columna {self.valor.columna}')
-                        raise Exception({"tipo":"Semantico", "descripcion":f"no se puede comparar {expTipo} con {tipos[i]}", "linea": str(self.valor.linea), "columna":str(self.valor.columna)})
+                        raise Exception({"tipo":"Semantico", "descripcion":f"no se puede comparar {expTipo} con {tipos[i]}", "linea": str(self.valor.linea), "columna":str(self.valor.columna), "ambito": ts_local.env})
                 if len(valores) == 0:
                     retorno = coin.ejecutar(driver, ts_local, errores)
                     if retorno != None:
+                        simbs.append(ts_local)
                         return retorno
                     salir = False
                 if not salir:
                     break
+            simbs.append(ts_local)
+            
         except Exception as d:
             if type(d.args[0]) == dict:
                 errores.append(d.args[0])

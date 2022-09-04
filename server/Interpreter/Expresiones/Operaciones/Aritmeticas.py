@@ -17,7 +17,7 @@ class Aritmeticas(Operacion):
                 return - self.exp1.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, la operacion unaria solo acepta el operador -, linea {self.exp1.linea} columna {self.exp1.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"la operacion unaria solo acepta el operador -", "linea": str(self.exp1.linea), "columna":str(self.exp1.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"la operacion unaria solo acepta el operador -", "linea": str(self.exp1.linea), "columna":str(self.exp1.columna), "ambito": ts.env})
                 
         if self.operador == Operador.SUMA:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -29,7 +29,7 @@ class Aritmeticas(Operacion):
                     return self.exp1.getValor(driver, ts, errores) + self.exp2.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden sumar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden sumar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden sumar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.RESTA:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -38,7 +38,7 @@ class Aritmeticas(Operacion):
                     return self.exp1.getValor(driver, ts, errores) - self.exp2.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden restar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden restar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden restar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.MULTI:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -48,20 +48,20 @@ class Aritmeticas(Operacion):
                     return self.exp1.getValor(driver, ts, errores) * self.exp2.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden multiplicar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden multiplicar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden multiplicar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.DIV:
             prueba = self.exp2.getValor(driver, ts, errores)
             if  prueba == 0: 
                 driver.append(f'Error Semantico, No se pueden dividir entre 0, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden dividir entre 0", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden dividir entre 0", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
                     return self.exp1.getValor(driver, ts, errores) / self.exp2.getValor(driver, ts, errores)
             elif tipo_exp1 == Tipos.FLOAT64 and tipo_exp2 == Tipos.FLOAT64:
                     return self.exp1.getValor(driver, ts, errores) / self.exp2.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden dividir {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden dividir {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden dividir {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.POTENCIA:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -70,7 +70,7 @@ class Aritmeticas(Operacion):
                     return self.exp1.getValor(driver, ts, errores) ** self.exp2.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden elevar {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden elevar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden elevar {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         elif self.operador == Operador.MODULO:
             if tipo_exp1 == Tipos.INT64 and tipo_exp2 == Tipos.INT64:
@@ -79,8 +79,8 @@ class Aritmeticas(Operacion):
                     return self.exp1.getValor(driver, ts, errores) % self.exp2.getValor(driver, ts, errores)
             else:
                 driver.append(f'Error Semantico, No se pueden operar modulo {tipo_exp1} con {tipo_exp2}, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden operar modulo {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"No se pueden operar modulo {tipo_exp1} con {tipo_exp2}", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
 
         else:
                 driver.append(f'Error Semantico, La operacion {self.operador} no es soportado, linea {self.exp2.linea}, columna {self.exp2.columna}')
-                raise Exception({"tipo":"Semantico", "descripcion":f"La operacion {self.operador} no es soportado", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna)})
+                raise Exception({"tipo":"Semantico", "descripcion":f"La operacion {self.operador} no es soportado", "linea": str(self.exp2.linea), "columna":str(self.exp2.columna), "ambito": ts.env})
