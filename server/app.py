@@ -56,9 +56,11 @@ def errores():
 def simbolos():
     if request.method == 'POST':
         salida = []
+        
         for s in simbs:
             for val in s.tabla:
                 salida.append({"id":val, "tipo": s.tabla[val].tipo.name, "simbolo":"Variable", "ambito":s.env})
+                print(val)
             for fun in s.tablaFunciones:
                 salida.append({"id":fun, "tipo": s.tablaFunciones[fun].tipo.name, "simbolo":"Funcion", "ambito":s.env})
                 print(fun)

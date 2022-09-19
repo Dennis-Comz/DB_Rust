@@ -412,14 +412,27 @@ def p_funcion_params(p):
     """
     lista_parametros : lista_parametros COMA ID DOS_PT tipo
     """
-    p[1].append(Parametro(p[5], p[3]))
+    p[1].append(Parametro(p[5], p[3], False, False))
     p[0] = p[1]
 
-def p_funcion_params2(p):
+def p_funcion_params_mut(p):
+    """
+    lista_parametros : lista_parametros COMA ID DOS_PT AMPERSAND MUT tipo
+    """
+    p[1].append(Parametro(p[7], p[3], False, True))
+    p[0] = p[1]
+
+def p_funcion_params_salida(p):
     """
     lista_parametros : ID DOS_PT tipo
     """
-    p[0] = [Parametro(p[3], p[1])]
+    p[0] = [Parametro(p[3], p[1], False, False)]
+
+def p_funcion_params_salida_mut(p):
+    """
+    lista_parametros : ID DOS_PT AMPERSAND MUT tipo
+    """
+    p[0] = [Parametro(p[5], p[1], False, True)]
 
 # === FIN INSTRUCCION FUNCION ===
 
@@ -462,8 +475,9 @@ def p_tipo(p):
         | STRING
         | STR
         | CHAR
+        | USIZE
     """
-    if p[1] == 'i64':
+    if p[1] == 'i64' or p[1] == "usize":
         p[0] = Tipos.INT64
     elif p[1] == 'f64':
         p[0] = Tipos.FLOAT64

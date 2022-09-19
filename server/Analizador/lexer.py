@@ -2,12 +2,12 @@
 from plyFiles.ply import lex
 
 reservadas = {
-    'println': 'PRINTLN',
     'i64': 'I64',
     'f64': 'F64',
     'String': 'STRING',
     'char': 'CHAR',
     'bool': 'BOOL',
+    'usize': 'USIZE',
     'pow': 'POW',
     'true': 'TRUE',
     'false': 'FALSE',
@@ -21,12 +21,14 @@ reservadas = {
     'abs' : 'ABSOLUTO',
     'sqrt' : 'RAIZ',
     'as' : 'AS',
+    'println': 'PRINTLN',
     'return' : 'RETURN',
     'break' : 'BREAK',
     'continue' : 'CONTINUE',
     'loop' : 'LOOP',
     'while' : 'WHILE',
-    'fn' : 'FN'
+    'fn' : 'FN',
+    'len': 'LEN'
 }
 
 tokens = [
@@ -62,7 +64,10 @@ tokens = [
             'LLAVC',
             'ARROW',
             'ARRFUNC',
-            'SEP_MATCH'
+            'SEP_MATCH',
+            'CORA',
+            'CORC',
+            'AMPERSAND'
 ] + list(reservadas.values())
 
 errores = []
@@ -90,6 +95,7 @@ t_MAYOR = r'\>'
 t_MENOR = r'\<'
 t_MAYOR_IGUAL = r'\>\='
 t_MENOR_IGUAL = r'\<\='
+t_AMPERSAND = r'\&'
 t_STR = r'\&str'
 t_AND = r'\&\&'
 t_SEP_MATCH = r'\|'
@@ -98,6 +104,8 @@ t_NOT = r'\!'
 t_IGUAL = r'\='
 t_LLAVA = r'\{'
 t_LLAVC = r'\}'
+t_CORA = r'\['
+t_CORC = r'\]'
 
 def t_DECIMAL(t):
     r"""\d+\.\d+"""

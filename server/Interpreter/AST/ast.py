@@ -21,5 +21,3 @@ class Ast:
         main = ts.buscarFuncion("main")
         if main is not None:
             LlamadaFuncion(main.nombre, main.parametros, lineaMain, columnaMain).ejecutar(driver, ts, errores)
-            print()
-
