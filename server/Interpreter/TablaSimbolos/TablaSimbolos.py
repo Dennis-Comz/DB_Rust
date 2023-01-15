@@ -1,5 +1,6 @@
 from Interpreter.TablaSimbolos.Simbolo import Simbolo
 from Interpreter.TablaSimbolos.Funcion import Funcion
+from Interpreter.TablaSimbolos.Arreglo import Arreglo
 
 class TablaSimbolos:
 
@@ -8,7 +9,7 @@ class TablaSimbolos:
         self.anterior = anterior
         self.tabla = {}
         self.tablaFunciones = {}
-        self.tablaClases = {}
+        self.tablaArreglos = {}
 
 #    ====    METODOS PARA VARIABLES     ====
     def add(self, id: str, simbolo: Simbolo):
@@ -30,6 +31,19 @@ class TablaSimbolos:
     def buscarActual(self, id: str) -> Simbolo:
         return self.tabla.get(id)
 
+    def eliminar_variable(self, id:str):
+        ts = self
+        while ts is not None:
+            exist = ts.tabla.get(id)
+
+            if exist is not None:
+                del ts.tabla[id]
+                return True
+
+            ts = ts.anterior
+
+        return False
+
 #  ====     FIN METODOS VARIABLES   =====
 
 # ==== INICIO METODOS FUNCIONES ====
@@ -37,15 +51,33 @@ class TablaSimbolos:
         self.tablaFunciones[id] = simbolo
 
     def buscarFuncion(self, id:str) -> Funcion:
-        tsFunc = self
-        while tsFunc is not None:
-            exist = tsFunc.tablaFunciones.get(id)
+        ts = self
+        while ts is not None:
+            exist = ts.tablaFunciones.get(id)
             if exist is not None:
                 return exist
-            tsFunc = tsFunc.anterior
+            ts = ts.anterior
         return None
 
     def buscarFuncionActual(self, id:str) -> Funcion:
         return self.tablaFunciones.get(id) 
+
+#  ====    FIN METODOS FUNCIONES   =====
+
+# ==== INICIO METODOS ARREGLOS ====
+    def addArreglo(self, id:str, simbolo:Arreglo):
+        self.tablaArreglos[id] = simbolo
+
+    def buscarArreglo(self, id:str) -> Arreglo:
+        ts = self
+        while ts is not None:
+            exist = ts.tablaArreglos.get(id)
+            if exist is not None:
+                return exist
+            ts = ts.anterior
+        return None
+
+    def buscarArregloActual(self, id:str) -> Arreglo:
+        return self.tablaArreglos.get(id) 
 
 #  ====    FIN METODOS FUNCIONES   =====

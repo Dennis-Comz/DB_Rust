@@ -12,9 +12,12 @@ class Simbolo:
 class Simbolos(Enum):
     VARIABLE = 1
     FUNCION = 2
+    ARREGLO = 3
 
 def getSimbolo(s):
     if s == 1:
         return Simbolos.VARIABLE
     elif s == 2:
         return Simbolos.FUNCION
+    elif s == 3:
+        return Simbolos.ARREGLO

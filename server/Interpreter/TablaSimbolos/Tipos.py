@@ -10,7 +10,7 @@ class Tipos(Enum):
     STR_BUFFER = 5
     STR_POINTER = 6
     VOID = 7
-    OBJETO = 8
+    ARRAY = 8
 
 def getTipo(s: str):
     if s == "INT64":
@@ -25,6 +25,8 @@ def getTipo(s: str):
         return Tipos.STR_BUFFER
     if s == "STR_POINTER":
         return Tipos.STR_POINTER
+    if s == "ARRAY":
+        return Tipos.ARRAY
 
 def definirTipo(value):
     if type(value) == float:
@@ -35,6 +37,8 @@ def definirTipo(value):
         return Tipos.BOOLEAN
     elif type(value) == str:
         return Tipos.STR_BUFFER
+    elif type(value) == list:
+        return Tipos.ARRAY
     else:
         return None
 

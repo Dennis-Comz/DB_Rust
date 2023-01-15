@@ -1,3 +1,4 @@
+from multiprocessing.dummy import Array
 from Analizador import lexer
 from plyFiles.ply.yacc import yacc
 from Interpreter.AST.ast import Ast
@@ -28,6 +29,8 @@ from Interpreter.Instrucciones.Condicionales.ClaseIf import ClaseIf
 from Interpreter.Instrucciones.Transferencia.Continue import Continue
 from Interpreter.Expresiones.Operaciones.Aritmeticas import Aritmeticas
 from Interpreter.Expresiones.Operaciones.Relacionales import Relacionales
+from Interpreter.Instrucciones.DeclaracionArreglo import DeclaracionArreglo
+from Interpreter.TablaSimbolos.Arreglo import Arreglo
 
 tokens = lexer.tokens
 errores = lexer.errores
@@ -99,6 +102,7 @@ def p_instruccion(p):
                 | continue PT_COMA
                 | loop
                 | while
+                | arreglo
     """
     p[0] = p[1]
 
@@ -257,6 +261,42 @@ def p_declaracion_valores(p):
     """
     p[0] = p[1]
 # === FIN DIFERENTES DECLARACIONES ===
+
+# === INICIO DECLARACIONES ARREGLOS ===
+def p_instuccion_arreglo(p):
+    """
+    arreglo : LET MUT ID DOS_PT dimensiones IGUAL valorArreglo
+    """
+    p[0] = DeclaracionArreglo(True, p[3], Arreglo(Simbolos.ARREGLO, True, p[3], Tipos.ARRAY, p[5], p[7]), Tipos.ARRAY, p.lineno(1), p.lexpos(1))
+
+def arreglo_dimensiones(p):
+    """
+    dimensiones : CORA dimension PT_COMA expresion CORC
+    """
+    p[2] += 1
+    p[0] = p[2]
+
+def arreglo_dimensiones_tipo(p):
+    """
+    dimension : dimensiones
+                | tipo
+    """
+    p[1] += 1
+    p[0] = p[1]
+
+def arreglo_valorArreglo(p):
+    """
+    valorArreglo : CORA list_exp CORC
+    """
+    p[0] = p[2]
+
+def expresion_valorArreglo(p):
+    """
+    expresion : valorArreglo
+    """
+    p[0] = p[1]
+
+# === FIN DECLARACIONES ARREGLOS
 
 # === INICIO INSTRUCCION IF-ELSE ===
 def p_instruccion_sent_if(p):
